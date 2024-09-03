@@ -5,25 +5,6 @@ import { TProduct } from './product.interface';
 import { Product } from './product.model';
 import { TVariant } from '../varient/variant.interface';
 import { Variant } from '../varient/variant.model';
-
-// const createProductIntoDB = async (productPayload: TProduct,variantPayload:TVariant) => {
- 
-  
-//   const result = await Product.create(productPayload);
-//   if(result){
-//     const variantData={...variantPayload,productId:result._id}
-//    const variant= await Variant.create(variantData)
-//    if(variant){
-//       await Product.updateOne(
-//         { _id:variant  },
-//         {
-//           $push: { variant: { productId: variant.toString() } },
-//         },
-//       );
-//    }
-//   }
-//   return result;
-// };
 const createProductIntoDB = async (
   productPayload: TProduct,
   variantPayload: TVariant,
@@ -72,36 +53,6 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-// const getSingleProductFromDB = async (id:string) => {
-//   try {
-//     const result = await Product.aggregate([
-//       { $match: { _id: new mongoose.Types.ObjectId(id) } },
-
-//       // 1st stage: Lookup reviews collection
-//       {
-//         $lookup: {
-//           from: 'reviews',
-//           localField: 'reviews.reviewId',
-//           foreignField: '_id',
-//           as: 'reviews',
-//         },
-//       },
-
-//       // 2nd stage: Calculate average rating
-//       {
-//         $addFields: {
-//           averageRating: { $avg: '$reviews.rating' },
-//         },
-//       },
-//     ]).populate('variant');
-
-//     return result;
-//   } catch (error) {
-//     console.error('Error fetching products and reviews:', error);
-//     throw error;
-//   }
-// };
-
 const getSingleProductFromDB = async (id: string) => {
   try {
     const result = await Product.aggregate([
@@ -142,7 +93,6 @@ const getSingleProductFromDB = async (id: string) => {
     throw error;
   }
 };
-
 
 const getAllProductsByCategoryFromDB = async (category: string) => {
   let result;
@@ -191,8 +141,6 @@ const getAllProductsByCategoryFromDB = async (category: string) => {
   // Return the result along with meta information
   return { meta, result };
 };
-
-
 
 const deleteProductIntoDB = async (id: string) => {
   const result = await Product.findOneAndUpdate(

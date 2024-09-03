@@ -13,6 +13,10 @@ const QuickViewProduct = ({ product }: { product: TProduct }) => {
   const originalPrice = product?.price || 0;
   const discountedPrice = originalPrice - (originalPrice * discount) / 100;
 
+  // Getting the first variant image or fallback image
+  const firstVariantImage =
+    product?.variant?.[0]?.variant?.[0]?.image || "/images/default.jpg"; // Replace with your default image path
+
   return (
     <Card className="flex flex-col md:flex-row items-start md:items-center relative m-2">
       {/* Product Image with Magnification */}
@@ -20,18 +24,17 @@ const QuickViewProduct = ({ product }: { product: TProduct }) => {
         <ReactImageMagnify
           {...{
             smallImage: {
-              alt: "Wristwatch by Ted Baker London",
+              alt: product?.name || "Product Image",
               isFluidWidth: true,
-
-              src: product?.images?.[0] || "/placeholder-image.png",
+              src: firstVariantImage,
             },
             largeImage: {
-              src: product?.images?.[0] || "/placeholder-image.png",
+              src: firstVariantImage,
               width: 500,
               height: 500,
             },
             enlargedImagePosition: "over",
-            lensStyle:{backgroundColor:'white'}
+            lensStyle: { backgroundColor: "rgba(255, 255, 255, 0.3)" },
           }}
         />
       </div>

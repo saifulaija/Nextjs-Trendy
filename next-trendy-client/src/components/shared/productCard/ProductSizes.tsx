@@ -7,22 +7,20 @@ interface SizeStock {
   size: string;
   productId: string;
   variant: { color: string; quantity: number; image: string; _id: string }[];
-  isDeleted: boolean;
-  __v: number;
 }
 
 const ProductSizes = ({ sizeStockColor }: { sizeStockColor: SizeStock[] }) => {
   return (
     <div className="flex flex-wrap gap-2">
-      {Array.isArray(sizeStockColor) &&
+      {sizeStockColor.length === 0 ? (
+        <p>No sizes available</p>
+      ) : (
         sizeStockColor.map((sizeData) => {
           // Calculate total quantity for the size
-          const totalQuantity = Array.isArray(sizeData.variant)
-            ? sizeData.variant.reduce(
-                (acc, colorVariant) => acc + (colorVariant.quantity || 0),
-                0
-              )
-            : 0;
+          const totalQuantity = sizeData.variant.reduce(
+            (acc, colorVariant) => acc + (colorVariant.quantity || 0),
+            0
+          );
 
           return (
             <Button
@@ -41,7 +39,8 @@ const ProductSizes = ({ sizeStockColor }: { sizeStockColor: SizeStock[] }) => {
               )}
             </Button>
           );
-        })}
+        })
+      )}
     </div>
   );
 };
