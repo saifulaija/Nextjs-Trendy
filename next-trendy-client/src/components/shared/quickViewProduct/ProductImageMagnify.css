@@ -1,0 +1,31 @@
+.image-magnify-container {
+  position: relative;
+  width: 100%; /* Ensure it takes up the full width of its parent */
+  max-width: 400px; /* Adjust as needed for your design */
+  overflow: hidden; /* Ensure no overflow */
+}
+
+.image-magnify-container .react-image-magnify__small-image {
+  display: block;
+  width: 100%; /* The image will take up the full width */
+  height: auto;
+  transition: opacity 0.3s ease; /* Smooth transition for hiding */
+}
+
+.image-magnify-container:hover .react-image-magnify__small-image {
+  opacity: 0; /* Hide the small image on hover */
+}
+
+.image-magnify-container .react-image-magnify__large-image {
+  display: none; /* Initially hide the large image */
+}
+
+.image-magnify-container:hover .react-image-magnify__large-image {
+  display: block; /* Show the large image on hover */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* The large image will also take up the full width */
+  height: 100%; /* The large image will take up the full height */
+  z-index: 1; /* Ensure the large image is on top */
+}
