@@ -11,7 +11,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
-import ProductCardSkeleton from "./ProductCardSkeleton";
 import { TProduct } from "@/types/product.type";
 import ProductCard from "../shared/productCard/ProductCard";
 import { NoData } from "../shared/noData/NoData";
