@@ -72,24 +72,66 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   };
 };
 
-const getSingleProductFromDB = async (id:string) => {
+// const getSingleProductFromDB = async (id:string) => {
+//   try {
+//     const result = await Product.aggregate([
+//       { $match: { _id: new mongoose.Types.ObjectId(id) } },
+
+//       // 1st stage: Lookup reviews collection
+//       {
+//         $lookup: {
+//           from: 'reviews',
+//           localField: 'reviews.reviewId',
+//           foreignField: '_id',
+//           as: 'reviews',
+//         },
+//       },
+
+//       // 2nd stage: Calculate average rating
+//       {
+//         $addFields: {
+//           averageRating: { $avg: '$reviews.rating' },
+//         },
+//       },
+//     ]).populate('variant');
+
+//     return result;
+//   } catch (error) {
+//     console.error('Error fetching products and reviews:', error);
+//     throw error;
+//   }
+// };
+
+const getSingleProductFromDB = async (id: string) => {
   try {
     const result = await Product.aggregate([
-      {$match: {_id:new mongoose.Types.ObjectId(id)}},
+      // Match the product by ID
+      { $match: { _id: new mongoose.Types.ObjectId(id) } },
 
-      // 1st stage: Lookup reviews collection
+      // Lookup to join with the 'reviews' collection
       {
         $lookup: {
-          from: 'reviews',
-          localField: 'reviews.reviewId',
-          foreignField: '_id',
-          as: 'reviews',
+          from: 'reviews', // Collection name to join
+          localField: 'reviews.reviewId', // Local field for joining
+          foreignField: '_id', // Foreign field in the 'reviews' collection
+          as: 'reviews', // The output array field
         },
       },
-      // 2nd stage: Calculate average rating
+
+      // Lookup to join with the 'variants' collection
+      {
+        $lookup: {
+          from: 'variants', // Assuming 'variants' is the name of the collection for variants
+          localField: 'variant', // The field in 'Product' that references the variants
+          foreignField: '_id', // The field in 'variants' that corresponds to the local field
+          as: 'variant', // The output array field
+        },
+      },
+
+      // Calculate the average rating from the reviews
       {
         $addFields: {
-          averageRating: { $avg: '$reviews.rating' },
+          averageRating: { $avg: '$reviews.rating' }, // Calculate average rating from reviews
         },
       },
     ]);
@@ -100,6 +142,7 @@ const getSingleProductFromDB = async (id:string) => {
     throw error;
   }
 };
+
 
 const getAllProductsByCategoryFromDB = async (category: string) => {
   let result;

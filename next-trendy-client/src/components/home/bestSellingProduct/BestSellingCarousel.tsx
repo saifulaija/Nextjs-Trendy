@@ -21,6 +21,8 @@ export function BestSellingCarousel() {
   const { data, isLoading } = useGetAllProductsQuery({
     sort: "-price",
   });
+  console.log(data);
+  
 
   if (isLoading) {
     return <CustomLoader />;
