@@ -4,7 +4,13 @@ import sendResponse from '../../utils/sendResponse';
 import { ProductServices } from './product.service';
 
 const createProduct = catchAsync(async (req, res) => {
-  const result = await ProductServices.createProductIntoDB(req.body);
+  const { productPayload, variantPayload } = req.body;
+  console.log(productPayload, variantPayload);
+
+  const result = await ProductServices.createProductIntoDB(
+    productPayload,
+    variantPayload,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -14,7 +20,7 @@ const createProduct = catchAsync(async (req, res) => {
   });
 });
 
-const getAllProdycts = catchAsync(async (req, res) => {
+const getAllProducts = catchAsync(async (req, res) => {
   const result = await ProductServices.getAllProductsFromDB(req.query);
 
   sendResponse(res, {
@@ -52,19 +58,6 @@ const getAllProductsByCategory = catchAsync(async (req, res) => {
   });
 });
 
-const updateProduct = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const product = req.body;
-
-  const result = await ProductServices.updateProductIntoDB(id, product);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student is updated succesfully',
-    data: result,
-  });
-});
 const deleteProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await ProductServices.deleteProductIntoDB(id);
@@ -79,8 +72,7 @@ const deleteProduct = catchAsync(async (req, res) => {
 
 export const ProductControllers = {
   createProduct,
-  getAllProdycts,
-  updateProduct,
+  getAllProducts,
   getSingleProduct,
   getAllProductsByCategory,
   deleteProduct,

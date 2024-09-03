@@ -21,5 +21,6 @@ export type TProduct = {
   subCategory: string;
   discount?: number;
   selectedSize?: string;
+  selectedColor?: string;
   isDeleted?: boolean;
 };

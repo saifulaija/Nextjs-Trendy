@@ -74,6 +74,9 @@ const productSchema = new Schema<TProduct>(
       type: String,
       default: '0',
     },
+    selectedColor: {
+      type: String,
+    },
   },
 
   {

@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.post(
   '/create-product',
-  auth(USER_ROLE.superAdmin),
-  validateRequest(ProductValidations.CreateProductValidationSchema),
+  // auth(USER_ROLE.superAdmin),
+  // validateRequest(ProductValidations.CreateProductValidationSchema),
   ProductControllers.createProduct,
 );
 
@@ -22,12 +22,7 @@ router.patch(
   
   ProductControllers.deleteProduct,
 );
-router.patch(
-  '/update-product/:id',
-  auth(USER_ROLE.superAdmin),
-  
-  ProductControllers.updateProduct,
-);
+
 
 router.get(
   '/get-single-product/:id',
@@ -38,7 +33,7 @@ router.get(
 router.get(
   '/',
 
-  ProductControllers.getAllProdycts,
+  ProductControllers.getAllProducts,
 );
 
 router.get(

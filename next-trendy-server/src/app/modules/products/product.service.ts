@@ -3,11 +3,52 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import { productSearchableFields } from './product.constant';
 import { TProduct } from './product.interface';
 import { Product } from './product.model';
+import { TVariant } from '../varient/variant.interface';
+import { Variant } from '../varient/variant.model';
 
-const createProductIntoDB = async (payload: TProduct) => {
-  console.log(payload);
+// const createProductIntoDB = async (productPayload: TProduct,variantPayload:TVariant) => {
+ 
   
-  const result = await Product.create(payload);
+//   const result = await Product.create(productPayload);
+//   if(result){
+//     const variantData={...variantPayload,productId:result._id}
+//    const variant= await Variant.create(variantData)
+//    if(variant){
+//       await Product.updateOne(
+//         { _id:variant  },
+//         {
+//           $push: { variant: { productId: variant.toString() } },
+//         },
+//       );
+//    }
+//   }
+//   return result;
+// };
+const createProductIntoDB = async (
+  productPayload: TProduct,
+  variantPayload: TVariant,
+) => {
+  // Create the product in the database
+  const result = await Product.create(productPayload);
+
+  if (result) {
+    // Prepare the variant data with the associated productId
+    const variantData = { ...variantPayload, productId: result._id };
+
+    // Create the variant in the database
+    const variant = await Variant.create(variantData);
+
+    if (variant) {
+      // Update the product to associate it with the newly created variant
+      await Product.updateOne(
+        { _id: result._id }, // Correctly use the product ID
+        {
+          $push: { variant: variant._id }, // Use the variant's ObjectId properly
+        },
+      );
+    }
+  }
+
   return result;
 };
 
@@ -108,31 +149,7 @@ const getAllProductsByCategoryFromDB = async (category: string) => {
   return { meta, result };
 };
 
-const updateProductIntoDB = async (id: string, payload: Partial<TProduct>) => {
-  const { sizeStok, ...remainingProductData } = payload;
 
-  const modifiedUpdatedData: Record<string, unknown> = {
-    ...remainingProductData,
-  };
-
-  if (sizeStok && Array.isArray(sizeStok) && sizeStok.length > 0) {
-    const sizeStockObject: Record<string, unknown> = {};
-
-    sizeStok.forEach((item, index) => {
-      sizeStockObject[`sizeStok.${index}.size`] = item.size;
-      sizeStockObject[`sizeStok.${index}.stock`] = item.stock;
-    });
-
-    modifiedUpdatedData['$set'] = sizeStockObject;
-  }
-
-  const result = await Product.findByIdAndUpdate(id, modifiedUpdatedData, {
-    new: true,
-    runValidators: true,
-  });
-
-  return result;
-};
 
 const deleteProductIntoDB = async (id: string) => {
   const result = await Product.findOneAndUpdate(
@@ -146,7 +163,7 @@ const deleteProductIntoDB = async (id: string) => {
 export const ProductServices = {
   createProductIntoDB,
   getAllProductsFromDB,
-  updateProductIntoDB,
+
   getSingleProductFromDB,
   getAllProductsByCategoryFromDB,
   deleteProductIntoDB,
