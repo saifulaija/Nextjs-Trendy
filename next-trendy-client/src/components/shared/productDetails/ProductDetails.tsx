@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
@@ -19,39 +20,34 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Minus, Plus, Slash } from "lucide-react";
+import { VariantItem } from "@/types/varient.type";
 
 const ProductDetails = () => {
   const params = useParams();
   const id = params.productId;
 
   const { data, isLoading } = useGetSingleProductQuery(id);
-  console.log(data);
-  
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
-  const [quantity, setQuantity] = useState(1);
+
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
 
   if (isLoading) {
     return <CustomLoader />;
   }
 
-  // Ensure data and variant are defined before accessing them
   const product = data?.[0];
-  const availableSizes = product?.variant?.filter((sizeItem) =>
-    sizeItem.variant?.some((colorItem) => colorItem.quantity > 0)
+
+  const availableSizes = (product?.variant as VariantItem[]).filter(
+    (sizeItem) => sizeItem.variant.some((colorItem) => colorItem.quantity > 0)
   );
 
-  // Extract image URLs
-const images = product?.variant?.flatMap(
-  (sizeItem) => sizeItem?.variant?.map((colorItem) => colorItem.image) || []
-);
+  const images = (product?.variant as VariantItem[]).flatMap(
+    (sizeItem) => sizeItem.variant.map((colorItem) => colorItem.image) || []
+  );
 
-console.log(images);
-
-  
-
-  const selectedStock = product?.variant
-    ?.find((sizeItem) => sizeItem.size === selectedSize)
+  const selectedStock = (product?.variant as VariantItem[])
+    .find((sizeItem) => sizeItem.size === selectedSize)
     ?.variant.find((colorItem) => colorItem.color === selectedColor);
 
   const maxQuantity = selectedStock?.quantity || 0;
@@ -99,7 +95,7 @@ console.log(images);
           <div className="md:max-w-[40%] bg-white pl-20 md:lg:pl:0 md:lg:p:0">
             <ImageSlide images={images} />
           </div>
-          <Card className={cn("max-w-[90%] md:max-w-[60%]")}>
+          <Card className={cn("max-w-[90%] md:max-w-[60%] w-full")}>
             <div className="py-5 flex justify-evenly items-center">
               <h4 className="text-lg text-balance md:text-xl text-center font-semibold text-primary capitalize mb-0">
                 {product?.name}
@@ -184,11 +180,11 @@ console.log(images);
                     Select Size
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {availableSizes?.map((sizeItem) => (
+                    {(availableSizes as VariantItem[]).map((sizeItem) => (
                       <Button
                         key={sizeItem.size}
                         variant={
-                          selectedSize === sizeItem.size ? "primary" : "outline"
+                          selectedSize === sizeItem.size ? "outline" : "outline"
                         }
                         onClick={() => {
                           setSelectedSize(sizeItem.size);
@@ -203,7 +199,7 @@ console.log(images);
                         className={cn(
                           "px-3 py-1 rounded",
                           selectedSize === sizeItem.size
-                            ? "bg-primary text-white"
+                            ? "bg-primary text-white" // Use styles directly if variant is not updated
                             : "bg-gray-200 text-gray-600"
                         )}
                       >
@@ -218,14 +214,14 @@ console.log(images);
                     Available Colors:
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {product?.variant
+                    {(product?.variant as VariantItem[])
                       .find((sizeItem) => sizeItem.size === selectedSize)
                       ?.variant.map((colorItem) => (
                         <Button
                           key={colorItem.color}
                           variant={
                             selectedColor === colorItem.color
-                              ? "primary"
+                              ? "outline"
                               : "outline"
                           }
                           onClick={() => {
@@ -236,7 +232,7 @@ console.log(images);
                           className={cn(
                             "px-3 py-3 rounded-full",
                             selectedColor === colorItem.color
-                              ? "bg-primary text-white"
+                              ? "bg-primary text-white" // Use styles directly if variant is not updated
                               : "bg-gray-200 text-gray-600",
                             colorItem.quantity === 0 &&
                               "line-through opacity-50 cursor-not-allowed"
@@ -250,7 +246,6 @@ console.log(images);
               </div>
             </div>
 
-            {/* Quantity and Add to Cart */}
             <div className="p-4 flex flex-col gap-4">
               <div className="flex items-center justify-between w-48">
                 <Button
