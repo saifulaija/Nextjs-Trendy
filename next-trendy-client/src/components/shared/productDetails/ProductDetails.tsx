@@ -302,8 +302,8 @@ const ProductDetails = () => {
                   <span className="font-semibold">+8801821117913</span>
                 </p>
                 <Button
-                  variant="default"
-                  className="mt-4 w-full"
+                 
+                  className="mt-4 w-full uppercase"
                   onClick={handleAddToCart}
                   disabled={!selectedSize || !selectedColor}
                 >
