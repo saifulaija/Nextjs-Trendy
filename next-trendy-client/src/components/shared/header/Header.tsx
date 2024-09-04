@@ -380,41 +380,32 @@ const Header = () => {
             <div className="hidden md:block flex-1 max-w-lg">
               <GlobalSearch placeholder="Search products......." />
             </div>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "hover:bg-primary hover:text-white text-gray-400 px-1 py-2 transition-colors duration-300 ease-in-out rounded-md"
-                  )}
-                >
-                  <div className="flex items-center gap-1 relative">
-                    {product?.cartTotalAmount > 0 ? (
-                      <span className="font-semibold text-[16px]">
-                        {product?.cartTotalAmount} ৳
-                      </span>
-                    ) : (
-                      <span className="font-semibold text-[16px]">0 ৳</span>
+            <Button
+              variant="outline"
+              className={cn(
+                "hover:bg-primary hover:text-white text-gray-400 px-1 py-2 transition-colors duration-300 ease-in-out rounded-md"
+              )}
+            >
+              <Link href='/cart' className="flex items-center gap-1 relative">
+                {product?.cartTotalAmount > 0 ? (
+                  <span className="font-semibold text-[16px]">
+                    {product?.cartTotalAmount} ৳
+                  </span>
+                ) : (
+                  <span className="font-semibold text-[16px]">0 ৳</span>
+                )}
+                <ShoppingBagIcon className="w-5 h-5" />
+                {product?.cartItems.length > 0 && (
+                  <Badge
+                    className={cn(
+                      "absolute -top-6 -right-4 text-white text-xs"
                     )}
-                    <ShoppingBagIcon className="w-5 h-5" />
-                    {product?.cartItems.length > 0 && (
-                      <Badge
-                        className={cn(
-                          "absolute -top-6 -right-4 text-white text-xs"
-                        )}
-                      >
-                        {product?.cartItems.length}
-                      </Badge>
-                    )}
-                  </div>
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Your Cart</SheetTitle>
-                </SheetHeader>
-              </SheetContent>
-            </Sheet>
+                  >
+                    {product?.cartItems.length}
+                  </Badge>
+                )}
+              </Link>
+            </Button>
 
             <AuthButton />
           </div>
