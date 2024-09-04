@@ -22,11 +22,15 @@ import {
 import { Minus, Plus, Slash } from "lucide-react";
 import { VariantItem } from "@/types/varient.type";
 
+import { useAppDispatch } from "@/redux/hooks";
+import { addToCart, getTotals } from "@/redux/api/features/product/cartSlice";
+
 const ProductDetails = () => {
   const params = useParams();
   const id = params.productId;
 
   const { data, isLoading } = useGetSingleProductQuery(id);
+  const dispatch = useAppDispatch();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -56,7 +60,19 @@ const ProductDetails = () => {
     if (quantity > maxQuantity) {
       toast.warning("Selected quantity exceeds available stock.");
     } else {
-      toast.success("Item added to cart successfully!");
+      const item = {
+        _id: product._id,
+        name: product.name,
+        price: product.price,
+        discount: product.discount,
+        size: selectedSize,
+        color: selectedColor,
+        cartQuantity: quantity,
+        image: images[0], // Assuming the first image for simplicity
+      };
+      dispatch(addToCart(item));
+      dispatch(getTotals());
+      // toast.success("Item added to cart successfully!");
     }
   };
 
@@ -110,30 +126,33 @@ const ProductDetails = () => {
             </div>
             <Separator />
             {product?.discount > 0 && (
-              <div className="flex justify-between items-center px-10 py-1">
-                <p className="text-gray-600 font-semibold text-md">Discount</p>
-                <p className="text-end text-balance text-md font-semibold text-red-500">
-                  -{product?.discount}%
-                </p>
-              </div>
+              <>
+                <div className="flex justify-between items-center px-10 py-1">
+                  <p className="text-gray-600 font-semibold text-md">
+                    Discount
+                  </p>
+                  <p className="text-end text-balance text-md font-semibold text-red-500">
+                    -{product?.discount}%
+                  </p>
+                </div>
+                <Separator />
+                <div className="flex justify-between items-center px-10 py-1">
+                  <p className="text-gray-600 font-semibold text-md">
+                    Save Amount
+                  </p>
+                  <p className="text-end text-balance text-md font-semibold text-red-500">
+                    {formateMoney(
+                      Math.round(
+                        product?.price -
+                          (product?.price -
+                            (product?.price * product?.discount) / 100)
+                      )
+                    )}
+                  </p>
+                </div>
+                <Separator />
+              </>
             )}
-            {product?.discount > 0 && (
-              <div className="flex justify-between items-center px-10 py-1">
-                <p className="text-gray-600 font-semibold text-md">
-                  Save Amount
-                </p>
-                <p className="text-end text-balance text-md font-semibold text-red-500">
-                  {formateMoney(
-                    Math.round(
-                      product?.price -
-                        (product?.price -
-                          (product?.price * product?.discount) / 100)
-                    )
-                  )}
-                </p>
-              </div>
-            )}
-            <Separator />
             <div className="flex justify-between items-center px-10 py-1">
               <p className="text-gray-600 font-semibold text-md">Net Price</p>
               <p className="text-end text-balance text-md font-semibold text-red-500">
@@ -199,7 +218,7 @@ const ProductDetails = () => {
                         className={cn(
                           "px-3 py-1 rounded",
                           selectedSize === sizeItem.size
-                            ? "bg-primary text-white" // Use styles directly if variant is not updated
+                            ? "bg-primary text-white"
                             : "bg-gray-200 text-gray-600"
                         )}
                       >
@@ -232,53 +251,60 @@ const ProductDetails = () => {
                           className={cn(
                             "px-3 py-3 rounded-full",
                             selectedColor === colorItem.color
-                              ? "bg-primary text-white" // Use styles directly if variant is not updated
-                              : "bg-gray-200 text-gray-600",
-                            colorItem.quantity === 0 &&
-                              "line-through opacity-50 cursor-not-allowed"
+                              ? "bg-primary text-white"
+                              : "bg-gray-200 text-gray-600"
                           )}
                         >
-                          {colorItem.color}
+                          <div
+                            className={cn(
+                              "w-4 h-4 rounded-full",
+                              colorItem.color
+                            )}
+                            style={{ backgroundColor: colorItem.color }}
+                          />
                         </Button>
                       ))}
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="p-4 flex flex-col gap-4">
-              <div className="flex items-center justify-between w-48">
+              <div className="mt-4">
+                <div className="flex items-center">
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      setQuantity((prevQuantity) =>
+                        prevQuantity > 1 ? prevQuantity - 1 : 1
+                      )
+                    }
+                    disabled={quantity === 1}
+                  >
+                    <Minus />
+                  </Button>
+                  <span className="mx-4">{quantity}</span>
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      setQuantity((prevQuantity) =>
+                        prevQuantity < maxQuantity
+                          ? prevQuantity + 1
+                          : maxQuantity
+                      )
+                    }
+                    disabled={quantity === maxQuantity}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
                 <Button
-                  variant="outline"
-                  onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
-                  className="px-4 py-2"
+                  variant="default"
+                  className="mt-4 w-full"
+                  onClick={handleAddToCart}
+                  disabled={!selectedSize || !selectedColor}
                 >
-                  <Minus />
-                </Button>
-                <span className="text-lg font-semibold">{quantity}</span>
-                <Button
-                  variant="outline"
-                  onClick={() =>
-                    setQuantity((prev) => Math.min(prev + 1, maxQuantity))
-                  }
-                  className="px-4 py-2"
-                >
-                  <Plus />
+                  Add to Cart
                 </Button>
               </div>
-
-              <Button
-                onClick={handleAddToCart}
-                className="w-full py-3"
-                disabled={
-                  !selectedSize ||
-                  !selectedColor ||
-                  quantity <= 0 ||
-                  quantity > maxQuantity
-                }
-              >
-                Add to Cart
-              </Button>
             </div>
           </Card>
         </div>
