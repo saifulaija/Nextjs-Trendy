@@ -24,6 +24,8 @@ import { items } from "@/utils/items";
 import { HeaderItems } from "../header/HeaderItem";
 import assets from "@/app/assets";
 import Footer from "../footer/Footer";
+import { useAppSelector } from "@/redux/hooks";
+import { Badge } from "@/components/ui/badge";
 
 interface HeaderMenuItem {
   title: string;
@@ -42,6 +44,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [xOffset, setXOffset] = useState<number>(0);
+    const product = useAppSelector((state) => state.cart);
 
   const headerMenu: HeaderMenuItem[] = [
     { title: "Bookmark", path: `/blogs/bookmarks`, icon: BookMarkedIcon },
@@ -89,7 +92,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                 </Button>
               </div>
               <div className="flex-1 overflow-y-auto">
-                <nav className="px-2 text-md font-medium lg:px-4">
+                <nav className="px-2 text-md font-medium lg:px-4 overflow-y-auto">
                   <div className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
                     <SearchCheck className="h-4 w-4" />
                     Find by Category
@@ -107,7 +110,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                             className={cn(
                               "flex items-center justify-between gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary",
                               pathname === child.key &&
-                                "text-primary bg-muted border-r-4 border-r-primary"
+                                "text-primary bg-primary border-r-4 border-r-primary"
                             )}
                           >
                             <div className="flex items-center gap-3 capitalize">
@@ -245,18 +248,40 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                 <HeaderItems />
               </nav>
               <div className="flex items-center gap-2">
-               <div className="hidden sm:block"> <GlobalSearch placeholder="Search products......." /></div>
+                <div className="hidden sm:block">
+                  {" "}
+                  <GlobalSearch placeholder="Search products......." />
+                </div>
                 <Button
-                  asChild
                   variant="outline"
-                  className="hover:bg-primary text-gray-400 hover:text-white px-2 py-1"
+                  className={cn(
+                    "hover:bg-primary hover:text-white text-gray-400 px-1 py-2 transition-colors duration-300 ease-in-out rounded-md"
+                  )}
                 >
                   <Link
-                    href="/signin"
-                    className="flex items-center font-semibold"
+                    href="/cart"
+                    className="flex items-center gap-1 relative"
                   >
-                    <ShoppingBagIcon className="h-5 w-5" />
-                    <span className="sr-only">View shopping cart</span>
+                    {product?.cartTotalAmount > 0 ? (
+                      <span className="font-semibold  text-[16px]">
+                        {product.cartTotalAmount}
+                        <span className="font-serif font-semibold "> ৳</span>
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-[16px] font-serif">
+                        0 ৳
+                      </span>
+                    )}
+                    <ShoppingBagIcon className="w-5 h-5" />
+                    {product?.cartItems.length > 0 && (
+                      <Badge
+                        className={cn(
+                          "absolute -top-6 -right-4 text-white text-xs"
+                        )}
+                      >
+                        {product?.cartItems.length}
+                      </Badge>
+                    )}
                   </Link>
                 </Button>
                 <AuthButton />

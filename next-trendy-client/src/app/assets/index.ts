@@ -14,6 +14,16 @@ const assets = {
     man_sport: require("./images/man-sport.png"),
     man_causal: require("./images/man-shoe.png"),
     man_loafer: require("./images/man-loaffer.png"),
+    woman_hell: require("./images/l-formal.png"),
+    woman_casual: require("./images/w-causal.png"),
+    woman_sport: require("./images/w-sport.png"),
+    woman_sandal: require("./images/w-sandal.png"),
+    woman_boot: require("./images/w-boot.png"),
+    woman_flat: require("./images/w-flat.png"),
+    kid_sneakers: require("./images/kid-sneakrs.png"),
+    kid_sandal: require("./images/kid-sandal.png"),
+    kid_sport: require("./images/kid-sport.png"),
+   
   },
 };
 

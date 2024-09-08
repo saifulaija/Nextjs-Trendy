@@ -14,7 +14,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { accessories, man, women } from "@/utils/items";
+import { accessories, kids, man, women } from "@/utils/items";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -109,6 +109,34 @@ export function HeaderItems() {
               ))}
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={cn("font-semibold text-gray-500 hover:text-gray-600")}
+          >
+            KId
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+              {kids.map((item) => (
+                <ListItem
+                  key={item.label}
+                  title={item.label}
+                  href={item.href}
+                  className={cn(
+                    "relative group hover:text-white transition-all duration-500 hover:bg-primary"
+                  )}
+                >
+                  <span className="group-hover:text-white transition-colors duration-300">
+                    {" "}
+                    {item.description}
+                  </span>
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger
