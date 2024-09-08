@@ -50,7 +50,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
     <Card
       onClick={handleDetails}
       className={cn(
-        "group mx-auto w-72 transform overflow-hidden hover:cursor-pointer rounded-lg shadow-md"
+        "group mx-auto w-72 transform overflow-hidden hover:cursor-pointer rounded-t-sm shadow-md"
       )}
     >
       <div className="relative w-full overflow-hidden group">

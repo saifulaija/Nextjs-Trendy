@@ -47,12 +47,12 @@ export function BestSellingCarousel() {
       </CarouselContent>
       <CarouselPrevious
         className={cn(
-          "ml-10 text-gray-400 font-semibold transition-transform duration-300 ease-out transform hover:text-white hover:bg-primary/70 hover:scale-105"
+          "ml-10  bg-primary/50 font-bold transition-transform duration-300 ease-out transform text-white hover:bg-primary hover:text-white hover:scale-105"
         )}
       />
       <CarouselNext
         className={cn(
-          "mr-10 text-gray-400 font-semibold transition-transform duration-300 ease-out transform hover:text-white hover:bg-primary/70 hover:scale-105"
+          "mr-10  bg-primary/50 font-bold transition-transform duration-300 ease-out transform text-white hover:bg-primary hover:text-white hover:scale-105"
         )}
       />
     </Carousel>
