@@ -1,16 +1,14 @@
-
 "use client";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MinusCircle, PlusCircle, Trash2, Edit, X } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import Image from "next/image";
+
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -39,9 +37,9 @@ const ShoppingCart = () => {
 
   // Initially set the shipping cost to Inside Dhaka City: 60৳
   const [shippingCost, setShippingCost] = useState(60);
-useEffect(() => {
-  dispatch(setShippingCharge(shippingCost));
-}, [shippingCost, dispatch]);
+  useEffect(() => {
+    dispatch(setShippingCharge(shippingCost));
+  }, [shippingCost, dispatch]);
 
   const handleShippingChange = (value: number) => {
     setShippingCost(value);
@@ -70,11 +68,11 @@ useEffect(() => {
     return sum + finalPrice;
   }, 0);
 
-  const totalSaved = cart.cartItems.reduce((sum, item) => {
-    const discountAmount = (item.price * (item.discount || 0)) / 100;
-    const savedAmount = discountAmount * item.cartQuantity;
-    return sum + savedAmount;
-  }, 0);
+  // const totalSaved = cart.cartItems.reduce((sum, item) => {
+  //   const discountAmount = (item.price * (item.discount || 0)) / 100;
+  //   const savedAmount = discountAmount * item.cartQuantity;
+  //   return sum + savedAmount;
+  // }, 0);
 
   const handleDetails = (id: string) => {
     router.push(`/product/details/${id}`);
@@ -118,7 +116,7 @@ useEffect(() => {
                     return (
                       <TableRow key={item._id}>
                         <TableCell>
-                          <div className="relative flex items-center gap-4">
+                          <div className="flex flex-col md:flex-row items-center gap-4">
                             {/* Image */}
                             <div className="relative">
                               <img
@@ -126,21 +124,24 @@ useEffect(() => {
                                 alt={item.name}
                                 width={50}
                                 height={50}
-                                className="object-cover rounded-md"
+                                className="rounded-md"
                               />
 
                               {/* Remove Button (Centered on Image) */}
                               <Button
                                 onClick={() => handleRemoveItem(item)}
                                 variant="link"
-                                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md"
+                                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md "
                               >
-                                <X size={18} className="text-white" />
+                                <X
+                                  size={18}
+                                  className="text-white hover:text-primary"
+                                />
                               </Button>
                             </div>
 
                             {/* Item Name */}
-                            <span className="text-sm font-medium text-gray-700">
+                            <span className="text-sm font-medium text-gray-700 text-center md:text-left">
                               {truncateTitle(item.name, 10)}
                             </span>
                           </div>
@@ -220,12 +221,12 @@ useEffect(() => {
                 <p className="text-gray-500">BDT 0.00</p>
               </div>
               <p>
-                Shipping to Dhaka, Bangladesh 
-                 <span className="text-blue-500 cursor-pointer">
-                   Change address
+                Shipping to Dhaka, Bangladesh
+                <span className="text-blue-500 cursor-pointer">
+                  Change address
                 </span>
               </p>
-              <Separator className={cn("text-primary my-1")}/>
+              <Separator className={cn("text-primary my-1")} />
               <div>
                 <RadioGroup
                   value={String(shippingCost)} // Convert shippingCost to string
