@@ -5,12 +5,12 @@ export const items = [
     label: "MEN'S",
     key: "mans",
     children: [
-      { label: "BOOT", key: "man-boot", image: assets.images.casual },
-      { label: "LOAFER", key: "man-loafer", image: assets.images.casual },
-      { label: "SANDALS", key: "man-sandal", image: assets.images.casual },
-      { label: "CASUAL", key: "man-casual", image: assets.images.casual },
-      { label: "FORMAL", key: "man-formal", image: assets.images.casual },
-      { label: "SPORTS", key: "man-sport", image: assets.images.casual },
+      { label: "BOOT", key: "man-boot", image: assets.images.man_boot },
+      { label: "LOAFER", key: "man-loafer", image: assets.images.man_loafer },
+      { label: "SANDALS", key: "man-sandal", image: assets.images.man_sandal },
+      { label: "CASUAL", key: "man-casual", image: assets.images.man_causal },
+      { label: "FORMAL", key: "man-formal", image: assets.images.man_formal },
+      { label: "SPORTS", key: "man-sport", image: assets.images.man_sport },
     ],
   },
   {

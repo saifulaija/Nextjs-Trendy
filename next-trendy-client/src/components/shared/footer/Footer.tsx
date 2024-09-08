@@ -26,7 +26,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-black text-sm text-gray-400  py-4">
+    <footer className="bg-black text-sm text-gray-400  py-4 mt-10">
       <div className="container mx-auto px-4 md:px-8 mt-10">
         <div className="flex flex-wrap justify-between">
           {/* Abstract Section */}
