@@ -165,7 +165,7 @@ const Header = () => {
             <Button
               variant="outline"
               className={cn(
-                "hover:bg-primary hover:text-white text-gray-400 px-1 py-2 transition-colors duration-300 ease-in-out rounded-md"
+                "hover:bg-primary  rounded-[5px]  bg-white  hover:border-primary text-primary duration-300 ease-in-out  hover:text-white text-gray-400 px-1 py-2 transition-colors"
               )}
             >
               <Link href="/cart" className="flex items-center gap-1 relative">
