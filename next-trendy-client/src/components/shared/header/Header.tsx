@@ -170,11 +170,14 @@ const Header = () => {
             >
               <Link href="/cart" className="flex items-center gap-1 relative">
                 {product?.cartTotalAmount > 0 ? (
-                  <span className="font-semibold  text-[16px]">
-                    {product.cartTotalAmount}<span className="font-serif font-semibold "> ৳</span>
+                  <span className="font-semibold text-[16px]">
+                    {product.cartTotalAmount}
+                    <span className="font-serif font-semibold"> ৳</span>
                   </span>
                 ) : (
-                  <span className="font-semibold text-[16px] font-serif">0 ৳</span>
+                  <span className="font-semibold text-[16px] font-serif">
+                    0 ৳
+                  </span>
                 )}
                 <ShoppingBagIcon className="w-5 h-5" />
                 {product?.cartItems.length > 0 && (

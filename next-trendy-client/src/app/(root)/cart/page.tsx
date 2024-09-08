@@ -20,6 +20,7 @@ import {
   decreaseCart,
   removeFromCart,
   clearCart,
+  setShippingCharge,
 } from "@/redux/api/features/product/cartSlice";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +28,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { formateMoney } from "@/utils/formateMoney";
 import { truncateTitle } from "@/utils/truncateTitle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
@@ -38,6 +39,9 @@ const ShoppingCart = () => {
 
   // Initially set the shipping cost to Inside Dhaka City: 60৳
   const [shippingCost, setShippingCost] = useState(60);
+useEffect(() => {
+  dispatch(setShippingCharge(shippingCost));
+}, [shippingCost, dispatch]);
 
   const handleShippingChange = (value: number) => {
     setShippingCost(value);
@@ -216,9 +220,9 @@ const ShoppingCart = () => {
                 <p className="text-gray-500">BDT 0.00</p>
               </div>
               <p>
-                Shipping to Dhaka, Bangladesh
-                <span className="text-blue-500 cursor-pointer">
-                  Change address
+                Shipping to Dhaka, Bangladesh 
+                 <span className="text-blue-500 cursor-pointer">
+                   Change address
                 </span>
               </p>
               <Separator className={cn("text-primary my-1")}/>
