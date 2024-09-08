@@ -19,13 +19,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Minus, Plus, Slash } from "lucide-react";
+import { Loader2, Minus, Plus, Slash } from "lucide-react";
 import { VariantItem } from "@/types/varient.type";
 
 import { useAppDispatch } from "@/redux/hooks";
 import { addToCart, getTotals } from "@/redux/api/features/product/cartSlice";
+import { resolve } from "path";
 
 const ProductDetails = () => {
+    const [loading, setLoading] = useState(false);
+  
   const params = useParams();
   const id = params.productId;
 
@@ -56,7 +59,10 @@ const ProductDetails = () => {
 
   const maxQuantity = selectedStock?.quantity || 0;
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async() => {
+     setLoading(true);
+
+     await new Promise((resolve) => setTimeout(resolve, 3000));
     if (quantity > maxQuantity) {
       toast.warning("Selected quantity exceeds available stock.");
     } else {
@@ -72,7 +78,7 @@ const ProductDetails = () => {
       };
       dispatch(addToCart(item));
       dispatch(getTotals());
-      // toast.success("Item added to cart successfully!");
+      setLoading(false);
     }
   };
 
@@ -302,12 +308,23 @@ const ProductDetails = () => {
                   <span className="font-semibold">+8801821117913</span>
                 </p>
                 <Button
-                 
-                  className="mt-4 w-full uppercase"
+                  className="mt-4 w-full"
                   onClick={handleAddToCart}
-                  disabled={!selectedSize || !selectedColor}
+                  disabled={!selectedSize || !selectedColor || loading}
                 >
-                  Add to Cart
+                  <span className="flex items-center gap-1">
+                    {loading ? (
+                      <>
+                        <Loader2 className="animate-spin"></Loader2>
+                        <span>Please waite...</span>
+                      </>
+                    ) : (
+                      <>
+                     
+                        <span className="uppercase">Add to Cart</span>
+                      </>
+                    )}
+                  </span>
                 </Button>
               </div>
             </div>

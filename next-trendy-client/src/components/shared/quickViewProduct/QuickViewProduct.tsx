@@ -4,16 +4,14 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { TProduct } from "@/types/product.type";
 import { formateMoney } from "@/utils/formateMoney";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import ReactImageMagnify from "react-image-magnify";
 
 const QuickViewProduct = ({ product }: { product: TProduct }) => {
   const discount = product?.discount || 0;
   const originalPrice = product?.price || 0;
   const discountedPrice = originalPrice - (originalPrice * discount) / 100;
-
-  // Getting the first variant image or fallback image
   const firstVariantImage =
     product?.variant?.[0]?.variant?.[0]?.image || "/images/default.jpg"; // Replace with your default image path
 
@@ -21,22 +19,7 @@ const QuickViewProduct = ({ product }: { product: TProduct }) => {
     <Card className="flex flex-col md:flex-row items-start md:items-center relative m-2">
       {/* Product Image with Magnification */}
       <div className="relative w-full md:w-auto">
-        <ReactImageMagnify
-          {...{
-            smallImage: {
-              alt: product?.name || "Product Image",
-              isFluidWidth: true,
-              src: firstVariantImage,
-            },
-            largeImage: {
-              src: firstVariantImage,
-              width: 500,
-              height: 500,
-            },
-            enlargedImagePosition: "over",
-            lensStyle: { backgroundColor: "rgba(255, 255, 255, 0.3)" },
-          }}
-        />
+        <Image src={firstVariantImage} width={500} height={400} alt="image" />
       </div>
 
       {/* Product Details */}

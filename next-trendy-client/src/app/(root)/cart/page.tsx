@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -24,13 +25,23 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { it } from "node:test";
 import { formateMoney } from "@/utils/formateMoney";
+import { truncateTitle } from "@/utils/truncateTitle";
+import { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const ShoppingCart = () => {
   const router = useRouter();
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+
+  // Initially set the shipping cost to Inside Dhaka City: 60৳
+  const [shippingCost, setShippingCost] = useState(60);
+
+  const handleShippingChange = (value: number) => {
+    setShippingCost(value);
+  };
 
   const handleDecreaseQuantity = (item: any) => {
     dispatch(decreaseCart(item));
@@ -66,142 +77,7 @@ const ShoppingCart = () => {
   };
 
   return (
-    // <div className="w-full py-10 px-4 md:p-10">
-    //   <Card className="max-w-5xl flex flex-col justify-center items-center mx-auto">
-    //     {cart.cartItems.length === 0 ? (
-    //       <div className="text-center py-20">
-    //         <p className="text-gray-500">Your cart is empty.</p>
-    //       </div>
-    //     ) : (
-    //       <div className="w-full overflow-x-auto">
-    //         <Table>
-    //           <TableHeader>
-    //             <TableRow>
-    //               <TableHead>Image</TableHead>
-    //               <TableHead>Product</TableHead>
-    //               <TableHead>Size</TableHead>
-    //               <TableHead>Color</TableHead>
-    //               <TableHead>Quantity</TableHead>
-    //               <TableHead className="text-center">Price</TableHead>
-    //               <TableHead className="text-center">Saved</TableHead>
-    //               <TableHead className="text-center">Actions</TableHead>
-    //             </TableRow>
-    //           </TableHeader>
-    //           <TableBody>
-    //             {cart.cartItems.map((item) => {
-    //               const discountAmount =
-    //                 (item.price * (item.discount || 0)) / 100;
-    //               const savedAmount = discountAmount * item.cartQuantity;
-    //               const finalPrice =
-    //                 (item.price - discountAmount) * item.cartQuantity;
-
-    //               return (
-    //                 <TableRow key={item._id + item.color}>
-    //                   <TableCell>
-    //                     <Image
-    //                       src={item.image || "/image"}
-    //                       alt={item.name}
-    //                       width={50}
-    //                       height={50}
-    //                       className="object-cover rounded-md"
-    //                     />
-    //                   </TableCell>
-    //                   <TableCell>{item.name}</TableCell>
-    //                   <TableCell>{item.size}</TableCell>
-    //                   <TableCell>{item.color}</TableCell>
-    //                   <TableCell>
-    //                     <div className="flex items-center space-x-2 border">
-    //                       <Button
-    //                         onClick={() => handleDecreaseQuantity(item)}
-    //                         variant="ghost"
-    //                       >
-    //                         <MinusCircle size={18} />
-    //                       </Button>
-    //                       <span>{item.cartQuantity}</span>
-    //                       <Button
-    //                         onClick={() => handleIncreaseQuantity(item)}
-    //                         variant="ghost"
-    //                       >
-    //                         <PlusCircle size={18} />
-    //                       </Button>
-    //                     </div>
-    //                   </TableCell>
-    //                   <TableCell className="text-right">
-    //                     <span className="font-serif font-semibold ">৳</span>
-    //                     {finalPrice.toFixed(2)}
-    //                   </TableCell>
-    //                   <TableCell className="text-right text-red-500">
-    //                     <span className="font-serif font-semibold ">-৳</span>
-    //                     {savedAmount.toFixed(2)}
-    //                   </TableCell>
-    //                   <TableCell className="text-right">
-    //                     <div className="flex space-x-2">
-    //                       <Button
-    //                         onClick={() => handleRemoveItem(item)}
-    //                         variant="ghost"
-    //                       >
-    //                         <Trash2 size={18} />
-    //                       </Button>
-    //                       <Button
-    //                         onClick={() => {
-    //                           handleDetails(item._id);
-    //                         }}
-    //                         variant="ghost"
-    //                       >
-    //                         <Edit size={18} />
-    //                       </Button>
-    //                     </div>
-    //                   </TableCell>
-    //                 </TableRow>
-    //               );
-    //             })}
-    //           </TableBody>
-    //         </Table>
-
-    //         <div className="flex justify-center items-center mx-auto max-w-4xl w-full">
-    //           <div className="p-6  w-full">
-    //             <p className="font-semibold text-xl mb-4">Cart Summary</p>
-    //             <Separator className="mb-4" />
-    //             <div className="flex justify-between items-center mb-4">
-    //               <p className="text-gray-600">Total Saved</p>
-    //               <Badge className="text-white">
-    //                 <span className="font-serif font-semibold">৳</span>{" "}
-    //                 {totalSaved.toFixed(2)}
-    //               </Badge>
-    //             </div>
-    //             <Separator className="mb-4" />
-    //             <div className="flex justify-between items-center mb-6">
-    //               <p className="text-gray-600">Total Amount</p>
-    //               <p className="text-lg font-semibold">
-    //                 <span className="font-serif font-semibold">৳</span>{" "}
-    //                 {totalAmount.toFixed(2)}
-    //               </p>
-    //             </div>
-    //             <div className="flex space-x-4">
-    //               <Button
-    //                 onClick={handleClearCart}
-    //                 className={cn(
-    //                   "bg-red-500 text-white hover:bg-red-600 w-full uppercase"
-    //                 )}
-    //               >
-    //                 Clear Cart
-    //               </Button>
-    //               <Button
-    //                 className={cn(
-    //                   "bg-blue-500 text-white hover:bg-blue-600 w-full uppercase"
-    //                 )}
-    //               >
-    //                 Proceed to Checkout
-    //               </Button>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     )}
-    //   </Card>
-    // </div>
     <div className="w-full py-10 px-4 md:p-10">
-   
       <Card className="max-w-7xl mx-auto flex flex-col">
         {cart.cartItems.length === 0 ? (
           <div className="text-center py-20">
@@ -218,12 +94,13 @@ const ShoppingCart = () => {
               <Table className="overflow-x-auto overflow-y-auto">
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Image</TableHead>
                     <TableHead>Product</TableHead>
+                    <TableHead>Size</TableHead>
+                    <TableHead>Color</TableHead>
                     <TableHead>Quantity</TableHead>
                     <TableHead className="text-center">Price</TableHead>
                     <TableHead className="text-center">Saved</TableHead>
-                    <TableHead className="text-center">Actions</TableHead>
+                    <TableHead className="text-center">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -237,15 +114,36 @@ const ShoppingCart = () => {
                     return (
                       <TableRow key={item._id}>
                         <TableCell>
-                          <img
-                            src={item.image || "/image"}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                            className="object-cover rounded-md"
-                          />
+                          <div className="relative flex items-center gap-4">
+                            {/* Image */}
+                            <div className="relative">
+                              <img
+                                src={item.image || "/image"}
+                                alt={item.name}
+                                width={50}
+                                height={50}
+                                className="object-cover rounded-md"
+                              />
+
+                              {/* Remove Button (Centered on Image) */}
+                              <Button
+                                onClick={() => handleRemoveItem(item)}
+                                variant="link"
+                                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md"
+                              >
+                                <X size={18} className="text-white" />
+                              </Button>
+                            </div>
+
+                            {/* Item Name */}
+                            <span className="text-sm font-medium text-gray-700">
+                              {truncateTitle(item.name, 10)}
+                            </span>
+                          </div>
                         </TableCell>
-                        <TableCell>{item.name}</TableCell>
+
+                        <TableCell>{item.size}</TableCell>
+                        <TableCell>{item.color}</TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-1">
                             <Button
@@ -271,10 +169,12 @@ const ShoppingCart = () => {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button
-                            onClick={() => handleRemoveItem(item)}
+                            onClick={() => {
+                              handleDetails(item._id);
+                            }}
                             variant="ghost"
                           >
-                            <X size={18} />
+                            <Edit size={18} />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -294,40 +194,76 @@ const ShoppingCart = () => {
             </div>
 
             {/* Order Details Section */}
-            <div className="w-full md:w-2/5 p-4 bg-gray-50 rounded-md">
+            <div className="w-full md:w-2/5 p-4 bg-gray-50 border-2 border-primary rounded-r-md">
               <h2 className="font-semibold text-xl">Order Details</h2>
               <Separator className="mb-4" />
               <div className="flex justify-between items-center mb-2">
-                <p className="text-gray-400">Subtotal</p>
-                <p className="text-gray-400">
+                <p className="text-gray-500">Subtotal</p>
+                <p className="text-gray-500">
                   {formateMoney(Number(totalAmount.toFixed(0)))}
                 </p>
               </div>
               <div className="flex justify-between items-center mb-2">
-                <p className="text-gray-400">Shipping</p>
-                <p className="text-gray-400">Free</p>
+                <p className="text-gray-500">Shipping</p>
+                <p className="text-gray-500">
+                  {shippingCost > 0
+                    ? `${formateMoney(shippingCost)}`
+                    : "Select Shipping"}
+                </p>
               </div>
               <div className="flex justify-between items-center mb-2">
-                <p className="text-gray-400">Estimated Tax</p>
-                <p className="text-gray-400">$-</p>
+                <p className="text-gray-500">Estimated Tax</p>
+                <p className="text-gray-500">BDT 0.00</p>
               </div>
+              <p>
+                Shipping to Dhaka, Bangladesh
+                <span className="text-blue-500 cursor-pointer">
+                  Change address
+                </span>
+              </p>
+              <Separator className={cn("text-primary my-1")}/>
+              <div>
+                <RadioGroup
+                  value={String(shippingCost)} // Convert shippingCost to string
+                  onValueChange={(value) => handleShippingChange(Number(value))} // Convert value back to number
+                >
+                  {/* Inside Dhaka City - 60৳ */}
+                  <div className="flex items-center space-x-2  p-2 rounded-sm">
+                    <RadioGroupItem
+                      value="60"
+                      id="insideDhaka60"
+                      defaultChecked
+                    />
+                    <Label htmlFor="insideDhaka60">
+                      Inside Dhaka City:
+                      <span className="font-semibold">BDT 60.00</span>
+                    </Label>
+                  </div>
+
+                  {/* Outside Dhaka City - 100৳ */}
+                  <div className="flex items-center space-x-2  p-2 rounded-sm">
+                    <RadioGroupItem value="100" id="insideDhaka100" />
+                    <Label htmlFor="insideDhaka100">
+                      Outside Dhaka City:
+                      <span className="font-semibold">BDT 100.00</span>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
               <Separator />
               <div className="flex justify-between items-center mb-2">
                 <p className="text-gray-600 font-semibold">Total</p>
                 <p className="text-lg font-semibold">
-                  {formateMoney(Number(totalAmount.toFixed(0)))}
+                  {formateMoney(
+                    Number((totalAmount + shippingCost).toFixed(0))
+                  )}
                 </p>
               </div>
               <div className="flex space-x-4 mt-4">
-            
-                  <Button
-                    className={cn("w-full uppercase")}
-                    // onClick={handleGotoCheckout}
-                  >
-                    G0 to Checkout
-                  </Button>
-          
-            
+                <Button className={cn("w-full uppercase")}>
+                  Go to Checkout
+                </Button>
               </div>
             </div>
           </div>
@@ -338,10 +274,3 @@ const ShoppingCart = () => {
 };
 
 export default ShoppingCart;
-
-
-
-
-
-
-
