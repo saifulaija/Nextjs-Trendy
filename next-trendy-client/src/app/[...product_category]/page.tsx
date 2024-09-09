@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import React from "react";
 // import TagBlogs from "../../blogs/components/TagBlogs";
 export const metadata: Metadata = {
-  title: "Category Product  | Trendy ",
+  title: "SubCategory  | Trendy ",
   description: "An Trendy built with Next.js,  Shadcn ui",
 };
 type TParams = {

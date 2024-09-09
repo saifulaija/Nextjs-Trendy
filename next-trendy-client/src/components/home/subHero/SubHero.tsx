@@ -1,3 +1,4 @@
+import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -32,7 +33,8 @@ const collectionData = [
 
 const SubHero = () => {
   return (
-    <div className="w-full">
+    <div className="w-full mt-5">
+      <CustomHeader title="Product Categories"/>
       <div className="mt-8  mb-4 px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {collectionData?.map((collection, index) => (
           <Link
