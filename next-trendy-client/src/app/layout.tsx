@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-import { Roboto as FontSans } from "next/font/google";
+import { Poppins as FontSans } from "next/font/google";
 
 import { ThemeProvider } from "next-themes";
 import { ToastContainer } from "./nexttoast";

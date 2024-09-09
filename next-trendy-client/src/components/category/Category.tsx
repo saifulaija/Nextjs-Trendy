@@ -1,5 +1,4 @@
-
-'use client'
+"use client";
 import { useGetAllProductsQuery } from "@/redux/api/features/product/productApi";
 import { useDebounced } from "@/redux/hooks";
 import {
@@ -12,32 +11,30 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
 import { TProduct } from "@/types/product.type";
-import ProductCard from "../shared/productCard/ProductCard";
-import { NoData } from "../shared/noData/NoData";
-import ProductCategoryCard from "../shared/productCard/CategoryProductCard";
-import CustomLoader from "../shared/customLoader/CustomLoader";
+import CustomLoader from "@/components/shared/customLoader/CustomLoader";
+import CategoryCard from "@/components/shared/productCard/CategoryCard";
+import { NoData } from "@/components/shared/noData/NoData";
 
-const CategoryProducts = ({
+
+const Category = ({
   category,
-  subCategory,
-  searchTerm
+  searchTerm,
 }: {
   category: string;
-  subCategory:string;
   searchTerm: string;
 }) => {
+  const query: Record<string, any> = {};
+  const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
+  query["category"] = category;
 
-      const query: Record<string, any> = {};
-      const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
-      query["subCategory"] = subCategory;
+  if (debounceTerm) {
+    query["searchTerm"] = debounceTerm;
+  }
 
-      if (debounceTerm) {
-        query["searchTerm"] = debounceTerm;
-      }
+  const { data, isLoading } = useGetAllProductsQuery({ ...query });
+  console.log(data, "category");
+  console.log(category, "category");
 
-      const { data, isLoading } = useGetAllProductsQuery({ ...query });
-      console.log(data,'category');
-      
   return (
     <div className="w-full">
       <Breadcrumb>
@@ -55,15 +52,13 @@ const CategoryProducts = ({
             <Slash />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbPage>
-              <BreadcrumbLink href={`/product/category/${category}`}>{category}</BreadcrumbLink>
-            </BreadcrumbPage>
+            <BreadcrumbPage>category</BreadcrumbPage>
           </BreadcrumbItem>
           <BreadcrumbSeparator>
             <Slash />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbPage>{subCategory}</BreadcrumbPage>
+            <BreadcrumbPage>{category}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -86,7 +81,7 @@ const CategoryProducts = ({
             ) : (data?.Products?.length ?? 0) > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 {data?.Products?.map((product: TProduct) => (
-                  <ProductCategoryCard product={product} key={product._id} />
+                  <CategoryCard product={product} key={product._id} />
                 ))}
               </div>
             ) : (
@@ -99,4 +94,4 @@ const CategoryProducts = ({
   );
 };
 
-export default CategoryProducts;
+export default Category;

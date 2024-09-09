@@ -14,45 +14,9 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { accessories, kids, man, women } from "@/utils/items";
+import { accessories, kids,  men,  women } from "@/utils/items";
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-];
+
 
 export function HeaderItems() {
   return (
@@ -62,12 +26,12 @@ export function HeaderItems() {
           <NavigationMenuTrigger
             className={cn("font-semibold text-gray-500 hover:text-gray-600")}
           >
-            MAN
+            MAN'S
           </NavigationMenuTrigger>
 
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {man.map((item) => (
+              {men.map((item) => (
                 <ListItem
                   key={item.label}
                   title={item.label}
@@ -88,7 +52,7 @@ export function HeaderItems() {
           <NavigationMenuTrigger
             className={cn("font-semibold text-gray-500 hover:text-gray-600")}
           >
-            WOMEN
+            WOMEN'S
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
@@ -102,7 +66,7 @@ export function HeaderItems() {
                   )}
                 >
                   <span className="group-hover:text-white transition-colors duration-300">
-                    {" "}
+                  
                     {item.description}
                   </span>
                 </ListItem>
@@ -114,7 +78,7 @@ export function HeaderItems() {
           <NavigationMenuTrigger
             className={cn("font-semibold text-gray-500 hover:text-gray-600")}
           >
-            KId
+            KId'S
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
