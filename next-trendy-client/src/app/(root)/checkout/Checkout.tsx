@@ -85,7 +85,7 @@ const Checkout = () => {
               <h1 className="font-semibold text-2xl  text-center -mt-2">
                 An overview of your orders
               </h1>
-              <Separator className="mb-4" />
+              <Separator className="my-2" />
               <Table className="overflow-x-auto overflow-y-auto">
                 <TableHeader>
                   <TableRow>
@@ -194,9 +194,9 @@ const Checkout = () => {
             {/* Order Details and Checkout Form Section */}
             <div className="flex flex-col md:flex-row gap-6 md:gap-10 justify-center -mt-6">
               <div className="w-full md:w-1/2 p-6 bg-gray-100 shadow-lg border-2 border-primary rounded-[5px]">
-                <h2 className="font-bold text-xl mb-4">Your Order</h2>
+                <h2 className="font-bold text-xl mb-2 uppercase">Your Order</h2>
 
-                <Separator className="mb-4" />
+                <Separator className="mb-2  bg-primary p-[2px] rounded-[5px]" />
 
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-gray-500">Subtotal</p>
@@ -226,7 +226,7 @@ const Checkout = () => {
                   </p>
                 </div>
 
-                <Separator className="my-4" />
+                <Separator className="mb-2" />
 
                 <div className="flex flex-col">
                   <p className="text-gray-600 font-semibold mb-2">
@@ -250,8 +250,10 @@ const Checkout = () => {
               </div>
 
               <div className="w-full md:w-1/2 p-6 bg-gray-100 rounded-[5px] shadow-lg border-2 border-primary">
-                <h2 className="font-bold text-xl">Billing & Shipping</h2>
-                <Separator className="mb-4" />
+                <h2 className="font-bold text-xl uppercase">
+                  Billing & Shipping
+                </h2>
+                <Separator className="mb-2 mt-2 bg-primary p-[2px] rounded-[5px]" />
                 <CheckoutForm paymentMethod={paymentMethod} />
               </div>
             </div>
