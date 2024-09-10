@@ -20,14 +20,32 @@ import GlobalSearch from "../globalSearch/GlobalSearch";
 import { TextAlignCenterIcon } from "@radix-ui/react-icons";
 import { Separator } from "@radix-ui/react-separator";
 import AuthButton from "../authButton/AuthButton";
-import { items } from "@/utils/items";
+
 import { HeaderItems } from "../header/HeaderItem";
 import assets from "@/app/assets";
 import Footer from "../footer/Footer";
 import { useAppSelector } from "@/redux/hooks";
 import { Badge } from "@/components/ui/badge";
 import { CommandMenu } from "../NewHeader/command-menu";
-
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { headerItems } from "@/utils/headerItems";
+import {
+  Atom,
+  Bird,
+  BookOpen,
+  Bot,
+  Code2,
+  History,
+  Rabbit,
+  Settings2,
+  SquareTerminal,
+  Star,
+  Turtle,
+} from "lucide-react";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -40,12 +58,138 @@ interface SideMenuItem {
   show?: boolean; // Optional property to control visibility
 }
 
+const data = {
+  navMain: [
+    {
+      title: "Man's",
+      url: "/product/category/men",
+      icon: assets.images.man,
+      isActive: true,
+      items: [
+        {
+          title: "Man Boots",
+          url: "product-category/men/men-boot",
+          icon: History,
+          description: "View your recent prompts",
+        },
+        {
+          title: "Man Sandals",
+          url: "product-category/men/men-sandal",
+          icon: Star,
+          description: "Browse your starred prompts",
+        },
+        {
+          title: "Man Loafers",
+          url: "product-category/men/men-loafer",
+          icon: Settings2,
+          description: "Configure your playground",
+        },
+        {
+          title: "Man Casuals",
+          url: "product-category/men/men-casual",
+          icon: Settings2,
+          description: "Configure your playground",
+        },
+        {
+          title: "Man Sports",
+          url: "product-category/men/men-sport",
+          icon: Settings2,
+          description: "Configure your playground",
+        },
+        {
+          title: "Man Formals",
+          url: "product-category/men/men-formal",
+          icon: Settings2,
+          description: "Configure your playground",
+        },
+      ],
+    },
+    {
+      title: "Women's",
+      url: "/product/category/women",
+      icon: assets.images.women,
+      items: [
+        {
+          title: "Women Heels",
+          url: "product-category/women/women-hell",
+          icon: Rabbit,
+          description: "Our fastest model for general use cases.",
+        },
+        {
+          title: "Women Flats",
+          url: "product-category/women/women-flat",
+          icon: Bird,
+          description: "Performance and speed for efficiency.",
+        },
+        {
+          title: "Women Sandals",
+          url: "product-category/women/women-sandal",
+          icon: Turtle,
+          description: "The most powerful model for complex computations.",
+        },
+        {
+          title: "Women Casuals",
+          url: "product-category/women/women-casual",
+          icon: Turtle,
+          description: "The most powerful model for complex computations.",
+        },
+        {
+          title: "Women Formals",
+          url: "product-category/women/women-formal",
+          icon: Turtle,
+          description: "The most powerful model for complex computations.",
+        },
+        {
+          title: "Women Sports",
+          url: "product-category/women/women-sport",
+          icon: Turtle,
+          description: "The most powerful model for complex computations.",
+        },
+      ],
+    },
+    {
+      title: "Kid's",
+      url: "/product/category/kids",
+      icon: assets.images.kids,
+      items: [
+        {
+          title: "Kid Sneakers",
+          url: "product-category/kids/kids-sneaker",
+        },
+        {
+          title: "Kid Sandals",
+          url: "product-category/kids/kids-sandal",
+        },
+        {
+          title: "Kid Sports",
+          url: "product-category/kids/kids-sport",
+        },
+      ],
+    },
+    {
+      title: "Accessories",
+      url: "/product/category/accessories",
+      icon: assets.images.accessories,
+      items: [
+        {
+          title: "Man Accessories",
+          url: "product-category/accessories/men-accessories",
+        },
+        {
+          title: "Women Accessories",
+          url: "product-category/accessories/women-accessories",
+        },
+      ],
+    },
+  ],
+};
+
 export function CategoryDashboard({ children }: { children: React.ReactNode }) {
   const user = getUserInfo();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [xOffset, setXOffset] = useState<number>(0);
-    const product = useAppSelector((state) => state.cart);
+  const product = useAppSelector((state) => state.cart);
 
   const headerMenu: HeaderMenuItem[] = [
     { title: "Bookmark", path: `/blogs/bookmarks`, icon: BookMarkedIcon },
@@ -68,7 +212,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
         <div className="flex flex-grow">
           {/* Sidebar for larger devices */}
           <div className="hidden md:block border-r">
-            <div className="flex flex-col h-full w-[280px] bg-white">
+            <div className="flex flex-col h-full w-[280px] ">
               <div className="flex h-20 items-center border-b py-4 px-4 lg:h-[80px] lg:px-6">
                 <motion.div
                   className="hidden md:flex"
@@ -94,44 +238,64 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex-1 overflow-y-auto">
                 <nav className="px-2 text-md font-medium lg:px-4 overflow-y-auto">
-                  <div className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
-                    <SearchCheck className="h-4 w-4" />
-                    Find by Category
-                  </div>
-                  <Separator />
-                  {items.map((item) =>
-                    item.key ? (
-                      <React.Fragment key={item.key}>
-                        <p>{item.label}</p>
-                        <Separator />
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.key}
-                            href={`/product-category/${item.key}/${child.key}`}
-                            className={cn(
-                              "flex items-center justify-between gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                              pathname === child.key &&
-                                "text-primary bg-primary border-r-4 border-r-primary"
-                            )}
-                          >
-                            <div className="flex items-center gap-3 capitalize">
+                  <p className="my-4">Filter Products</p>
+                  <Separator className={cn("bg-red-200")} />
+                  <ul className={cn("grid gap-0.5")}>
+                    {data?.navMain?.map((item) => (
+                      <Collapsible
+                        key={item.title}
+                        asChild
+                        defaultOpen={item.isActive}
+                      >
+                        <li>
+                          <div className="relative flex items-center">
+                            <Link
+                              href={item.url}
+                              className="min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                            >
+                              {/* <item.icon className="h-4 w-4 shrink-0" /> */}
                               <Image
-                                src={child.image}
-                                alt={child.label}
-                                width={24}
-                                height={24}
-                                className="rounded"
+                                src={item.icon}
+                                className="h-6 w-6 shrink-0"
+                                alt="image"
                               />
-                              {child.key}
-                            </div>
-                            <ChevronRight />
-                          </Link>
-                        ))}
-                      </React.Fragment>
-                    ) : null
-                  )}
+                              <div className="flex flex-1 overflow-hidden">
+                                <div className="line-clamp-1 pr-6">
+                                  {item.title}
+                                </div>
+                              </div>
+                            </Link>
+                            <CollapsibleTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                              >
+                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                <span className="sr-only">Toggle</span>
+                              </Button>
+                            </CollapsibleTrigger>
+                          </div>
+                          <CollapsibleContent className="px-4 py-0.5">
+                            <ul className="grid border-l px-2">
+                              {item.items?.map((subItem) => (
+                                <li key={subItem.title}>
+                                  <Link
+                                    href={subItem.url}
+                                    className="min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                                  >
+                                    <div className="line-clamp-1">
+                                      {subItem.title}
+                                    </div>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </CollapsibleContent>
+                        </li>
+                      </Collapsible>
+                    ))}
+                  </ul>
                 </nav>
-                <Separator />
               </div>
             </div>
           </div>
@@ -159,61 +323,62 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                   className="flex flex-col overflow-y-auto max-h-full"
                 >
                   <nav className="grid gap-2 text-lg font-medium">
-                    <div className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
-                      <SearchCheck className="h-4 w-4" />
-                      Find by Category
-                    </div>
-                    <Separator />
-                    <GlobalSearch placeholder="Search products......." />
-            
-                    {items.map((item) =>
-                      item.key ? (
-                        <React.Fragment key={item.key}>
-                          <p>{item.label}</p>
-                          <Separator />
-                          {item.children.map((child) => (
-                            <Link
-                              key={child.key}
-                              href={`/product/category/${child.key}`}
-                              className={cn(
-                                "flex items-center justify-between gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                                pathname === child.key &&
-                                  "text-primary bg-muted border-r-4 border-r-primary"
-                              )}
-                            >
-                              <div className="flex items-center gap-3 capitalize">
+                    <ul className={cn("grid gap-0.5")}>
+                      {data?.navMain?.map((item) => (
+                        <Collapsible
+                          key={item.title}
+                          asChild
+                          defaultOpen={item.isActive}
+                        >
+                          <li>
+                            <div className="relative flex items-center">
+                              <Link
+                                href={item.url}
+                                className="min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                              >
+                                {/* <item.icon className="h-4 w-4 shrink-0" /> */}
                                 <Image
-                                  src={child.image}
-                                  alt={child.label}
-                                  width={24}
-                                  height={24}
-                                  className="rounded"
+                                  src={item.icon}
+                                  className="h-6 w-6 shrink-0"
+                                  alt="image"
                                 />
-                                {child.key}
-                              </div>
-                              <ChevronRight />
-                            </Link>
-                          ))}
-                        </React.Fragment>
-                      ) : null
-                    )}
+                                <div className="flex flex-1 overflow-hidden">
+                                  <div className="line-clamp-1 pr-6">
+                                    {item.title}
+                                  </div>
+                                </div>
+                              </Link>
+                              <CollapsibleTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                                >
+                                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                  <span className="sr-only">Toggle</span>
+                                </Button>
+                              </CollapsibleTrigger>
+                            </div>
+                            <CollapsibleContent className="px-4 py-0.5">
+                              <ul className="grid border-l px-2">
+                                {item.items?.map((subItem) => (
+                                  <li key={subItem.title}>
+                                    <Link
+                                      href={subItem.url}
+                                      className="min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                                    >
+                                      <div className="line-clamp-1">
+                                        {subItem.title}
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </CollapsibleContent>
+                          </li>
+                        </Collapsible>
+                      ))}
+                    </ul>
                   </nav>
-                  <div className="mt-auto">
-                    {headerMenu.map((item, index) => (
-                      <Link
-                        key={index}
-                        href={item.path}
-                        className={cn(
-                          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                          pathname === item.path &&
-                            "text-primary bg-muted border-r-4 border-r-primary"
-                        )}
-                      >
-                        <item.icon className="h-5 w-5" />
-                        {item.title}
-                      </Link>
-                    ))}
-                  </div>
                 </SheetContent>
               </Sheet>
 
@@ -253,7 +418,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                 <div className="">
                   {" "}
                   {/* <GlobalSearch placeholder="Search products......." /> */}
-                  <CommandMenu/>
+                  <CommandMenu />
                 </div>
                 <Button
                   variant="outline"

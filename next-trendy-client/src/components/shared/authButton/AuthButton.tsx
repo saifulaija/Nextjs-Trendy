@@ -1,7 +1,8 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { LogOut, User } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ChevronRight, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -29,6 +30,8 @@ const AuthButton = () => {
             <User className="font-semibold" />
           </Link>
         </Button>
+
+        
       )}
     </div>
   );

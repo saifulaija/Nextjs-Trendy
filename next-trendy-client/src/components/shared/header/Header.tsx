@@ -17,7 +17,7 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import assets from "@/app/assets";
-import { items } from "@/utils/items";
+import { data, items } from "@/utils/items";
 import { HeaderItems } from "./HeaderItem";
 import { Separator } from "@/components/ui/separator";
 import GlobalSearch from "../globalSearch/GlobalSearch";
@@ -29,6 +29,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TextAlignCenterIcon } from "@radix-ui/react-icons";
 import { getTotals } from "@/redux/api/features/product/cartSlice";
 import { CommandMenu } from "../NewHeader/command-menu";
+import { AppSidebar } from "@/components/shadcn/AppSidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -86,40 +88,61 @@ const Header = () => {
                 className="flex flex-col overflow-y-auto max-h-full"
               >
                 <nav className="grid gap-2 text-lg font-medium">
-                  <div className="p-4">
-                    <GlobalSearch placeholder="Search products......." />
-                  </div>
-                  {items.map((item) =>
-                    item.key ? (
-                      <React.Fragment key={item.key}>
-                        <p>{item.label}</p>
-                        <Separator />
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.key}
-                            href={`/product/category/${child.key}`}
-                            className={cn(
-                              "flex items-center justify-between gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                              pathname === item.key &&
-                                "text-primary bg-muted border-r-4 border-r-primary"
-                            )}
-                          >
-                            <div className="flex items-center gap-3 capitalize">
+                  <ul className={cn("grid gap-0.5")}>
+                    {data?.navMain?.map((item) => (
+                      <Collapsible
+                        key={item.title}
+                        asChild
+                        defaultOpen={item.isActive}
+                      >
+                        <li>
+                          <div className="relative flex items-center">
+                            <Link
+                              href={item.url}
+                              className="min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                            >
+                              {/* <item.icon className="h-4 w-4 shrink-0" /> */}
                               <Image
-                                src={child.image}
-                                alt={child.label}
-                                width={24}
-                                height={24}
-                                className="rounded"
+                                src={item.icon}
+                                className="h-6 w-6 shrink-0"
+                                alt="image"
                               />
-                              {child.key}
-                            </div>
-                            <ChevronRight />
-                          </Link>
-                        ))}
-                      </React.Fragment>
-                    ) : null
-                  )}
+                              <div className="flex flex-1 overflow-hidden">
+                                <div className="line-clamp-1 pr-6">
+                                  {item.title}
+                                </div>
+                              </div>
+                            </Link>
+                            <CollapsibleTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                              >
+                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                <span className="sr-only">Toggle</span>
+                              </Button>
+                            </CollapsibleTrigger>
+                          </div>
+                          <CollapsibleContent className="px-4 py-0.5">
+                            <ul className="grid border-l px-2">
+                              {item.items?.map((subItem) => (
+                                <li key={subItem.title}>
+                                  <Link
+                                    href={subItem.url}
+                                    className="min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                                  >
+                                    <div className="line-clamp-1">
+                                      {subItem.title}
+                                    </div>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </CollapsibleContent>
+                        </li>
+                      </Collapsible>
+                    ))}
+                  </ul>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -162,7 +185,7 @@ const Header = () => {
           <div className="flex items-center gap-4">
             <div className="hidden md:block flex-1 max-w-lg">
               {/* <GlobalSearch placeholder="Search products......." /> */}
-              <CommandMenu/>
+              <CommandMenu />
             </div>
             <Button
               variant="outline"
