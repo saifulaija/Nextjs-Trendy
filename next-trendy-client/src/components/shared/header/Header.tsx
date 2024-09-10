@@ -28,6 +28,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TextAlignCenterIcon } from "@radix-ui/react-icons";
 import { getTotals } from "@/redux/api/features/product/cartSlice";
+import { CommandMenu } from "../NewHeader/command-menu";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -160,7 +161,8 @@ const Header = () => {
           </nav>
           <div className="flex items-center gap-4">
             <div className="hidden md:block flex-1 max-w-lg">
-              <GlobalSearch placeholder="Search products......." />
+              {/* <GlobalSearch placeholder="Search products......." /> */}
+              <CommandMenu/>
             </div>
             <Button
               variant="outline"

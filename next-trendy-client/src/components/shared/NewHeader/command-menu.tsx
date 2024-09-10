@@ -1,28 +1,41 @@
+
+
+
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { type DialogProps } from "@radix-ui/react-dialog";
+import { useGetAllProductsQuery } from "@/redux/api/features/product/productApi";
 import {
-  CircleIcon,
-  FileIcon,
-  LaptopIcon,
-  MoonIcon,
-  SunIcon,
-} from "@radix-ui/react-icons";
-import { useTheme } from "next-themes";
-
-import { docsConfig } from "@/config/docs";
-import { cn } from "@/lib/utils";
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
+import { cn } from "@/lib/utils";
+type Product = {
+  name: string;
+  category: string;
+  subCategory: string;
+  variant: { variant: { color: string }[] }[];
+  tag?: string[];
+};
 
-
+type ProductsResponse = {
+  Products: Product[];
+};
 
 export function CommandMenu({ ...props }: DialogProps) {
+  const { data, isLoading } = useGetAllProductsQuery({});
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [open, setOpen] = React.useState(false);
-  const { setTheme } = useTheme();
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -50,6 +63,67 @@ export function CommandMenu({ ...props }: DialogProps) {
     command();
   }, []);
 
+  // Utility function to get unique values
+  const getUniqueValues = <T, K extends keyof T>(
+    arr: T[],
+    key: K
+  ): string[] => {
+    // Extract values for the specified key
+    const values = arr
+      .map((item) => {
+        const value = item[key];
+        if (Array.isArray(value)) {
+          return value.map((v) => String(v)); // Convert array elements to strings
+        }
+        return value !== undefined ? String(value) : ""; // Convert single value to string or handle undefined
+      })
+      .flat(); // Flatten the array
+
+    // Filter out any empty strings (if needed)
+    return [...new Set(values.filter((value) => value.trim() !== ""))];
+  };
+
+  // Get unique product colors from variant
+  const getUniqueColors = (products: Product[]): string[] => {
+    const colors = products.flatMap((product) =>
+      product.variant.flatMap((variant) => variant.variant.map((v) => v.color))
+    );
+    return [...new Set(colors.filter((color) => color !== undefined))];
+  };
+
+  // Get unique tags from products
+  const getUniqueTags = (products: Product[]): string[] => {
+    const tags = products.flatMap((product) =>
+      product.tag ? product.tag : []
+    );
+    return [...new Set(tags.filter((tag) => tag !== undefined))];
+  };
+
+  // Function to handle live typing (updating URL without navigation)
+  const updateQueryInURL = (term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("q", term);
+    } else {
+      params.delete("q");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  // Handle typing input for live search
+  const handleInputChange = (term: string) => {
+    setSearchTerm(term);
+    updateQueryInURL(term); // Update URL without navigation
+  };
+
+  // Handle the enter key press or clicking suggestion (trigger actual navigation)
+  const handleSearchSubmit = () => {
+    if (searchTerm) {
+      router.push(`/product?q=${encodeURIComponent(searchTerm)}`);
+      setOpen(false); // Close search dialog after submission
+    }
+  };
+
   return (
     <>
       <Button
@@ -60,64 +134,108 @@ export function CommandMenu({ ...props }: DialogProps) {
         onClick={() => setOpen(true)}
         {...props}
       >
-        <span className="hidden lg:inline-flex">Search documentation...</span>
+        <span className="hidden lg:inline-flex">Search products...</span>
         <span className="inline-flex lg:hidden">Search...</span>
         <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput
+          placeholder="Type a command or search..."
+          value={searchTerm}
+          onValueChange={(term) => handleInputChange(term)} // Handle typing without navigation
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearchSubmit(); // Trigger search on Enter key press
+            }
+          }}
+        />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Links">
-            {docsConfig.mainNav
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
+          <CommandEmpty>No products found.</CommandEmpty>
+
+          {/* Group by Unique Product Names */}
+          <CommandGroup heading="Product Names">
+            {!isLoading &&
+              getUniqueValues(data?.Products ?? [], "name").map((name) => (
                 <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
+                  key={name}
                   onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string));
+                    setSearchTerm(name);
+                    handleSearchSubmit(); // Navigate to /product?q=name
                   }}
                 >
-                  <FileIcon className="mr-2 h-4 w-4" />
-                  {navItem.title}
+                  <span className="font-semibold">{name}</span>
                 </CommandItem>
               ))}
           </CommandGroup>
-          {docsConfig.sidebarNav.map((group) => (
-            <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem) => (
+
+          {/* Group by Unique Categories */}
+          <CommandGroup heading="Categories">
+            {!isLoading &&
+              getUniqueValues(data?.Products ?? [], "category").map(
+                (category) => (
+                  <CommandItem
+                    key={category}
+                    onSelect={() => {
+                      setSearchTerm(category);
+                      handleSearchSubmit(); // Navigate to /product?q=category
+                    }}
+                  >
+                    <span className="font-semibold">{category}</span>
+                  </CommandItem>
+                )
+              )}
+          </CommandGroup>
+
+          {/* Group by Unique SubCategories */}
+          <CommandGroup heading="SubCategories">
+            {!isLoading &&
+              getUniqueValues(data?.Products ?? [], "subCategory").map(
+                (subCategory) => (
+                  <CommandItem
+                    key={subCategory}
+                    onSelect={() => {
+                      setSearchTerm(subCategory);
+                      handleSearchSubmit(); // Navigate to /product?q=subCategory
+                    }}
+                  >
+                    <span className="font-semibold">{subCategory}</span>
+                  </CommandItem>
+                )
+              )}
+          </CommandGroup>
+
+          {/* Group by Unique Colors from Variants */}
+          <CommandGroup heading="Colors">
+            {!isLoading &&
+              getUniqueColors(data?.Products ?? []).map((color) => (
                 <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
+                  key={color}
                   onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string));
+                    setSearchTerm(color);
+                    handleSearchSubmit(); // Navigate to /product?q=color
                   }}
                 >
-                  <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                    <CircleIcon className="h-3 w-3" />
-                  </div>
-                  {navItem.title}
+                  <span className="font-semibold">{color}</span>
                 </CommandItem>
               ))}
-            </CommandGroup>
-          ))}
-          <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
-              <SunIcon className="mr-2 h-4 w-4" />
-              Light
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
-              <MoonIcon className="mr-2 h-4 w-4" />
-              Dark
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
-              <LaptopIcon className="mr-2 h-4 w-4" />
-              System
-            </CommandItem>
+          </CommandGroup>
+
+          {/* Group by Unique Tags */}
+          <CommandGroup heading="Tags">
+            {!isLoading &&
+              getUniqueTags(data?.Products ?? []).map((tag) => (
+                <CommandItem
+                  key={tag}
+                  onSelect={() => {
+                    setSearchTerm(tag);
+                    handleSearchSubmit(); // Navigate to /product?q=tag
+                  }}
+                >
+                  <span className="font-semibold">{tag}</span>
+                </CommandItem>
+              ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

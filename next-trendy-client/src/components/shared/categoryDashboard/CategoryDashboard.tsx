@@ -26,6 +26,7 @@ import assets from "@/app/assets";
 import Footer from "../footer/Footer";
 import { useAppSelector } from "@/redux/hooks";
 import { Badge } from "@/components/ui/badge";
+import { CommandMenu } from "../NewHeader/command-menu";
 
 interface HeaderMenuItem {
   title: string;
@@ -164,6 +165,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                     </div>
                     <Separator />
                     <GlobalSearch placeholder="Search products......." />
+            
                     {items.map((item) =>
                       item.key ? (
                         <React.Fragment key={item.key}>
@@ -248,9 +250,10 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                 <HeaderItems />
               </nav>
               <div className="flex items-center gap-2">
-                <div className="hidden sm:block">
+                <div className="">
                   {" "}
-                  <GlobalSearch placeholder="Search products......." />
+                  {/* <GlobalSearch placeholder="Search products......." /> */}
+                  <CommandMenu/>
                 </div>
                 <Button
                   variant="outline"
