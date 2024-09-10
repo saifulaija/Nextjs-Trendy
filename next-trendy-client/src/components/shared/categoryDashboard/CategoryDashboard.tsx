@@ -80,8 +80,8 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                       <Image
                         src={assets.images.logo}
                         alt="logo"
-                        width={100}
-                        height={100}
+                        width={60}
+                        height={60}
                         className="rounded"
                       />
                     </Link>
@@ -227,8 +227,8 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                     <Image
                       src={assets.images.logo}
                       alt="logo"
-                      width={100}
-                      height={100}
+                      width={60}
+                      height={60}
                       className="rounded"
                     />
                   </Link>

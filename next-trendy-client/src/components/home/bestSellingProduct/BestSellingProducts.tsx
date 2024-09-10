@@ -16,7 +16,7 @@ const BestSellingProducts = () => {
 
   return (
     <div className="container mx-auto">
-        <CustomHeader title="Best Selling Product"/>
+      <CustomHeader title="Best Selling Product" />
       <div className="flex justify-center items-center mt-5">
         <BestSellingCarousel />
       </div>
@@ -25,11 +25,11 @@ const BestSellingProducts = () => {
         <Button
           asChild
           className={cn(
-            "group bg-white border-2 border-red-600 text-primary duration-300 ease-in-out transition-all hover:text-white"
+            "group bg-white border-2 border-red-600 hover:bg-red-600 hover:border-red-600 text-primary hover:text-white transition-colors duration-300 ease-in-out focus:ring-4 focus:ring-red-300 focus:outline-none"
           )}
         >
           <Link href="/shop">
-            <span className="flex items-center">
+            <span className="flex items-center space-x-2">
               <span className="font-semibold tracking-wide uppercase">
                 Shop All
               </span>
