@@ -42,6 +42,7 @@ export type TProduct = {
   _id: string;
   name: string;
   price: number;
+  description:string;
   discount?: number;
   variant?: Array<{
     _id: string;

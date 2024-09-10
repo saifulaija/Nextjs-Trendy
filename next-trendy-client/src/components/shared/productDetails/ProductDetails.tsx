@@ -25,6 +25,7 @@ import { VariantItem } from "@/types/varient.type";
 import { useAppDispatch } from "@/redux/hooks";
 import { addToCart, getTotals } from "@/redux/api/features/product/cartSlice";
 import { resolve } from "path";
+import ProductTabs from "./ProductTabs";
 
 const ProductDetails = () => {
     const [loading, setLoading] = useState(false);
@@ -330,6 +331,8 @@ const ProductDetails = () => {
             </div>
           </Card>
         </div>
+        {/* //product tabs here */}
+        <ProductTabs product={product}/>
       </div>
     </div>
   );

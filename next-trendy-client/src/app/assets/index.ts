@@ -23,6 +23,7 @@ const assets = {
     kid_sneakers: require("./images/kid-sneakrs.png"),
     kid_sandal: require("./images/kid-sandal.png"),
     kid_sport: require("./images/kid-sport.png"),
+    trendy_chart: require("./images/trendy-chart.jpg"),
    
   },
 };
