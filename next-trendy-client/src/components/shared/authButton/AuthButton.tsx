@@ -25,7 +25,7 @@ const AuthButton = () => {
           variant="outline"
           className="hover:bg-primary text-gray-400 hover:text-white px-2 py-1 rounded-[5px]  bg-white hover:border-primary  duration-300 ease-in-out transition-all  hover:transition-all hover:duration-200"
         >
-          <Link href="/signin" className="flex items-center font-semibold">
+          <Link href="/account/login" className="flex items-center font-semibold">
             <User className="font-semibold" />
           </Link>
         </Button>

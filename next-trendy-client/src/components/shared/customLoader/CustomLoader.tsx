@@ -1,9 +1,9 @@
-import React from "react";
+import { Loader2 } from "lucide-react";
 
 const CustomLoader = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-primary"></div>
+      <Loader2 strokeWidth={1} className="w-8 h-8 animate-spin text-primary" />
     </div>
   );
 };
