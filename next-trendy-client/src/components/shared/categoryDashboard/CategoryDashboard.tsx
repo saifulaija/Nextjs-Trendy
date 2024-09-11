@@ -2,7 +2,6 @@
 import Link from "next/link";
 import {
   ChevronRight,
-  SearchCheck,
   BookMarkedIcon,
   Tag,
   ShoppingBagIcon,
@@ -16,7 +15,6 @@ import { usePathname } from "next/navigation";
 import { getUserInfo } from "@/services/authServices";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import GlobalSearch from "../globalSearch/GlobalSearch";
 import { TextAlignCenterIcon } from "@radix-ui/react-icons";
 import { Separator } from "@radix-ui/react-separator";
 import AuthButton from "../authButton/AuthButton";
@@ -32,20 +30,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { headerItems } from "@/utils/headerItems";
-import {
-  Atom,
-  Bird,
-  BookOpen,
-  Bot,
-  Code2,
-  History,
-  Rabbit,
-  Settings2,
-  SquareTerminal,
-  Star,
-  Turtle,
-} from "lucide-react";
+import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -241,59 +226,85 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                   <p className="my-4">Filter Products</p>
                   <Separator className={cn("bg-red-200")} />
                   <ul className={cn("grid gap-0.5")}>
-                    {data?.navMain?.map((item) => (
-                      <Collapsible
-                        key={item.title}
-                        asChild
-                        defaultOpen={item.isActive}
-                      >
-                        <li>
-                          <div className="relative flex items-center">
-                            <Link
-                              href={item.url}
-                              className="min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
-                            >
-                              {/* <item.icon className="h-4 w-4 shrink-0" /> */}
-                              <Image
-                                src={item.icon}
-                                className="h-6 w-6 shrink-0"
-                                alt="image"
-                              />
-                              <div className="flex flex-1 overflow-hidden">
-                                <div className="line-clamp-1 pr-6">
-                                  {item.title}
-                                </div>
-                              </div>
-                            </Link>
-                            <CollapsibleTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                    {data?.navMain?.map((item) => {
+                      const isActive = pathname.startsWith(item.url); // Use pathname inside the map function
+
+                      return (
+                        <Collapsible
+                          key={item.title}
+                          asChild
+                          defaultOpen={isActive}
+                        >
+                          <li>
+                            <div className="relative flex items-center">
+                              <Link
+                                href={item.url}
+                                className={cn(
+                                  "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                  isActive
+                                    ? "bg-primary text-white"
+                                    : "hover:bg-accent hover:text-accent-foreground"
+                                )}
                               >
-                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                                <span className="sr-only">Toggle</span>
-                              </Button>
-                            </CollapsibleTrigger>
-                          </div>
-                          <CollapsibleContent className="px-4 py-0.5">
-                            <ul className="grid border-l px-2">
-                              {item.items?.map((subItem) => (
-                                <li key={subItem.title}>
-                                  <Link
-                                    href={subItem.url}
-                                    className="min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
-                                  >
-                                    <div className="line-clamp-1">
-                                      {subItem.title}
-                                    </div>
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </CollapsibleContent>
-                        </li>
-                      </Collapsible>
-                    ))}
+                                {/* <item.icon className="h-4 w-4 shrink-0" /> */}
+                                <Image
+                                  src={item.icon}
+                                  className="h-6 w-6 shrink-0"
+                                  alt={item.title}
+                                />
+                                <div className="flex flex-1 overflow-hidden">
+                                  <div className="line-clamp-1 pr-6">
+                                    {item.title}
+                                  </div>
+                                </div>
+                              </Link>
+                              <CollapsibleTrigger
+                                asChild
+                                className={cn(
+                                  isActive
+                                    ? "text-white bg-primary border-primary hover:bg-primary/80"
+                                    : ""
+                                )}
+                              >
+                                <Button
+                                  variant="ghost"
+                                  className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                                >
+                                  <ChevronRight
+                                    className={cn(
+                                      "h-4 w-4 text-muted-foreground",
+                                      isActive ? "text-white" : ""
+                                    )}
+                                  />
+                                  <span className="sr-only">Toggle</span>
+                                </Button>
+                              </CollapsibleTrigger>
+                            </div>
+                            <CollapsibleContent className="px-4 py-0.5">
+                              <ul className="grid border-l px-2">
+                                {item.items?.map((subItem) => (
+                                  <li key={subItem.title}>
+                                    <Link
+                                      href={subItem.url}
+                                      className={cn(
+                                        "min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all",
+                                        pathname.startsWith(subItem.url)
+                                          ? "bg-primary text-white"
+                                          : "hover:bg-accent hover:text-accent-foreground"
+                                      )}
+                                    >
+                                      <div className="line-clamp-1">
+                                        {subItem.title}
+                                      </div>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </CollapsibleContent>
+                          </li>
+                        </Collapsible>
+                      );
+                    })}
                   </ul>
                 </nav>
               </div>
@@ -324,59 +335,85 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                 >
                   <nav className="grid gap-2 text-lg font-medium">
                     <ul className={cn("grid gap-0.5")}>
-                      {data?.navMain?.map((item) => (
-                        <Collapsible
-                          key={item.title}
-                          asChild
-                          defaultOpen={item.isActive}
-                        >
-                          <li>
-                            <div className="relative flex items-center">
-                              <Link
-                                href={item.url}
-                                className="min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
-                              >
-                                {/* <item.icon className="h-4 w-4 shrink-0" /> */}
-                                <Image
-                                  src={item.icon}
-                                  className="h-6 w-6 shrink-0"
-                                  alt="image"
-                                />
-                                <div className="flex flex-1 overflow-hidden">
-                                  <div className="line-clamp-1 pr-6">
-                                    {item.title}
-                                  </div>
-                                </div>
-                              </Link>
-                              <CollapsibleTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                      {data?.navMain?.map((item) => {
+                        const isActive = pathname.startsWith(item.url); // Use pathname inside the map function
+
+                        return (
+                          <Collapsible
+                            key={item.title}
+                            asChild
+                            defaultOpen={isActive}
+                          >
+                            <li>
+                              <div className="relative flex items-center">
+                                <Link
+                                  href={item.url}
+                                  className={cn(
+                                    "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                    isActive
+                                      ? "bg-primary text-white"
+                                      : "hover:bg-accent hover:text-accent-foreground"
+                                  )}
                                 >
-                                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                                  <span className="sr-only">Toggle</span>
-                                </Button>
-                              </CollapsibleTrigger>
-                            </div>
-                            <CollapsibleContent className="px-4 py-0.5">
-                              <ul className="grid border-l px-2">
-                                {item.items?.map((subItem) => (
-                                  <li key={subItem.title}>
-                                    <Link
-                                      href={subItem.url}
-                                      className="min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
-                                    >
-                                      <div className="line-clamp-1">
-                                        {subItem.title}
-                                      </div>
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </CollapsibleContent>
-                          </li>
-                        </Collapsible>
-                      ))}
+                                  {/* <item.icon className="h-4 w-4 shrink-0" /> */}
+                                  <Image
+                                    src={item.icon}
+                                    className="h-6 w-6 shrink-0"
+                                    alt={item.title}
+                                  />
+                                  <div className="flex flex-1 overflow-hidden">
+                                    <div className="line-clamp-1 pr-6">
+                                      {item.title}
+                                    </div>
+                                  </div>
+                                </Link>
+                                <CollapsibleTrigger
+                                  asChild
+                                  className={cn(
+                                    isActive
+                                      ? "text-white bg-primary border-primary hover:bg-primary/80"
+                                      : ""
+                                  )}
+                                >
+                                  <Button
+                                    variant="ghost"
+                                    className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+                                  >
+                                    <ChevronRight
+                                      className={cn(
+                                        "h-4 w-4 text-muted-foreground",
+                                        isActive ? "text-white" : ""
+                                      )}
+                                    />
+                                    <span className="sr-only">Toggle</span>
+                                  </Button>
+                                </CollapsibleTrigger>
+                              </div>
+                              <CollapsibleContent className="px-4 py-0.5">
+                                <ul className="grid border-l px-2">
+                                  {item.items?.map((subItem) => (
+                                    <li key={subItem.title}>
+                                      <Link
+                                        href={subItem.url}
+                                        className={cn(
+                                          "min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all",
+                                          pathname.startsWith(subItem.url)
+                                            ? "bg-primary text-white"
+                                            : "hover:bg-accent hover:text-accent-foreground"
+                                        )}
+                                      >
+                                        <div className="line-clamp-1">
+                                          {subItem.title}
+                                        </div>
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </CollapsibleContent>
+                            </li>
+                          </Collapsible>
+                        );
+                      })}
                     </ul>
                   </nav>
                 </SheetContent>
