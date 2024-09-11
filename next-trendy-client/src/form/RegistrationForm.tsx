@@ -1,5 +1,3 @@
-
-
 "use client";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -21,59 +19,58 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { userRegistration } from "@/services/actions/userRegistration";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 // Zod schema for form validation
 const formSchema = z.object({
-  firstName: z.string().min(3, { message: "Enter your first name" }),
-  lastName: z.string().min(3, { message: "Enter your last name" }),
-  email: z.string().email({ message: "Please enter a valid email" }),
+  name: z.string().min(3, { message: "Enter your first name" }),
+  email: z.string().min(3, { message: "Enter your last name" }),
+
   phone: z.string().regex(/^(\+88)?\d{11}$/, {
     message: "Please enter a valid phone number with 11 digits",
   }), // Phone number validation with +88
-  password: z
-    .string()
-    .min(6, { message: "Enter a valid password with at least 6 characters" }),
 });
 
 const RegisterForm = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       phone: "+88", // Initialize with +88 for Bangladeshi numbers
-      password: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+
     setIsLoading(true);
     try {
-      // Handle form submission
-      // For example, send data to your backend
-      // const response = await axios.post("/api/register", values);
+      const res = await userRegistration(values);
+      console.log(res);
+      
 
-      // Show success message
-      toast.success("User registered successfully", {
-        position: "bottom-left",
-      });
-
-      // Redirect to another page if needed
-      router.push("/account/login");
-    } catch (err) {
-      toast.error(err?.message || "An error occurred", {
-        position: "bottom-left",
-      });
+      if (res?.data) {
+        toast.success("user created successfully");
+        router.push("/account/login");
+      } else {
+        setError(res?.message || "An unexpected error occurred.");
+      }
+    } catch (err: any) {
+      setError(err?.message || "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handlePhoneChange = (e) => {
+  const handlePhoneChange = (e: any) => {
     // Ensure the phone number always starts with +88
     const inputValue = e.target.value;
     if (inputValue.startsWith("+88")) {
@@ -90,9 +87,16 @@ const RegisterForm = () => {
         className="w-full max-w-5xl mx-auto"
       >
         <div className="w-full space-y-4">
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <FormField
             control={form.control}
-            name="firstName"
+            name="name"
             render={({ field }) => (
               <FormItem className="w-full leading-3">
                 <FormLabel
@@ -151,49 +155,6 @@ const RegisterForm = () => {
                     value={field.value}
                     onChange={handlePhoneChange} // Handle phone input changes
                     placeholder="Phone Number"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="w-full leading-3">
-                <FormLabel
-                  className={cn("font-semibold text-[16px] text-gray-500")}
-                >
-                  Password
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    className={cn("font-semibold rounded-[3px]")}
-                    placeholder="Enter password....."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="w-full leading-3">
-                <FormLabel
-                  className={cn("font-semibold text-[16px] text-gray-500")}
-                >
-                  Confirm Password
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput
-                    className={cn("font-semibold rounded-[3px]")}
-                    placeholder="Enter confirm password......"
-                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

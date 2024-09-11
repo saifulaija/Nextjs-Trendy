@@ -18,6 +18,13 @@ app.use(cookieParser());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 // app.use(
 //   cors({
+//     origin: 'http://localhost:3000',
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true,
+//   }),
+// );
+// app.use(
+//   cors({
 //     origin: ['https://trendys.vercel.app', 'http://localhost:5173'],
 //     credentials: true,
 //   }),
