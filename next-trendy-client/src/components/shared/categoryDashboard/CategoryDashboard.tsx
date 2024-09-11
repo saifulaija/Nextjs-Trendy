@@ -227,60 +227,73 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                   <Separator className={cn("bg-red-200")} />
                   <ul className={cn("grid gap-0.5")}>
                     {data?.navMain?.map((item) => {
-                      const isActive = pathname.startsWith(item.url); // Use pathname inside the map function
+                      const isActive = pathname.startsWith(item.url);
+                      const [isOpen, setIsOpen] = useState(isActive);
 
                       return (
-                        <Collapsible
-                          key={item.title}
-                          asChild
-                          defaultOpen={isActive}
-                        >
-                          <li>
-                            <div className="relative flex items-center">
-                              <Link
-                                href={item.url}
-                                className={cn(
-                                  "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
-                                  isActive
-                                    ? "bg-primary text-white"
-                                    : "hover:bg-accent hover:text-accent-foreground"
-                                )}
-                              >
-                                {/* <item.icon className="h-4 w-4 shrink-0" /> */}
-                                <Image
-                                  src={item.icon}
-                                  className="h-6 w-6 shrink-0"
-                                  alt={item.title}
-                                />
-                                <div className="flex flex-1 overflow-hidden">
-                                  <div className="line-clamp-1 pr-6">
-                                    {item.title}
-                                  </div>
+                        <li key={item.title}>
+                          <div className="relative flex items-center">
+                            <Link
+                              href={item.url}
+                              className={cn(
+                                "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                isActive
+                                  ? "bg-primary text-white"
+                                  : "hover:bg-accent hover:text-accent-foreground"
+                              )}
+                            >
+                              <Image
+                                src={item.icon}
+                                className="h-6 w-6 shrink-0"
+                                alt={item.title}
+                              />
+                              <div className="flex flex-1 overflow-hidden">
+                                <div className="line-clamp-1 pr-6">
+                                  {item.title}
                                 </div>
-                              </Link>
-                              <CollapsibleTrigger
-                                asChild
-                                className={cn(
-                                  isActive
-                                    ? "text-white bg-primary border-primary hover:bg-primary/80"
-                                    : ""
-                                )}
+                              </div>
+                            </Link>
+                            <button
+                              className={cn(
+                                "absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90",
+                                isActive
+                                  ? "text-white bg-primary border-primary hover:bg-primary/80"
+                                  : ""
+                              )}
+                              onClick={() => setIsOpen(!isOpen)}
+                            >
+                              <motion.div
+                                animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
+                                transition={{ duration: 0.2 }}
                               >
-                                <Button
-                                  variant="ghost"
-                                  className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
-                                >
-                                  <ChevronRight
-                                    className={cn(
-                                      "h-4 w-4 text-muted-foreground",
-                                      isActive ? "text-white" : ""
-                                    )}
-                                  />
-                                  <span className="sr-only">Toggle</span>
-                                </Button>
-                              </CollapsibleTrigger>
-                            </div>
-                            <CollapsibleContent className="px-4 py-0.5">
+                                <ChevronRight
+                                  className={cn(
+                                    "h-4 w-4",
+                                    isActive
+                                      ? "text-white"
+                                      : "text-muted-foreground"
+                                  )}
+                                />
+                              </motion.div>
+                              <span className="sr-only">Toggle</span>
+                            </button>
+                          </div>
+
+                          {/* Collapsible content */}
+                          <motion.div
+                            layout // Automatically animates height
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{
+                              opacity: isOpen ? 1 : 0,
+                              height: isOpen ? "auto" : 0,
+                            }}
+                            transition={{
+                              duration: 0.4,
+                              ease: [0.25, 0.8, 0.25, 1],
+                            }} // Smooth easing for animations
+                            className="overflow-hidden"
+                          >
+                            <div className="px-4 py-0.5">
                               <ul className="grid border-l px-2">
                                 {item.items?.map((subItem) => (
                                   <li key={subItem.title}>
@@ -300,9 +313,9 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                                   </li>
                                 ))}
                               </ul>
-                            </CollapsibleContent>
-                          </li>
-                        </Collapsible>
+                            </div>
+                          </motion.div>
+                        </li>
                       );
                     })}
                   </ul>
@@ -336,60 +349,73 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                   <nav className="grid gap-2 text-lg font-medium">
                     <ul className={cn("grid gap-0.5")}>
                       {data?.navMain?.map((item) => {
-                        const isActive = pathname.startsWith(item.url); // Use pathname inside the map function
+                        const isActive = pathname.startsWith(item.url);
+                        const [isOpen, setIsOpen] = useState(isActive);
 
                         return (
-                          <Collapsible
-                            key={item.title}
-                            asChild
-                            defaultOpen={isActive}
-                          >
-                            <li>
-                              <div className="relative flex items-center">
-                                <Link
-                                  href={item.url}
-                                  className={cn(
-                                    "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
-                                    isActive
-                                      ? "bg-primary text-white"
-                                      : "hover:bg-accent hover:text-accent-foreground"
-                                  )}
-                                >
-                                  {/* <item.icon className="h-4 w-4 shrink-0" /> */}
-                                  <Image
-                                    src={item.icon}
-                                    className="h-6 w-6 shrink-0"
-                                    alt={item.title}
-                                  />
-                                  <div className="flex flex-1 overflow-hidden">
-                                    <div className="line-clamp-1 pr-6">
-                                      {item.title}
-                                    </div>
+                          <li key={item.title}>
+                            <div className="relative flex items-center">
+                              <Link
+                                href={item.url}
+                                className={cn(
+                                  "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                  isActive
+                                    ? "bg-primary text-white"
+                                    : "hover:bg-accent hover:text-accent-foreground"
+                                )}
+                              >
+                                <Image
+                                  src={item.icon}
+                                  className="h-6 w-6 shrink-0"
+                                  alt={item.title}
+                                />
+                                <div className="flex flex-1 overflow-hidden">
+                                  <div className="line-clamp-1 pr-6">
+                                    {item.title}
                                   </div>
-                                </Link>
-                                <CollapsibleTrigger
-                                  asChild
-                                  className={cn(
-                                    isActive
-                                      ? "text-white bg-primary border-primary hover:bg-primary/80"
-                                      : ""
-                                  )}
+                                </div>
+                              </Link>
+                              <button
+                                className={cn(
+                                  "absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90",
+                                  isActive
+                                    ? "text-white bg-primary border-primary hover:bg-primary/80"
+                                    : ""
+                                )}
+                                onClick={() => setIsOpen(!isOpen)}
+                              >
+                                <motion.div
+                                  animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
+                                  transition={{ duration: 0.2 }}
                                 >
-                                  <Button
-                                    variant="ghost"
-                                    className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
-                                  >
-                                    <ChevronRight
-                                      className={cn(
-                                        "h-4 w-4 text-muted-foreground",
-                                        isActive ? "text-white" : ""
-                                      )}
-                                    />
-                                    <span className="sr-only">Toggle</span>
-                                  </Button>
-                                </CollapsibleTrigger>
-                              </div>
-                              <CollapsibleContent className="px-4 py-0.5">
+                                  <ChevronRight
+                                    className={cn(
+                                      "h-4 w-4",
+                                      isActive
+                                        ? "text-white"
+                                        : "text-muted-foreground"
+                                    )}
+                                  />
+                                </motion.div>
+                                <span className="sr-only">Toggle</span>
+                              </button>
+                            </div>
+
+                            {/* Collapsible content */}
+                            <motion.div
+                              layout // Automatically animates height
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{
+                                opacity: isOpen ? 1 : 0,
+                                height: isOpen ? "auto" : 0,
+                              }}
+                              transition={{
+                                duration: 0.4,
+                                ease: [0.25, 0.8, 0.25, 1],
+                              }} // Smooth easing for animations
+                              className="overflow-hidden"
+                            >
+                              <div className="px-4 py-0.5">
                                 <ul className="grid border-l px-2">
                                   {item.items?.map((subItem) => (
                                     <li key={subItem.title}>
@@ -409,9 +435,9 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                                     </li>
                                   ))}
                                 </ul>
-                              </CollapsibleContent>
-                            </li>
-                          </Collapsible>
+                              </div>
+                            </motion.div>
+                          </li>
                         );
                       })}
                     </ul>
@@ -500,3 +526,5 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
     </>
   );
 }
+
+
