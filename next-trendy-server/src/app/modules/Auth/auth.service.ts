@@ -9,34 +9,73 @@ import { User } from '../User/user.model';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { sendEmailForPasswordChange } from '../../utils/sendEmailPasswordChange';
 
-const loginUser = async (payload: TLoginUser) => {
-  // checking if the user is exist
+// const loginUser = async (payload: TLoginUser) => {
+//   // checking if the user is exist
 
-  const user = await User.isUserExistsByEmail(payload.email);
+//   const user = await User.isUserExistsByPhone(payload.phone);
+
+//   if (!user) {
+//     throw new AppError(
+//       httpStatus.NOT_FOUND,
+//       'Phone number not matched please give correct phone',
+//     );
+//   }
+
+//   const isDeleted = user?.isDeleted;
+
+//   if (isDeleted) {
+//     throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+//   }
+
+//   const jwtPayload = {
+//     name?: user?.name,
+//     email?: user?.email,
+//     phone:user?.phone,
+
+//     role: user.role as string,
+//   };
+
+//   const accessToken = createToken(
+//     jwtPayload,
+//     config.jwt_access_secret as string,
+//     config.jwt_access_expires_in as string,
+//   );
+
+//   const refreshToken = createToken(
+//     jwtPayload,
+//     config.jwt_refresh_secret as string,
+//     config.jwt_refresh_expires_in as string,
+//   );
+
+//   return {
+//     accessToken,
+//     refreshToken,
+//   };
+// };
+
+const loginUser = async (payload: TLoginUser) => {
+  // checking if the user exists
+  const user = await User.isUserExistsByPhone(payload.phone);
 
   if (!user) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      'Email not matched please give correct email',
+      'Phone number not matched, please provide the correct phone number.',
     );
   }
-  // checking if the user is already deleted
-
-  //checking if the password is correct
-
-  if (!(await User.isPasswordMatched(payload?.password, user?.password)))
-    throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
   const isDeleted = user?.isDeleted;
 
   if (isDeleted) {
-    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted!');
   }
 
+  // Ensure that email and name are always strings by using a default value
   const jwtPayload = {
-    name: user?.name,
-    email: user?.email,
-
+    userId:user?._id,
+    name: user?.name || '', // default to an empty string if undefined
+    email: user?.email || '', // default to an empty string if undefined
+    phone: user?.phone, // phone is required, so no need for a default
     role: user.role as string,
   };
 
@@ -66,10 +105,10 @@ const refreshToken = async (token: string) => {
     config.jwt_refresh_secret as string,
   ) as JwtPayload;
 
-  const { email } = decoded;
+  const { phone } = decoded;
 
   // checking if the user is exist
-  const user = await User.isUserExistsByEmail(email);
+  const user = await User.isUserExistsByPhone(phone);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -82,9 +121,10 @@ const refreshToken = async (token: string) => {
   }
 
   const jwtPayload = {
-    name: user?.name,
-    email: user?.email,
-    role: user?.role as string,
+    name: user?.name || '', // default to an empty string if undefined
+    email: user?.email || '', // default to an empty string if undefined
+    phone: user?.phone, // phone is required, so no need for a default
+    role: user.role as string,
   };
 
   const accessToken = createToken(
@@ -98,9 +138,9 @@ const refreshToken = async (token: string) => {
   };
 };
 
-const forgetPassword = async (email: string) => {
+const forgetPassword = async (phone: string) => {
   // checking if the user is exist
-  const user = await User.isUserExistsByEmail(email);
+  const user = await User.isUserExistsByPhone(phone);
   // console.log(user, 'user');
 
   if (!user) {
@@ -116,9 +156,10 @@ const forgetPassword = async (email: string) => {
   // checking if the user is blocked
 
   const jwtPayload = {
-    userId: user._id ,
-    role: user.role,
-    email:user.email
+    name: user?.name || '', // default to an empty string if undefined
+    email: user?.email || '', // default to an empty string if undefined
+    phone: user?.phone, // phone is required, so no need for a default
+    role: user.role as string,
   };
 
   const resetToken = createToken(
