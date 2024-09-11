@@ -4,10 +4,10 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 type Role = keyof typeof roleBasedPrivateRoutes;
 const AuthRoutes = ["/account/login", "/account/register"];
-const commonPrivateRoutes = ["/dashboard", "/dashboard/change-password"];
+const commonPrivateRoutes = ["/dashboard"];
 const roleBasedPrivateRoutes = {
-  ADMIN: [/^\/dashboard\/admin/],
-  USER: [/^\/dashboard\/user/],
+  admin: [/^\/dashboard\/admin/],
+  user: [/^\/dashboard\/user/],
 };
 
 // This function can be marked `async` if using `await` inside
@@ -18,9 +18,11 @@ export function middleware(request: NextRequest) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/account/login", request.url));
     }
   }
+  console.log(pathname,accessToken);
+  
 
   if (accessToken && commonPrivateRoutes.includes(pathname)) {
     return NextResponse.next();

@@ -197,7 +197,7 @@ const RegisterForm = () => {
 
     try {
       const res = await userLogin(values);
-      console.log(res);
+      console.log(res.data.accessToken);
       
 
       if (res?.data?.accessToken) {

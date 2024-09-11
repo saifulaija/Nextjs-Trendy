@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 const setAccessToken = (token: string, options?: any) => {
   cookies().set(authKey, token);
 
-  if (options && options?.role === "SUBSCRIBER") {
+  if (options && options?.role === "user") {
     redirect("/");
   }
 

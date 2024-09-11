@@ -28,6 +28,7 @@ const assets = {
     women: require("./images/woman.png"),
     kids: require("./images/kid.png"),
     accessories: require("./images/accessories.png"),
+    login_user: require("./images/login-user.png"),
    
   },
 };
