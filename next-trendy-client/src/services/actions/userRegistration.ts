@@ -4,7 +4,7 @@ import { FieldValues } from "react-hook-form";
 
 export const userRegistration = async (data: FieldValues) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/user/create-user`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/create-user`,
     {
       method: "POST",
       headers: {

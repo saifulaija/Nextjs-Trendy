@@ -15,9 +15,7 @@
 // } from "@/components/ui/form";
 // import { Input } from "@/components/ui/input";
 
-
 // import { Checkbox } from "@/components/ui/checkbox";
-
 
 // import { useAppDispatch } from "@/redux/hooks";
 
@@ -26,7 +24,6 @@
 // import { PasswordInput } from "@/components/shared/PasswordInput/PasswordInput";
 // import { useState } from "react";
 // import { cn } from "@/lib/utils";
-
 
 // const formSchema = z.object({
 //   email: z.string().email({
@@ -39,11 +36,9 @@
 
 // const LoginForm = () => {
 //     const [isLoading, setIsLoading] = useState(false);
-    
+
 // //   const [login, { isLoading }] = useLoginMutation();
 // //   const navigate = useNavigate();
-
-
 
 //   const dispatch = useAppDispatch();
 
@@ -149,8 +144,6 @@
 
 // export default LoginForm;
 
-
-
 "use client";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -167,20 +160,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { PasswordInput } from "@/components/shared/PasswordInput/PasswordInput";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { userRegistration } from "@/services/actions/userRegistration";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-
+import { storeUserInfo } from "@/services/authServices";
+import { userLogin } from "@/services/actions/userLogin";
 // Zod schema for form validation
 const formSchema = z.object({
-  name: z.string().min(3, { message: "Enter your first name" }),
-  email: z.string().min(3, { message: "Enter your last name" }),
-
   phone: z.string().regex(/^(\+88)?\d{11}$/, {
     message: "Please enter a valid phone number with 11 digits",
   }), // Phone number validation with +88
@@ -195,20 +185,25 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "+88", // Initialize with +88 for Bangladeshi numbers
+      phone: "+88", 
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+    
     setIsLoading(true);
-    try {
-      const res = await userRegistration(values);
+    setError("");
 
-      if (res?.data) {
-        toast.success("user created successfully");
-        router.push("/account/login");
+    try {
+      const res = await userLogin(values);
+      console.log(res);
+      
+
+      if (res?.data?.accessToken) {
+        storeUserInfo({ accessToken: res?.data?.accessToken });
+        toast.success("user login successfully!");
+        router.refresh();
       } else {
         setError(res?.message || "An unexpected error occurred.");
       }
@@ -243,8 +238,6 @@ const RegisterForm = () => {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-      
-       
 
           <FormField
             control={form.control}
@@ -281,13 +274,11 @@ const RegisterForm = () => {
 
           <LoadingButton
             type="submit"
-            className="w-full font-semibold"
+            className="w-full font-semibold tracking-wider uppercase"
             loading={isLoading}
           >
             Login
           </LoadingButton>
-
-          
         </div>
       </form>
     </Form>
@@ -295,4 +286,3 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
-
