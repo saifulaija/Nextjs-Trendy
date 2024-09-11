@@ -68,37 +68,37 @@ const data = {
       items: [
         {
           title: "Man Boots",
-          url: "product-category/men/men-boot",
+          url: "/product/category/men/men-boot",
           icon: History,
           description: "View your recent prompts",
         },
         {
           title: "Man Sandals",
-          url: "product-category/men/men-sandal",
+          url: "/product/category/men/men-sandal",
           icon: Star,
           description: "Browse your starred prompts",
         },
         {
           title: "Man Loafers",
-          url: "product-category/men/men-loafer",
+          url: "/product/category/men/men-loafer",
           icon: Settings2,
           description: "Configure your playground",
         },
         {
           title: "Man Casuals",
-          url: "product-category/men/men-casual",
+          url: "/product/category/men/men-casual",
           icon: Settings2,
           description: "Configure your playground",
         },
         {
           title: "Man Sports",
-          url: "product-category/men/men-sport",
+          url: "/product/category/men/men-sport",
           icon: Settings2,
           description: "Configure your playground",
         },
         {
           title: "Man Formals",
-          url: "product-category/men/men-formal",
+          url: "/product/category/men/men-formal",
           icon: Settings2,
           description: "Configure your playground",
         },
@@ -111,37 +111,37 @@ const data = {
       items: [
         {
           title: "Women Heels",
-          url: "product-category/women/women-hell",
+          url: "/product/category/women/women-hell",
           icon: Rabbit,
           description: "Our fastest model for general use cases.",
         },
         {
           title: "Women Flats",
-          url: "product-category/women/women-flat",
+          url: "/product/category/women/women-flat",
           icon: Bird,
           description: "Performance and speed for efficiency.",
         },
         {
           title: "Women Sandals",
-          url: "product-category/women/women-sandal",
+          url: "/product/category/women/women-sandal",
           icon: Turtle,
           description: "The most powerful model for complex computations.",
         },
         {
           title: "Women Casuals",
-          url: "product-category/women/women-casual",
+          url: "/product/category/women/women-casual",
           icon: Turtle,
           description: "The most powerful model for complex computations.",
         },
         {
           title: "Women Formals",
-          url: "product-category/women/women-formal",
+          url: "/product/category/women/women-formal",
           icon: Turtle,
           description: "The most powerful model for complex computations.",
         },
         {
           title: "Women Sports",
-          url: "product-category/women/women-sport",
+          url: "/product/category/women/women-sport",
           icon: Turtle,
           description: "The most powerful model for complex computations.",
         },
@@ -154,15 +154,15 @@ const data = {
       items: [
         {
           title: "Kid Sneakers",
-          url: "product-category/kids/kids-sneaker",
+          url: "/product/category/kids/kids-sneaker",
         },
         {
           title: "Kid Sandals",
-          url: "product-category/kids/kids-sandal",
+          url: "/product/category/kids/kids-sandal",
         },
         {
           title: "Kid Sports",
-          url: "product-category/kids/kids-sport",
+          url: "/product/category/kids/kids-sport",
         },
       ],
     },
@@ -173,11 +173,11 @@ const data = {
       items: [
         {
           title: "Man Accessories",
-          url: "product-category/accessories/men-accessories",
+          url: "/product/category/accessories/men-accessories",
         },
         {
           title: "Women Accessories",
-          url: "product-category/accessories/women-accessories",
+          url: "/product/category/accessories/women-accessories",
         },
       ],
     },

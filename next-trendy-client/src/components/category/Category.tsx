@@ -15,25 +15,25 @@ import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 import CategoryCard from "@/components/shared/productCard/CategoryCard";
 import { NoData } from "@/components/shared/noData/NoData";
 
-
 const Category = ({
   category,
+  subCategory,
   searchTerm,
 }: {
   category: string;
+  subCategory?: string;
   searchTerm: string;
 }) => {
   const query: Record<string, any> = {};
   const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
   query["category"] = category;
+  query["subCategory"] = subCategory;
 
   if (debounceTerm) {
     query["searchTerm"] = debounceTerm;
   }
 
   const { data, isLoading } = useGetAllProductsQuery({ ...query });
-  console.log(data, "category");
-  console.log(category, "category");
 
   return (
     <div className="w-full">
@@ -60,6 +60,17 @@ const Category = ({
           <BreadcrumbItem>
             <BreadcrumbPage>{category}</BreadcrumbPage>
           </BreadcrumbItem>
+
+          {subCategory && (
+            <>
+              <BreadcrumbSeparator>
+                <Slash />
+              </BreadcrumbSeparator>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{subCategory}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </>
+          )}
         </BreadcrumbList>
       </Breadcrumb>
       <div className="wrapper">
