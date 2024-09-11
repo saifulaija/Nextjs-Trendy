@@ -49,13 +49,9 @@ const RegisterForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-
     setIsLoading(true);
     try {
       const res = await userRegistration(values);
-      console.log(res);
-      
 
       if (res?.data) {
         toast.success("user created successfully");

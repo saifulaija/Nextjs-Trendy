@@ -1,29 +1,5 @@
-// "use server";
-
 import { FieldValues } from "react-hook-form";
 
-// import { FieldValues } from "react-hook-form";
-
-// export const userRegistration = async (data: FieldValues) => {
-//   const res = await fetch(
-//     " http://localhost:5000/api/user/create-user",
-//     {
-//       method: "POST",
-//       headers: {
-//         "Content-type": "application/json",
-//       },
-//       body: JSON.stringify(data),
-//       cache: "no-store",
-//     }
-//   );
-
-//   const subscriberInfo = await res.json();
-//   if (!res.ok) {
-//     throw new Error(subscriberInfo.message || "An unexpected error occurred.");
-//   }
-
-//   return subscriberInfo;
-// };
 
 
 export const userRegistration = async (data: FieldValues) => {

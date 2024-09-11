@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 
 export const userLogin = async (data: FieldValues) => {
   const res = await fetch(
-    "http://localhost:5000/api/auth/login",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/user/create-user`,
     {
       method: "POST",
       headers: {
