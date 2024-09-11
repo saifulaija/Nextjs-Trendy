@@ -67,7 +67,7 @@ const AuthButton = () => {
   const router = useRouter();
   const handleLogout = () => {
     logoutUser(router);
-    toast.warning("user logout successfully");
+    toast.warning("user logout successfully",{position:"bottom-left"});
   };
 
   return (

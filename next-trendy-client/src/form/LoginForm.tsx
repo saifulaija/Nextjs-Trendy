@@ -202,7 +202,7 @@ const RegisterForm = () => {
 
       if (res?.data?.accessToken) {
         storeUserInfo({ accessToken: res?.data?.accessToken });
-        toast.success("user login successfully!");
+        toast.success("user login successfully!",{position:"bottom-left"});
         router.refresh();
       } else {
         setError(res?.message || "An unexpected error occurred.");
