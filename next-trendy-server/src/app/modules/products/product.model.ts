@@ -61,8 +61,8 @@ const productSchema = new Schema<TProduct>(
       type: Boolean,
       default: false,
     },
-    tag: {
-      type: String,
+    tags: {
+      type: [String],
     },
 
     material: {

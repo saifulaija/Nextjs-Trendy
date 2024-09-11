@@ -14,7 +14,7 @@ export type TProduct = {
   description: string;
   material: string;
   variant?: TVariant[];
-  tag?: string;
+  tags?: string[];
   productCode?: string;
   reviews?: TReviews[];
   sellsQuantity?: number;

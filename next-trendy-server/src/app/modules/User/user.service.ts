@@ -9,44 +9,36 @@ import { Order } from '../order/order.model';
 import { DashboardData } from './user.constant';
 
 const createUserIntoDB = async (payload: TUser) => {
-  // console.log({payload})
-  const isExistUser = await User.findOne({ email: payload.email });
-
-  if (isExistUser) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'This email already exists');
+  const isExistUserByPhone = await User.findOne({ phone: payload.phone });
+  if(isExistUserByPhone){
+    throw new AppError(httpStatus.BAD_REQUEST,'This phone number already registered')
   }
+
+
+if(payload?.email){
+
+  const isExistUserByEmail = await User.findOne({ email: payload.email });
+    if (isExistUserByEmail) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'This email already exists',
+      );
+    }
+}
 
   const result = await User.create(payload);
   return result;
 };
-const getAllUser = async()=>{
-  const result  =  await User.find()
-  return result;
-}
-
-
-const getMe = async (user: TUser) => {
-  // console.log(user)
-  const result = await User.findOne({ email: user?.email, role: user?.role });
-  // let result = null;
-  // if (role === 'student') {
-  //   result = await Student.findOne({ id: userId }).populate('user');
-  // }
-  // if (role === 'admin') {
-  //   result = await Admin.findOne({ id: userId }).populate('user');
-  // }
-
-  // if (role === 'faculty') {
-  //   result = await Faculty.findOne({ id: userId }).populate('user');
-  // }
-
+const getAllUser = async () => {
+  const result = await User.find();
   return result;
 };
 
+const getMe = async (user: TUser) => {
+  const result = await User.findOne({ email: user?.email, role: user?.role });
 
-
-
-
+  return result;
+};
 
 const getUserDashboardData = async (email: string): Promise<DashboardData> => {
   const orders = await Order.find({ buyerEmail: email });
@@ -56,7 +48,6 @@ const getUserDashboardData = async (email: string): Promise<DashboardData> => {
   let totalProductsCancelled = 0;
   let totalRewardsPoints = 0;
 
- 
   orders.forEach((order) => {
     if (order.deliveryStatus === 'delivered') {
       totalShoppingAmount += order.totalPrice;
@@ -76,27 +67,13 @@ const getUserDashboardData = async (email: string): Promise<DashboardData> => {
     }
   });
 
-
-
-
-
-
   return {
     totalShoppingAmount,
     totalProductsBought,
     totalProductsCancelled,
     totalRewardsPoints,
-
   };
 };
-
-
-
-
-
-
-
-
 
 export const UserServices = {
   createUserIntoDB,

@@ -26,6 +26,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addToCart, getTotals } from "@/redux/api/features/product/cartSlice";
 import { resolve } from "path";
 import ProductTabs from "./ProductTabs";
+import Link from "next/link";
 
 const ProductDetails = () => {
     const [loading, setLoading] = useState(false);
@@ -35,6 +36,8 @@ const ProductDetails = () => {
 
   const { data, isLoading } = useGetSingleProductQuery(id);
   const dispatch = useAppDispatch();
+  console.log(data);
+  
 
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -45,6 +48,8 @@ const ProductDetails = () => {
   }
 
   const product = data?.[0];
+  console.log(product);
+  
 
   const availableSizes = (product?.variant as VariantItem[]).filter(
     (sizeItem) => sizeItem.variant.some((colorItem) => colorItem.quantity > 0)
@@ -189,9 +194,17 @@ const ProductDetails = () => {
             <Separator />
             <div className="flex justify-between items-center px-10 py-1">
               <p className="text-gray-600 font-semibold text-md">Tag:</p>
-              <p className="text-end text-balance text-sm text-gray-500">
-                {product?.tag}
-              </p>
+              <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2 ">
+                {product?.tags?.map((item, index) => (
+                  <Link
+                    href={`/product/tag/${item}`}
+                    className={cn("hover:text-primary hover:underline")}
+                    key={index}
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
             </div>
             <Separator />
 
@@ -321,7 +334,6 @@ const ProductDetails = () => {
                       </>
                     ) : (
                       <>
-                     
                         <span className="uppercase">Add to Cart</span>
                       </>
                     )}
@@ -332,7 +344,7 @@ const ProductDetails = () => {
           </Card>
         </div>
         {/* //product tabs here */}
-        <ProductTabs product={product}/>
+        <ProductTabs product={product} />
       </div>
     </div>
   );
