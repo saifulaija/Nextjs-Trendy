@@ -539,7 +539,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
             <main className="flex-grow mt-16 p-6">{children}</main>
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );

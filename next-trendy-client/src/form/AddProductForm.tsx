@@ -73,25 +73,45 @@ const AddProductForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   console.log(values);
 
+  //   try {
+  //     const res = await createProduct({ ...values, tags });
+  //     console.log(res, "====================");
+
+  //     if (res?.data) {
+  //       toast.success("Product added successfully");
+  //       router.push("/account/login");
+  //     } else {
+  //       setError( "An unexpected error occurred.");
+  //     }
+  //   } catch (err: any) {
+  //     setError(err?.message || "An unexpected error occurred.");
+  //   }
+  // };
+
+  // Handle tag input change
+  
+  
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const res = await createProduct({ ...values, tags });
-      console.log(res, "====================");
 
       if (res?.data) {
         toast.success("Product added successfully");
-        router.push("/account/login");
+        router.push("/dashboard/admin/product_management/show_products");
       } else {
-        setError( "An unexpected error occurred.");
+        throw new Error("Failed to add product, please try again.");
       }
     } catch (err: any) {
       setError(err?.message || "An unexpected error occurred.");
     }
   };
 
-  // Handle tag input change
+  
+  
+  
   const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagInput(e.target.value);
   };

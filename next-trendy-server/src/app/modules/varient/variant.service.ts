@@ -3,22 +3,27 @@ import AppError from '../../errors/AppError';
 import { Product } from '../products/product.model';
 import { TVariant } from './variant.interface';
 import { Variant } from './variant.model';
+import mongoose from 'mongoose';
 
 const createVariant = async (payload: TVariant) => {
   try {
     const productId = payload.productId;
+    
 
     // Create the Variant
     const createdVariant = await Variant.create(payload);
 
+    console.log(createVariant,'======================');
+
     // Extract the _id of the created Variant
     const VariantId = createdVariant._id;
+    
 
     // Update the product with the _id of the created Variant
-    await Product.updateOne(
+    await Product.findByIdAndUpdate(
       { _id: productId },
       {
-        $push: { variant: { VariantId: VariantId.toString() } },
+        $push: { variant: { variantId: VariantId } },
       },
     );
 
@@ -29,6 +34,30 @@ const createVariant = async (payload: TVariant) => {
   }
 };
 
+// const createReview = async (payload: TVariant) => {
+//   try {
+//     const productId = payload.productId;
+
+//     // Create the review
+//     const createdReview = await Variant.create(payload);
+
+//     // Extract the _id of the created review
+//     const reviewId = createdReview._id;
+
+//     // Update the product with the _id of the created review
+//     await Product.updateOne(
+//       { _id: productId },
+//       {
+//         $push: { reviews: { reviewId: reviewId.toString() } },
+//       },
+//     );
+
+//     return createdReview;
+//   } catch (error) {
+//     console.error('Error creating review:', error);
+//     throw error;
+//   }
+// };
 const getAllVariants = async () => {
   const result = await Variant.find();
   return result;

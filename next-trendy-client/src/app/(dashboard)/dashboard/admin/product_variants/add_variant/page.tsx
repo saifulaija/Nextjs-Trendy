@@ -1,9 +1,8 @@
-
 "use client";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -21,16 +20,14 @@ import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 import MyDialog from "@/components/shadcn/MyDialog";
 import AddVariantForm from "@/form/AddVariantForm";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
 
-const ShowProducts = () => {
+const add_variant = () => {
   const router = useRouter();
   const { data, isLoading } = useGetAllProductsVariantQuery({});
 
   if (isLoading) return <CustomLoader />;
 
-  const handleDetails = (id: string) => {
-    router.push(`/product/details/${id}`);
-  };
 
   return (
     <div className="w-full py-10 px-4 md:p-10">
@@ -72,14 +69,14 @@ const ShowProducts = () => {
                         <TableCell className="text-right text-red-500">
                           {item.discount}
                         </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="">
                           <MyDialog
                             triggerButton={
                               <Button
                                 // onClick={() => handleDetails(item._id)}
                                 variant="ghost"
                               >
-                                <Edit size={18} />
+                                <Plus size={18} />
                               </Button>
                             }
                           >
@@ -99,6 +96,4 @@ const ShowProducts = () => {
   );
 };
 
-export default ShowProducts;
-
-
+export default add_variant;

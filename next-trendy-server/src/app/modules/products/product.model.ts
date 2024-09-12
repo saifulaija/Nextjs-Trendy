@@ -35,10 +35,7 @@ const productSchema = new Schema<TProduct>(
     },
     reviews: [reviewSchema],
     variant: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Variant',
-      },
+     variantSchema
     ],
     subCategory: {
       type: String,

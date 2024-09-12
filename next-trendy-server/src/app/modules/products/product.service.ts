@@ -46,7 +46,7 @@ const createProductIntoDB = async (
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(
-    Product.find({ isDeleted: false,published:true }).populate('variant'),
+    Product.find({ isDeleted: false }).populate('variant'),
     query,
   )
     .search(productSearchableFields)

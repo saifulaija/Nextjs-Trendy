@@ -1,51 +1,51 @@
 "use client";
 
 import { z } from "zod";
-
 import { useForm, useFieldArray } from "react-hook-form";
-
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-
-import { Loader } from "lucide-react";
 import { useState } from "react";
 import { uploadImage } from "@/utils/imgbb";
-import { cn } from "@/lib/utils";
 import { toast } from "react-toastify";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import LoadingButton from "@/components/shared/LoadingButton/LoadingButton";
+import { useCreateVariantMutation } from "@/redux/api/features/variant/variantApi";
 
 // Schema validation using Zod
 const formSchema = z.object({
   size: z.string().min(1, "Size is required"),
-  productId: z.string().min(1, "Product ID is required"),
-  variant: z
-    .array(
-      z.object({
-        color: z.string().min(1, "Color is required"),
-        quantity: z.preprocess(
-          (val) => Number(val),
-          z.number().min(1, { message: "Price cannot be less than 0" })
-        ),
-        image: z.any(),
-      })
-    )
-    .min(1, "At least one variant is required"),
+
+  variant: z.array(
+    z.object({
+      color: z.string().min(1, "Color is required"),
+      quantity: z.preprocess(
+        (val) => Number(val),
+        z.number().min(1, { message: "Quantity cannot be less than 1" })
+      ),
+      image: z.any(),
+    })
+  ),
 });
 
-const AddVariantForm = () => {
+const AddVariantForm = ({ productId }: { productId: string }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [createVariant, { isLoading }] = useCreateVariantMutation();
   const [error, setError] = useState("");
 
-
+  // Form initialization with zod schema
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       size: "",
-      productId: "",
       variant: [{ color: "", quantity: 1, image: null }],
     },
   });
@@ -56,33 +56,39 @@ const AddVariantForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
-    setError("");
+    // Debugging: Form submission trigger
+    console.log("Form submitted with values:", values);
 
-    // Uploading the image
+    // Uploading images
     const updatedVariants = await Promise.all(
       values.variant.map(async (variant) => {
-        if (variant.image && variant.image.length > 0) {
-          const url = await uploadImage(variant.image[0]);
-          return { ...variant, image: url };
+        try {
+          if (variant.image && variant.image.length > 0) {
+            const url = await uploadImage(variant.image[0]);
+            return { ...variant, image: url };
+          }
+        } catch (err) {
+          console.error("Image upload failed", err); // Debugging upload error
+          setError("Image upload failed");
         }
         return variant;
       })
     );
 
     try {
-      const updatedValues = { ...values, variant: updatedVariants };
-      console.log(updatedValues, "Form Submitted");
+      const updatedValues = { ...values, variant: updatedVariants, productId };
+      console.log("Submitting updated values:", updatedValues); // Debugging the payload
 
-      // You can replace this with your actual mutation or API call
-      toast.success('variant added successfully');
+      // Create variant API call
+      const res = await createVariant(updatedValues);
 
-      // Reset the form after submission
-      form.reset();
+      if (res.data) {
+        toast.success("Variant added successfully");
+        router.push("/dashboard/admin/product_variants/show_variants");
+      }
     } catch (err: any) {
+      console.error("Error creating variant", err); // Debugging mutation error
       setError(err?.message || "An unexpected error occurred.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -90,6 +96,7 @@ const AddVariantForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <div className="w-full space-y-4 md:px-4 py-6">
+          {/* Display error if exists */}
           {error && <p className="text-red-500">{error}</p>}
 
           {/* Size Field */}
@@ -101,21 +108,6 @@ const AddVariantForm = () => {
                 <FormLabel>Size</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter size" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Product ID Field */}
-          <FormField
-            control={form.control}
-            name="productId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Product ID</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter Product ID" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -190,18 +182,23 @@ const AddVariantForm = () => {
               </div>
             ))}
 
+            {/* Add Another Variant Button */}
             <Button
+              variant="outline"
               onClick={() => append({ color: "", quantity: 1, image: null })}
             >
               Add Another Variant
             </Button>
           </div>
 
-          {/* Submit Button */}
-          <Button type="submit" disabled={loading} className="w-full">
-            Create Now
-            {loading && <Loader className="ml-6 h-5 w-5 animate-spin" />}
-          </Button>
+          {/* Submit Button with loading state */}
+          <LoadingButton
+            type="submit"
+            className="w-full font-semibold tracking-wider uppercase"
+            loading={isLoading}
+          >
+            {isLoading ? "Submitting..." : "Create Variant"}
+          </LoadingButton>
         </div>
       </form>
     </Form>
