@@ -1,4 +1,3 @@
-
 import { USER_ROLE } from "@/constants/role";
 
 export type IMeta = {
@@ -30,7 +29,26 @@ export type IGenericErrorMessage = {
   message: string;
 };
 
-export const Gender = ["MALE", "FEMALE"];
+export const Category = ["men", "women", "kids", "accessories"];
+export const SubCategory = [
+  "men-casual",
+  "men-formal",
+  "men-sandal",
+  "men-sport",
+  "men-boot",
+  "men-loafer",
+  "women-hell",
+  "women-flat",
+  "women-casual",
+  "women-sandal",
+  "women-sport",
+  "women-formal",
+  "kids-sandal",
+  "kids-sneaker",
+  "kids-sport",
+  "men-accessories",
+  "women-accessories",
+];
 export const ApproveStatus = ["APPROVED", "CANCEL"];
 export const BlogCategory = [
   "programming",
@@ -89,4 +107,3 @@ export const Tags = [
   "dev",
   "ai",
 ];
-

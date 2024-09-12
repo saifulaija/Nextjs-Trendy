@@ -7,31 +7,42 @@ import { TVariant } from '../varient/variant.interface';
 import { Variant } from '../varient/variant.model';
 const createProductIntoDB = async (
   productPayload: TProduct,
-  variantPayload: TVariant,
+ 
 ) => {
   // Create the product in the database
   const result = await Product.create(productPayload);
 
-  if (result) {
-    // Prepare the variant data with the associated productId
-    const variantData = { ...variantPayload, productId: result._id };
-
-    // Create the variant in the database
-    const variant = await Variant.create(variantData);
-
-    if (variant) {
-      // Update the product to associate it with the newly created variant
-      await Product.updateOne(
-        { _id: result._id }, // Correctly use the product ID
-        {
-          $push: { variant: variant._id }, // Use the variant's ObjectId properly
-        },
-      );
-    }
-  }
+ 
 
   return result;
 };
+// const createProductIntoDB = async (
+//   productPayload: TProduct,
+//   variantPayload: TVariant,
+// ) => {
+//   // Create the product in the database
+//   const result = await Product.create(productPayload);
+
+//   if (result) {
+//     // Prepare the variant data with the associated productId
+//     const variantData = { ...variantPayload, productId: result._id };
+
+//     // Create the variant in the database
+//     const variant = await Variant.create(variantData);
+
+//     if (variant) {
+//       // Update the product to associate it with the newly created variant
+//       await Product.updateOne(
+//         { _id: result._id }, // Correctly use the product ID
+//         {
+//           $push: { variant: variant._id }, // Use the variant's ObjectId properly
+//         },
+//       );
+//     }
+//   }
+
+//   return result;
+// };
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(

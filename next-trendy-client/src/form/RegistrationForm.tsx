@@ -44,7 +44,7 @@ const RegisterForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      phone: "+88", // Initialize with +88 for Bangladeshi numbers
+      phone: "+88", 
     },
   });
 

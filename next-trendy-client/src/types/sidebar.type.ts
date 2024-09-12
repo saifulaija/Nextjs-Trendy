@@ -12,14 +12,13 @@ export const adminSidebarData = {
       items: [
         {
           title: "Show Users",
-          url: "/product/category/men/men-boot",
+          url: "/dashboard/admin/user_management/show_users",
           icon: History,
           description: "View your recent prompts",
         },
         {
-          title: "Track User",
-          url: "/product/category/men/men-sandal",
-
+          title: "Track Users",
+          url: "/dashboard/admin/user_management/track_users",
           icon: Star,
           description: "Browse your starred prompts",
         },
@@ -32,13 +31,13 @@ export const adminSidebarData = {
       items: [
         {
           title: "Add Product",
-          url: "/product/category/women/women-hell",
+          url: "/dashboard/admin/product_management/add_product",
           icon: Rabbit,
           description: "Our fastest model for general use cases.",
         },
         {
           title: "Show Products",
-          url: "/product/category/women/women-flat",
+          url: "/dashboard/admin/product_management/show_products",
           icon: Bird,
           description: "Performance and speed for efficiency.",
         },
@@ -51,11 +50,11 @@ export const adminSidebarData = {
       items: [
         {
           title: "Add Variant",
-          url: "/product/category/kids/kids-sneaker",
+          url: "/dashboard/admin/product_variants/add_variant",
         },
         {
           title: "Show Variants",
-          url: "/product/category/kids/kids-sneaker",
+          url: "/dashboard/admin/product_variants/show_variant",
         },
       ],
     },
@@ -66,11 +65,11 @@ export const adminSidebarData = {
       items: [
         {
           title: "Show Orders",
-          url: "/product/category/kids/kids-sneaker",
+          url: "/dashboard/admin/order_management/show_orders",
         },
         {
           title: "Track Orders",
-          url: "/product/category/kids/kids-sneaker",
+          url: "/dashboard/admin/order_management/track_orders",
         },
       ],
     },

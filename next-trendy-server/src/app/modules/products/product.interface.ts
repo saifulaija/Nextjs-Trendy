@@ -20,7 +20,5 @@ export type TProduct = {
   sellsQuantity?: number;
   subCategory: string;
   discount?: number;
-  selectedSize?: string;
-  selectedColor?: string;
   isDeleted?: boolean;
 };

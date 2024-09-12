@@ -23,7 +23,7 @@ const moduleRoutes = [
   },
 
   {
-    path: '/products',
+    path: '/product',
     route: ProductsRoutes,
   },
   {

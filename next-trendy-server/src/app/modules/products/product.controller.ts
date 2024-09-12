@@ -4,13 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import { ProductServices } from './product.service';
 
 const createProduct = catchAsync(async (req, res) => {
-  const { productPayload, variantPayload } = req.body;
-  console.log(productPayload, variantPayload);
-
-  const result = await ProductServices.createProductIntoDB(
-    productPayload,
-    variantPayload,
-  );
+  const result = await ProductServices.createProductIntoDB(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

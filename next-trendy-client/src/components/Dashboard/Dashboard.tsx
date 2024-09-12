@@ -94,10 +94,11 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                         return (
                           <li key={item.title}>
                             <div className="relative flex items-center">
-                              <Link
-                                href={item.url}
+                              <div
+                                // href={item.url}
+                                onClick={() => setIsOpen(!isOpen)}
                                 className={cn(
-                                  "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                  "min-w-8 flex h-8 flex-1 cursor-pointer items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
                                   isActive
                                     ? "bg-primary text-white"
                                     : "hover:bg-accent hover:text-accent-foreground"
@@ -113,7 +114,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     {item.title}
                                   </div>
                                 </div>
-                              </Link>
+                              </div>
                               <button
                                 className={cn(
                                   "absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90",
@@ -121,7 +122,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     ? "text-white bg-primary border-primary hover:bg-primary/80"
                                     : ""
                                 )}
-                                onClick={() => setIsOpen(!isOpen)}
+                                // onClick={() => setIsOpen(!isOpen)}
                               >
                                 <motion.div
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
@@ -189,8 +190,8 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                         return (
                           <li key={item.title}>
                             <div className="relative flex items-center">
-                              <Link
-                                href={item.url}
+                              <div
+                                onClick={() => setIsOpen(!isOpen)}
                                 className={cn(
                                   "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
                                   isActive
@@ -208,7 +209,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     {item.title}
                                   </div>
                                 </div>
-                              </Link>
+                              </div>
                               <button
                                 className={cn(
                                   "absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90",
@@ -216,7 +217,6 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     ? "text-white bg-primary border-primary hover:bg-primary/80"
                                     : ""
                                 )}
-                                onClick={() => setIsOpen(!isOpen)}
                               >
                                 <motion.div
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
@@ -312,10 +312,11 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                         return (
                           <li key={item.title}>
                             <div className="relative flex items-center">
-                              <Link
-                                href={item.url}
+                              <div
+                                // href={item.url}
+                                onClick={() => setIsOpen(!isOpen)}
                                 className={cn(
-                                  "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                  "min-w-8 flex h-8 flex-1 cursor-pointer items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
                                   isActive
                                     ? "bg-primary text-white"
                                     : "hover:bg-accent hover:text-accent-foreground"
@@ -331,7 +332,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     {item.title}
                                   </div>
                                 </div>
-                              </Link>
+                              </div>
                               <button
                                 className={cn(
                                   "absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90",
@@ -339,7 +340,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     ? "text-white bg-primary border-primary hover:bg-primary/80"
                                     : ""
                                 )}
-                                onClick={() => setIsOpen(!isOpen)}
+                                // onClick={() => setIsOpen(!isOpen)}
                               >
                                 <motion.div
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
@@ -407,8 +408,8 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                         return (
                           <li key={item.title}>
                             <div className="relative flex items-center">
-                              <Link
-                                href={item.url}
+                              <div
+                                onClick={() => setIsOpen(!isOpen)}
                                 className={cn(
                                   "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
                                   isActive
@@ -426,7 +427,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     {item.title}
                                   </div>
                                 </div>
-                              </Link>
+                              </div>
                               <button
                                 className={cn(
                                   "absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90",
@@ -434,7 +435,6 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     ? "text-white bg-primary border-primary hover:bg-primary/80"
                                     : ""
                                 )}
-                                onClick={() => setIsOpen(!isOpen)}
                               >
                                 <motion.div
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
@@ -529,12 +529,14 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
               <nav className="hidden lg:flex gap-6">
                 {/* <HeaderItems /> */}
 
-                <p className="font-semibold text-primary italic">Welcome To Trendy Dashboard</p>
+                <p className="font-semibold text-primary italic">
+                  Welcome To Trendy Dashboard
+                </p>
               </nav>
 
               <AuthButton />
             </header>
-            <main className="flex-grow mt-10 p-4 lg:p-6">{children}</main>
+            <main className="flex-grow mt-16 p-6">{children}</main>
           </div>
         </div>
         <Footer />
