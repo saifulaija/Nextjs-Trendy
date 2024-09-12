@@ -20,5 +20,6 @@ export type TProduct = {
   sellsQuantity?: number;
   subCategory: string;
   discount?: number;
+  published?: boolean;
   isDeleted?: boolean;
 };

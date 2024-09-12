@@ -4,7 +4,6 @@ import { baseApi } from "@/redux/api/baseApi";
 import { tagTypes } from "@/redux/tag-types";
 import { TProduct } from "@/types/product.type";
 
-
 const ProductsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createProduct: build.mutation({
@@ -22,7 +21,21 @@ const ProductsApi = baseApi.injectEndpoints({
 
     getAllProducts: build.query({
       query: (arg: Record<string, any>) => ({
-        url: "/products",
+        url: "/product",
+        method: "GET",
+        params: arg,
+      }),
+      transformResponse: (response: TProduct[], meta: IMeta) => {
+        return {
+          Products: response,
+          meta,
+        };
+      },
+      providesTags: [tagTypes.product],
+    }),
+    getAllProductsVariant: build.query({
+      query: (arg: Record<string, any>) => ({
+        url: "/product/variant",
         method: "GET",
         params: arg,
       }),
@@ -50,7 +63,7 @@ const ProductsApi = baseApi.injectEndpoints({
     }),
     getSingleProduct: build.query({
       query: (id) => ({
-        url: `/products/get-single-product/${id}`,
+        url: `/product/get-single-product/${id}`,
         method: "GET",
       }),
 
@@ -107,4 +120,5 @@ export const {
   useUpdateProductMutation,
   useGetSingleProductForModeratorQuery,
   useUpdateStatusApproveMutation,
+  useGetAllProductsVariantQuery
 } = ProductsApi;

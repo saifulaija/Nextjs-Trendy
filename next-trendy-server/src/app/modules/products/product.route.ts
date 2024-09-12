@@ -35,6 +35,11 @@ router.get(
 
   ProductControllers.getAllProducts,
 );
+router.get(
+  '/variant',
+
+  ProductControllers.getAllProductsForVariant,
+);
 
 router.get(
   '/category/:category',

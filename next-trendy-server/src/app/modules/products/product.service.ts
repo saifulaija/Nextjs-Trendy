@@ -46,6 +46,25 @@ const createProductIntoDB = async (
 
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(
+    Product.find({ isDeleted: false,published:true }).populate('variant'),
+    query,
+  )
+    .search(productSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await productQuery.modelQuery;
+  const meta = await productQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
+};
+const getAllProductsFromDBForVariant = async (query: Record<string, unknown>) => {
+  const productQuery = new QueryBuilder(
     Product.find({ isDeleted: false }).populate('variant'),
     query,
   )
@@ -169,4 +188,5 @@ export const ProductServices = {
   getSingleProductFromDB,
   getAllProductsByCategoryFromDB,
   deleteProductIntoDB,
+  getAllProductsFromDBForVariant,
 };

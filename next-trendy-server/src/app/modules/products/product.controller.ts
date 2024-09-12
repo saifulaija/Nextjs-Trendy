@@ -25,6 +25,17 @@ const getAllProducts = catchAsync(async (req, res) => {
     data: result.result,
   });
 });
+const getAllProductsForVariant = catchAsync(async (req, res) => {
+  const result = await ProductServices.getAllProductsFromDBForVariant(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'products are retrieved successfully',
+    meta: result.meta,
+    data: result.result,
+  });
+});
 
 const getSingleProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -70,4 +81,5 @@ export const ProductControllers = {
   getSingleProduct,
   getAllProductsByCategory,
   deleteProduct,
+  getAllProductsForVariant,
 };

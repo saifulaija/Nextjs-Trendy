@@ -61,6 +61,10 @@ const productSchema = new Schema<TProduct>(
       type: Boolean,
       default: false,
     },
+    published: {
+      type: Boolean,
+      default: false,
+    },
     tags: {
       type: [String],
     },
