@@ -279,6 +279,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                     </ul>
                   )}
                 </nav>
+                
               </div>
             </div>
           </div>

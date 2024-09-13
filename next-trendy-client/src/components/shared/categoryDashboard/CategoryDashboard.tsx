@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/collapsible";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
 import CustomHeader from "../customHeader/CustomHeader";
+import DashboardHeader from "../DashboardHeader/DashboardHeader";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -224,12 +225,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex-1 overflow-y-auto">
                 <nav className="px-2 text-md font-medium lg:px-4 overflow-y-auto">
-                  <div>
-                    <p className="my-4 text-primary uppercase">Explore by Category</p>
-                    
-                   
-                    <Separator className={cn("bg-primary")} />
-                  </div>
+                  <DashboardHeader title="Explore By Category" />
                   <ul className={cn("grid gap-0.5")}>
                     {data?.navMain?.map((item) => {
                       const isActive = pathname.startsWith(item.url);
@@ -273,7 +269,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                               >
                                 <ChevronRight
                                   className={cn(
-                                    "h-4 w-4",
+                                    "h-4 w-4 hover:text-white transition-all duration-300 hover:bg-primary hover:rounded-full",
                                     isActive
                                       ? "text-white"
                                       : "text-muted-foreground"
@@ -325,6 +321,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                     })}
                   </ul>
                 </nav>
+                <DashboardHeader title="Filter By SiZe" />
               </div>
             </div>
           </div>
@@ -352,6 +349,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                   className="flex flex-col overflow-y-auto max-h-full"
                 >
                   <nav className="grid gap-2 text-lg font-medium">
+                    <DashboardHeader title="Explore By Category" />
                     <ul className={cn("grid gap-0.5")}>
                       {data?.navMain?.map((item) => {
                         const isActive = pathname.startsWith(item.url);
@@ -395,7 +393,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                                 >
                                   <ChevronRight
                                     className={cn(
-                                      "h-4 w-4",
+                                      "h-4 w-4 hover:text-white transition-all duration-300 hover:bg-primary hover:rounded-full",
                                       isActive
                                         ? "text-white"
                                         : "text-muted-foreground"
@@ -446,6 +444,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                         );
                       })}
                     </ul>
+                    <DashboardHeader title="Filter By Size" />
                   </nav>
                 </SheetContent>
               </Sheet>
@@ -531,5 +530,3 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
     </>
   );
 }
-
-

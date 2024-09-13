@@ -11,41 +11,11 @@ const createProductIntoDB = async (productPayload: TProduct) => {
 
   return result;
 };
-// const createProductIntoDB = async (
-//   productPayload: TProduct,
-//   variantPayload: TVariant,
-// ) => {
-//   // Create the product in the database
-//   const result = await Product.create(productPayload);
 
-//   if (result) {
-//     // Prepare the variant data with the associated productId
-//     const variantData = { ...variantPayload, productId: result._id };
-
-//     // Create the variant in the database
-//     const variant = await Variant.create(variantData);
-
-//     if (variant) {
-//       // Update the product to associate it with the newly created variant
-//       await Product.updateOne(
-//         { _id: result._id }, // Correctly use the product ID
-//         {
-//           $push: { variant: variant._id }, // Use the variant's ObjectId properly
-//         },
-//       );
-//     }
-//   }
-
-//   return result;
-// };
 
 // const getAllProductsFromDB = async (query: Record<string, unknown>) => {
 //   const productQuery = new QueryBuilder(
-//     Product.find({ isDeleted: false }).populate({
-//       path: 'variant',
-
-//       populate: { path: 'variant' },
-//     }),
+//     Product.find({ isDeleted: false }).populate('variant'),
 //     query,
 //   )
 //     .search(productSearchableFields)
@@ -62,27 +32,36 @@ const createProductIntoDB = async (productPayload: TProduct) => {
 //     result,
 //   };
 // };
-
-
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-  const productQuery = new QueryBuilder(
-    Product.find({ isDeleted: false }).populate('variant'),
-    query,
-  )
+  // Start with the base query
+  let productQuery = Product.find({ isDeleted: false }).populate('variant');
+
+  // Check if there's a filter for variant fields
+  if (query.variant) {
+    const variantFilter = query.variant as Record<string, any>;
+
+    // Apply filter based on variant fields using elemMatch
+    productQuery = productQuery.where('variant').elemMatch(variantFilter);
+  }
+
+  // Use the QueryBuilder for search, filter, sort, paginate, and fields
+  const queryBuilder = new QueryBuilder(productQuery, query)
     .search(productSearchableFields)
     .filter()
     .sort()
     .paginate()
     .fields();
 
-  const result = await productQuery.modelQuery;
-  const meta = await productQuery.countTotal();
+  const result = await queryBuilder.modelQuery;
+  const meta = await queryBuilder.countTotal();
 
   return {
     meta,
     result,
   };
 };
+
+
 
 const getAllProductsFromDBForVariant = async (
   query: Record<string, unknown>,
