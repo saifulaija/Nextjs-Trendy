@@ -1,12 +1,7 @@
 import { Schema, model, Types } from 'mongoose';
-import { TProduct, TReviews, TVariant } from './product.interface';
+import { TProduct } from './product.interface';
 
-const reviewSchema = new Schema<TReviews>({
-  reviewId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Review',
-  },
-});
+
 
 
 const productSchema = new Schema<TProduct>(
@@ -27,7 +22,7 @@ const productSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
-    reviews: [reviewSchema],
+   
     variant: [
       {
         type: Schema.Types.ObjectId,
@@ -65,6 +60,15 @@ const productSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
+    totalReviews:{
+      type:Number,
+      default:0
+    },
+    averageRating:{
+      type:Number,
+      required:[true,'average rating is required'],
+      default:0
+    }
   },
   {
     timestamps: true,

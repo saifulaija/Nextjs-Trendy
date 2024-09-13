@@ -1,3 +1,4 @@
+import { Review } from './../review/review.model';
 import express from 'express';
 
 import validateRequest from '../../middlewares/validateRequest';
@@ -6,6 +7,7 @@ import { ProductValidations } from './product.validation';
 import { ProductControllers } from './product.controller';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from '../User/user.constant';
+import { reviewControllers } from '../review/review.controller';
 
 const router = express.Router();
 
@@ -46,5 +48,7 @@ router.get(
 
   ProductControllers.getAllProductsByCategory,
 );
+
+router.post('/:title/review', reviewControllers.createReview)
 
 export const ProductsRoutes = router;

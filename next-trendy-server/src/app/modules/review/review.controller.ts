@@ -5,7 +5,8 @@ import { reviewServices } from "./review.service";
 
 
 const createReview = catchAsync(async (req, res) => {
-    const result = await reviewServices.createReview(req.body);
+  const{title}=req.params
+    const result = await reviewServices.createReview(title,req.body);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -20,7 +21,7 @@ const getAllReviews = catchAsync(async (req, res) => {
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'reviews are fatched successfully',
+      message: 'reviews are fetched successfully',
       data: result,
     });
   });

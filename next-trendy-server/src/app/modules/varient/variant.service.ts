@@ -5,27 +5,63 @@ import { TVariant } from './variant.interface';
 import { Variant } from './variant.model';
 import mongoose from 'mongoose';
 
+
+
+
+
+// const createVariant = async (
+//   payload: Partial<TVariant>,
+// ): Promise<TVariant | any> => {
+//   const session = await mongoose.startSession(); // Start the session
+//   try {
+//     session.startTransaction();
+
+//     const createdVariant = await Variant.create([{ payload }], { session });
+
+//     if (!createdVariant) {
+//       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create variant');
+//     }
+
+//     // Extract the _id of the created Variant
+//     const variantId = createdVariant._id;
+
+//     // Update the product by pushing the variantId directly
+//     await Product.findOneAndUpdate(
+//       { _id: payload.productId }, // Filter the product by its ID
+//       { $push: { variant: variantId } }, // Push variantId directly
+//       { new: true, session }, // Use the session
+//     );
+
+  
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     return createdVariant[0];
+//   } catch (error) {
+//     // If error, abort the transaction
+//     await session.abortTransaction();
+    
+//     console.error('Error creating Variant:', error);
+//   }
+//   session.endSession();
+    
+// };
+
 // const createVariant = async (payload: TVariant) => {
 //   try {
-//     const productId = payload.productId;
-    
-
 //     // Create the Variant
 //     const createdVariant = await Variant.create(payload);
 
-//     console.log(createVariant,'======================');
-
 //     // Extract the _id of the created Variant
-//     const VariantId = createdVariant._id;
-//     console.log(VariantId);
-    
+//     const variantId = createdVariant._id;
 
-//     // Update the product with the _id of the created Variant
-//     await Product.findByIdAndUpdate(
-//       { _id: productId },
+//     // Update the product by pushing the variantId directly
+//     await Product.findOneAndUpdate(
+//       { _id: payload.productId }, // Filter the product by its ID
 //       {
-//         $push: { variant: { variantId: VariantId.toString()} },
+//         $push: { variant: variantId }, // Push variantId directly, not an object
 //       },
+//       { new: true }, // Optionally return the updated document
 //     );
 
 //     return createdVariant;
@@ -35,56 +71,41 @@ import mongoose from 'mongoose';
 //   }
 // };
 
-// const createReview = async (payload: TVariant) => {
-//   try {
-//     const productId = payload.productId;
-
-//     // Create the review
-//     const createdReview = await Variant.create(payload);
-
-//     // Extract the _id of the created review
-//     const reviewId = createdReview._id;
-
-//     // Update the product with the _id of the created review
-//     await Product.updateOne(
-//       { _id: productId },
-//       {
-//         $push: { reviews: { reviewId: reviewId.toString() } },
-//       },
-//     );
-
-//     return createdReview;
-//   } catch (error) {
-//     console.error('Error creating review:', error);
-//     throw error;
-//   }
-// };
-
-
-const createVariant = async (payload: TVariant) => {
+const createVariant = async (
+  payload: Partial<TVariant>,
+): Promise<TVariant | any> => {
+  const session = await mongoose.startSession(); // Start the session
   try {
-    // Create the Variant
-    const createdVariant = await Variant.create(payload);
+    session.startTransaction();
 
-    // Extract the _id of the created Variant
-    const variantId = createdVariant._id;
+    // Create variant (returns an array)
+    const createdVariant = await Variant.create([{ ...payload }], { session });
+
+    if (!createdVariant || createdVariant.length === 0) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create variant');
+    }
+
+    // Extract the _id of the created Variant (from the first element of the array)
+    const variantId = createdVariant[0]._id;
 
     // Update the product by pushing the variantId directly
     await Product.findOneAndUpdate(
       { _id: payload.productId }, // Filter the product by its ID
-      {
-        $push: { variant: variantId }, // Push variantId directly, not an object
-      },
-      { new: true }, // Optionally return the updated document
+      { $push: { variant: variantId } }, // Push variantId directly
+      { new: true, session }, // Use the session
     );
 
-    return createdVariant;
-  } catch (error) {
-    console.error('Error creating Variant:', error);
-    throw error;
-  }
-};
+    await session.commitTransaction();
+    session.endSession();
 
+    return createdVariant[0];
+  } catch (error) {
+    // If error, abort the transaction
+    await session.abortTransaction();
+    console.error('Error creating Variant:', error);
+  }
+  session.endSession();
+};
 
 
 

@@ -31,6 +31,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
+import CustomHeader from "../customHeader/CustomHeader";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -223,8 +224,12 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex-1 overflow-y-auto">
                 <nav className="px-2 text-md font-medium lg:px-4 overflow-y-auto">
-                  <p className="my-4">Filter Products</p>
-                  <Separator className={cn("bg-red-200")} />
+                  <div>
+                    <p className="my-4 text-primary uppercase">Explore by Category</p>
+                    
+                   
+                    <Separator className={cn("bg-primary")} />
+                  </div>
                   <ul className={cn("grid gap-0.5")}>
                     {data?.navMain?.map((item) => {
                       const isActive = pathname.startsWith(item.url);

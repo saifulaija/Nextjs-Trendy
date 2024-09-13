@@ -28,6 +28,7 @@ import { CommandMenu } from "../shared/NewHeader/command-menu";
 import AuthButton from "../shared/authButton/AuthButton";
 import Footer from "../shared/footer/Footer";
 import { adminSidebarData, userSidebarData } from "@/types/sidebar.type";
+import CustomHeader from "../shared/customHeader/CustomHeader";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -83,7 +84,8 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex-1 overflow-y-auto">
                 <nav className="px-2 text-md font-medium lg:px-4 overflow-y-auto">
-                  <p className="my-4">Filter Products</p>
+                  {/* <p className="my-4">Filter Products</p> */}
+                  
                   <Separator className={cn("bg-red-200")} />
                   {user?.role === "admin" ? (
                     <ul className={cn("grid gap-0.5")}>

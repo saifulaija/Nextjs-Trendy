@@ -1,12 +1,7 @@
-
 import { Types } from 'mongoose';
 
-export type TReviews = {
-  reviewId: Types.ObjectId;
-};
 export type TVariant = {
   variant: Types.ObjectId;
-
 };
 
 export type TProduct = {
@@ -18,10 +13,11 @@ export type TProduct = {
   variant?: Types.ObjectId[];
   tags?: string[];
   productCode?: string;
-  reviews?: TReviews[];
   sellsQuantity?: number;
   subCategory: string;
   discount?: number;
+  averageRating:number;
+  totalReviews: number;
   published?: boolean;
   isDeleted?: boolean;
 };
