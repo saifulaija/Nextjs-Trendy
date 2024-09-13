@@ -6,6 +6,7 @@ import {
   Tag,
   ShoppingBagIcon,
   LucideIcon,
+  Indent,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -25,14 +26,10 @@ import Footer from "../footer/Footer";
 import { useAppSelector } from "@/redux/hooks";
 import { Badge } from "@/components/ui/badge";
 import { CommandMenu } from "../NewHeader/command-menu";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
-import CustomHeader from "../customHeader/CustomHeader";
 import DashboardHeader from "../DashboardHeader/DashboardHeader";
+import { shoeSize } from "@/types/sidebar.type";
+import { Item } from "@radix-ui/react-select";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -178,11 +175,6 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
   const [xOffset, setXOffset] = useState<number>(0);
   const product = useAppSelector((state) => state.cart);
 
-  const headerMenu: HeaderMenuItem[] = [
-    { title: "Bookmark", path: `/blogs/bookmarks`, icon: BookMarkedIcon },
-    { title: "Tags", path: `/blogs/tags`, icon: Tag },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -226,6 +218,7 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
               <div className="flex-1 overflow-y-auto">
                 <nav className="px-2 text-md font-medium lg:px-4 overflow-y-auto">
                   <DashboardHeader title="Explore By Category" />
+
                   <ul className={cn("grid gap-0.5")}>
                     {data?.navMain?.map((item) => {
                       const isActive = pathname.startsWith(item.url);
@@ -320,8 +313,21 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                       );
                     })}
                   </ul>
+                  <DashboardHeader title="Filter By SiZe" />
+                  <div className=" flex flex-col items-start ml-5">
+                    {shoeSize.navMain.map((item, index) => (
+                      <Button
+                        variant="link"
+                        key={index}
+                        // variant={item.isActive ? "primary" : "secondary"}
+                        // onClick={() => handleSizeClick(item.value)}
+                        className="text-sm p-2"
+                      >
+                        {item.title}
+                      </Button>
+                    ))}
+                  </div>
                 </nav>
-                <DashboardHeader title="Filter By SiZe" />
               </div>
             </div>
           </div>

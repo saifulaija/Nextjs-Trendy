@@ -1,5 +1,5 @@
-
 import assets from "@/app/assets";
+import { Value } from "@radix-ui/react-select";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
 
 export const adminSidebarData = {
@@ -116,6 +116,35 @@ export const userSidebarData = {
           description: "Browse your starred prompts",
         },
       ],
+    },
+  ],
+};
+export const shoeSize = {
+  navMain: [
+    {
+      title: "Size/32",
+     value:"32",
+      isActive: true,
+    },
+    {
+      title: "Size/34",
+     value:"34",
+      isActive: true,
+    },
+    {
+      title: "Size/36",
+     value:"36",
+      isActive: true,
+    },
+    {
+      title: "Size/18",
+      Value: "18",
+      isActive: true,
+    },
+    {
+      title: "Size/14",
+      Value: "14",
+      isActive: true,
     },
   ],
 };
