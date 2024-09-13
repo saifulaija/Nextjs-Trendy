@@ -23,13 +23,14 @@ import AuthButton from "../authButton/AuthButton";
 import { HeaderItems } from "../header/HeaderItem";
 import assets from "@/app/assets";
 import Footer from "../footer/Footer";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Badge } from "@/components/ui/badge";
 import { CommandMenu } from "../NewHeader/command-menu";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
 import DashboardHeader from "../DashboardHeader/DashboardHeader";
 import { shoeSize } from "@/types/sidebar.type";
 import { Item } from "@radix-ui/react-select";
+import { toggleSize } from "@/redux/api/features/product/shoeSizeSlice";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -170,9 +171,14 @@ const data = {
 
 export function CategoryDashboard({ children }: { children: React.ReactNode }) {
   const user = getUserInfo();
+  const dispatch=useAppDispatch();
+   const selectedSize = useAppSelector((state) => state.shoeSize.selectedSize);
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [xOffset, setXOffset] = useState<number>(0);
+  const handleSizeClick = (size: string) => {
+    dispatch(toggleSize(size));
+  };
   const product = useAppSelector((state) => state.cart);
 
   useEffect(() => {
@@ -314,14 +320,17 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                     })}
                   </ul>
                   <DashboardHeader title="Filter By SiZe" />
-                  <div className=" flex flex-col items-start ml-5">
+                  <div className="flex flex-col items-start ml-5">
                     {shoeSize.navMain.map((item, index) => (
                       <Button
                         variant="link"
                         key={index}
-                        // variant={item.isActive ? "primary" : "secondary"}
-                        // onClick={() => handleSizeClick(item.value)}
-                        className="text-sm p-2"
+                        onClick={() => {
+                          if (item.value) handleSizeClick(item.value); // Ensure item.value is defined
+                        }}
+                        className={`text-sm p-2 ${
+                          selectedSize === item.value ? "text-blue-500" : ""
+                        }`}
                       >
                         {item.title}
                       </Button>

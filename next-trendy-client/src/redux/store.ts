@@ -15,6 +15,8 @@ import storage from "redux-persist/lib/storage";
 import { baseApi } from "./api/baseApi";
 
 import cartReducer from "./api/features/product/cartSlice";
+import shoeSizeReducer from "./api/features/product/shoeSizeSlice";
+
 // import approveReducer from "./features/blog/approveSlice";
 // import blogSReducer from "./features/blog/blogSlice";
 // import bookmarkReducer from "./features/blog/bookmarkSlice";
@@ -26,6 +28,7 @@ const persistConfig = {
 
 // const persistedApproveReducer = persistReducer(persistConfig, approveReducer);
 const persistedCartReducer = persistReducer(persistConfig,cartReducer );
+const persistedSizeReducer = persistReducer(persistConfig, shoeSizeReducer);
 const persistedBookmarkedReducer = persistReducer(
   persistConfig,
   persistedCartReducer
@@ -39,7 +42,8 @@ export const store = configureStore({
     // approve: persistedApproveReducer,
     // blog: persistedBlogReducer,
    
-    cart:persistedCartReducer
+    cart:persistedCartReducer,
+    shoeSize:persistedSizeReducer
   },
 
   middleware: (getDefaultMiddleware) =>
