@@ -5,34 +5,35 @@ import { TVariant } from './variant.interface';
 import { Variant } from './variant.model';
 import mongoose from 'mongoose';
 
-const createVariant = async (payload: TVariant) => {
-  try {
-    const productId = payload.productId;
+// const createVariant = async (payload: TVariant) => {
+//   try {
+//     const productId = payload.productId;
     
 
-    // Create the Variant
-    const createdVariant = await Variant.create(payload);
+//     // Create the Variant
+//     const createdVariant = await Variant.create(payload);
 
-    console.log(createVariant,'======================');
+//     console.log(createVariant,'======================');
 
-    // Extract the _id of the created Variant
-    const VariantId = createdVariant._id;
+//     // Extract the _id of the created Variant
+//     const VariantId = createdVariant._id;
+//     console.log(VariantId);
     
 
-    // Update the product with the _id of the created Variant
-    await Product.findByIdAndUpdate(
-      { _id: productId },
-      {
-        $push: { variant: { variantId: VariantId } },
-      },
-    );
+//     // Update the product with the _id of the created Variant
+//     await Product.findByIdAndUpdate(
+//       { _id: productId },
+//       {
+//         $push: { variant: { variantId: VariantId.toString()} },
+//       },
+//     );
 
-    return createdVariant;
-  } catch (error) {
-    console.error('Error creating Variant:', error);
-    throw error;
-  }
-};
+//     return createdVariant;
+//   } catch (error) {
+//     console.error('Error creating Variant:', error);
+//     throw error;
+//   }
+// };
 
 // const createReview = async (payload: TVariant) => {
 //   try {
@@ -58,6 +59,35 @@ const createVariant = async (payload: TVariant) => {
 //     throw error;
 //   }
 // };
+
+
+const createVariant = async (payload: TVariant) => {
+  try {
+    // Create the Variant
+    const createdVariant = await Variant.create(payload);
+
+    // Extract the _id of the created Variant
+    const variantId = createdVariant._id;
+
+    // Update the product by pushing the variantId directly
+    await Product.findOneAndUpdate(
+      { _id: payload.productId }, // Filter the product by its ID
+      {
+        $push: { variant: variantId }, // Push variantId directly, not an object
+      },
+      { new: true }, // Optionally return the updated document
+    );
+
+    return createdVariant;
+  } catch (error) {
+    console.error('Error creating Variant:', error);
+    throw error;
+  }
+};
+
+
+
+
 const getAllVariants = async () => {
   const result = await Variant.find();
   return result;

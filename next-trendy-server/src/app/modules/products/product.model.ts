@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import { TProduct, TReviews, TVariant } from './product.interface';
 
 const reviewSchema = new Schema<TReviews>({
@@ -7,12 +7,7 @@ const reviewSchema = new Schema<TReviews>({
     ref: 'Review',
   },
 });
-const variantSchema = new Schema<TVariant>({
-  variantId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Variant',
-  },
-});
+
 
 const productSchema = new Schema<TProduct>(
   {
@@ -20,7 +15,6 @@ const productSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
-
     category: {
       type: String,
       required: true,
@@ -35,12 +29,14 @@ const productSchema = new Schema<TProduct>(
     },
     reviews: [reviewSchema],
     variant: [
-     variantSchema
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Variant',
+      },
     ],
     subCategory: {
       type: String,
     },
-
     sellsQuantity: {
       type: Number,
       default: 0,
@@ -65,16 +61,15 @@ const productSchema = new Schema<TProduct>(
     tags: {
       type: [String],
     },
-
     material: {
       type: String,
       required: true,
     },
   },
-
   {
     timestamps: true,
   },
 );
+
 
 export const Product = model<TProduct>('Product', productSchema);

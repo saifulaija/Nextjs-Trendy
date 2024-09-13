@@ -20,7 +20,7 @@ const createReview = async (payload: TReview) => {
       const reviewId = createdReview._id;
   
       // Update the product with the _id of the created review
-      await Product.updateOne({ _id: productId }, {
+      await Product.findOneAndUpdate({ _id: productId }, {
         $push: { reviews: { reviewId: reviewId.toString() } }
       });
   

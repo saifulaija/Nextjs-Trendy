@@ -5,14 +5,9 @@ import { TProduct } from './product.interface';
 import { Product } from './product.model';
 import { TVariant } from '../varient/variant.interface';
 import { Variant } from '../varient/variant.model';
-const createProductIntoDB = async (
-  productPayload: TProduct,
- 
-) => {
+const createProductIntoDB = async (productPayload: TProduct) => {
   // Create the product in the database
   const result = await Product.create(productPayload);
-
- 
 
   return result;
 };
@@ -44,6 +39,31 @@ const createProductIntoDB = async (
 //   return result;
 // };
 
+// const getAllProductsFromDB = async (query: Record<string, unknown>) => {
+//   const productQuery = new QueryBuilder(
+//     Product.find({ isDeleted: false }).populate({
+//       path: 'variant',
+
+//       populate: { path: 'variant' },
+//     }),
+//     query,
+//   )
+//     .search(productSearchableFields)
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
+
+//   const result = await productQuery.modelQuery;
+//   const meta = await productQuery.countTotal();
+
+//   return {
+//     meta,
+//     result,
+//   };
+// };
+
+
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(
     Product.find({ isDeleted: false }).populate('variant'),
@@ -63,7 +83,10 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
     result,
   };
 };
-const getAllProductsFromDBForVariant = async (query: Record<string, unknown>) => {
+
+const getAllProductsFromDBForVariant = async (
+  query: Record<string, unknown>,
+) => {
   const productQuery = new QueryBuilder(
     Product.find({ isDeleted: false }).populate('variant'),
     query,
