@@ -28,9 +28,11 @@ import { Badge } from "@/components/ui/badge";
 import { CommandMenu } from "../NewHeader/command-menu";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
 import DashboardHeader from "../DashboardHeader/DashboardHeader";
-import { shoeSize } from "@/types/sidebar.type";
+import { shoeSize, sortOptions } from "@/types/sidebar.type";
 import { Item } from "@radix-ui/react-select";
 import { toggleSize } from "@/redux/api/features/product/shoeSizeSlice";
+import { changSort } from "@/redux/api/features/product/sortSlice";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 interface HeaderMenuItem {
   title: string;
   path: string;
@@ -170,8 +172,12 @@ const data = {
 };
 
 export function CategoryDashboard({ children }: { children: React.ReactNode }) {
+   const [selectedSort, setSelectedSort] = useState("");
+   const dispatch=useAppDispatch();
+  const handleSort = (value: string) => {
+    dispatch(changSort(value));
+  };
   const user = getUserInfo();
-  const dispatch=useAppDispatch();
    const selectedSize = useAppSelector((state) => state.shoeSize.selectedSize);
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState<boolean>(false);
@@ -320,21 +326,21 @@ export function CategoryDashboard({ children }: { children: React.ReactNode }) {
                     })}
                   </ul>
                   <DashboardHeader title="Filter By SiZe" />
-                  <div className="flex flex-col items-start ml-5">
-                    {shoeSize.navMain.map((item, index) => (
-                      <Button
-                        variant="link"
-                        key={index}
-                        onClick={() => {
-                          if (item.value) handleSizeClick(item.value); // Ensure item.value is defined
-                        }}
-                        className={`text-sm p-2 ${
-                          selectedSize === item.value ? "text-blue-500" : ""
-                        }`}
-                      >
-                        {item.title}
-                      </Button>
-                    ))}
+                  <div className="flex flex-col items-start ml-5 p-5">
+                    <Select onValueChange={(value) => handleSort(value)}>
+                      <SelectTrigger className="w-full sm:w-[200px]">
+                        <SelectValue placeholder="Sort" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {sortOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </nav>
               </div>

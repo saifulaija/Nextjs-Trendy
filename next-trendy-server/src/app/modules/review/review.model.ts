@@ -25,6 +25,11 @@ const reviewSchema = new Schema<TReview>(
       type: Number,
       required: [true,'rating is required'],
     },
+    status:{
+      type:String,
+      default:"pending",
+      required:[true,"status is required"]
+    },
     isDeleted: {
       type: Boolean,
       default: false,

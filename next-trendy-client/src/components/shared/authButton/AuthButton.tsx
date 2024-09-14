@@ -62,7 +62,7 @@ import { toast } from "react-toastify";
 
 const AuthButton = () => {
   const user = getUserInfo();
-  console.log(user);
+
 
   const router = useRouter();
   const handleLogout = () => {

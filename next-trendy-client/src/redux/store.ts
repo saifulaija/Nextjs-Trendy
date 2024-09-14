@@ -16,6 +16,7 @@ import { baseApi } from "./api/baseApi";
 
 import cartReducer from "./api/features/product/cartSlice";
 import shoeSizeReducer from "./api/features/product/shoeSizeSlice";
+import sortReducer from "./api/features/product/sortSlice";
 
 // import approveReducer from "./features/blog/approveSlice";
 // import blogSReducer from "./features/blog/blogSlice";
@@ -43,7 +44,8 @@ export const store = configureStore({
     // blog: persistedBlogReducer,
    
     cart:persistedCartReducer,
-    shoeSize:persistedSizeReducer
+    shoeSize:persistedSizeReducer,
+    sort:sortReducer
   },
 
   middleware: (getDefaultMiddleware) =>

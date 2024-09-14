@@ -148,3 +148,7 @@ export const shoeSize = {
     },
   ],
 };
+export const sortOptions = [
+  { label: "High To Low", value: "-price" },
+  { label: "Low To High", value: "price" },
+];
