@@ -66,7 +66,7 @@ const ReviewForm = ({ productId }: { productId: string }) => {
         <div className="w-full space-y-4 py-6">
           <div className="space-y-4">
             {/* Rating field */}
-            <div className="w-full leading-3">
+            <div className="w-full leading-4">
               <FormLabel
                 className={cn("font-semibold text-[16px] text-gray-500")}
               >
@@ -85,7 +85,7 @@ const ReviewForm = ({ productId }: { productId: string }) => {
                       />
                       <FaStar
                         className={cn(
-                          "cursor-pointer transition-colors duration-200",
+                          "cursor-pointer transition-colors duration-200 w-4 h-4",
                           ratingValue <= (hover || rating)
                             ? "text-primary"
                             : "text-gray-300"

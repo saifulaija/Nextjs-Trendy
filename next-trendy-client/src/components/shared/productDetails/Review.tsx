@@ -8,7 +8,7 @@ const Review = ({productId}:{productId:string}) => {
     <div>
         <h1 className="font-bold text-gray-600">Reviews</h1>
     </div>
-    <Card className={cn("border-[2px] border-primary rounded-[5px] p-4")}>
+    <Card className={cn("border-[2px] border-primary rounded-[10px] p-4")}>
         <ReviewForm productId={productId}/>
     </Card>
   </div>;
