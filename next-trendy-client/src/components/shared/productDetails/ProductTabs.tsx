@@ -2,8 +2,10 @@ import assets from "@/app/assets";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ReviewForm from "@/form/ReviewForm";
 import { TProduct } from "@/types/product.type";
 import Image from "next/image";
+import Review from "./Review";
 
 const ProductTabs = ({ product }:{product:TProduct}) => {
   return (
@@ -30,9 +32,9 @@ const ProductTabs = ({ product }:{product:TProduct}) => {
         </TabsContent>
         {/* Reviews Tab Content */}
         <TabsContent value="review">
-          <Card className="p-4">
-            <p>This is a good product</p>
-          </Card>
+        
+          <Review productId={product._id}/>
+     
         </TabsContent>
         {/* Size Chart Tab Content */}
         <TabsContent value="size chart">

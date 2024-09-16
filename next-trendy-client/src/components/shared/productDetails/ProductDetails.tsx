@@ -29,15 +29,14 @@ import ProductTabs from "./ProductTabs";
 import Link from "next/link";
 
 const ProductDetails = () => {
-    const [loading, setLoading] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
+
   const params = useParams();
   const id = params.productId;
 
   const { data, isLoading } = useGetSingleProductQuery(id);
   const dispatch = useAppDispatch();
   console.log(data);
-  
 
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -48,8 +47,6 @@ const ProductDetails = () => {
   }
 
   const product = data?.[0];
-  console.log(product);
-  
 
   const availableSizes = (product?.variant as VariantItem[]).filter(
     (sizeItem) => sizeItem.variant.some((colorItem) => colorItem.quantity > 0)
@@ -65,10 +62,10 @@ const ProductDetails = () => {
 
   const maxQuantity = selectedStock?.quantity || 0;
 
-  const handleAddToCart = async() => {
-     setLoading(true);
+  const handleAddToCart = async () => {
+    setLoading(true);
 
-     await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     if (quantity > maxQuantity) {
       toast.warning("Selected quantity exceeds available stock.");
     } else {
