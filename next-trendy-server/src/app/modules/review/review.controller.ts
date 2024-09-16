@@ -5,8 +5,12 @@ import { reviewServices } from "./review.service";
 
 
 const createReview = catchAsync(async (req, res) => {
-  const{title}=req.params
-    const result = await reviewServices.createReview(title,req.body);
+  const{productId}=req.params
+  console.log(productId,'productId');
+  console.log(req.body,'data==========================');
+  
+  
+    const result = await reviewServices.createReview(productId,req.body);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -25,20 +29,10 @@ const getAllReviews = catchAsync(async (req, res) => {
       data: result,
     });
   });
-const deleteReview = catchAsync(async (req, res) => {
-    const{id}=req.params
-    const result = await reviewServices.deleteReview(id);
-  
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'review deleted successfully',
-      data: result,
-    });
-  });
+
 
   export const reviewControllers={
     createReview,
     getAllReviews,
-    deleteReview
+   
   }

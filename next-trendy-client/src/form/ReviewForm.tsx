@@ -15,10 +15,10 @@ import { FaStar } from "react-icons/fa"; // Import star icons
 import { useState } from "react"; // Use state to control star selection
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hooks";
-import { useCreateOrderMutation } from "@/redux/api/features/order/orderApi";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import LoadingButton from "@/components/shared/LoadingButton/LoadingButton";
+import { useCreateReviewMutation } from "@/redux/api/features/review/reviewApi";
 
 // Zod schema for form validation
 const formSchema = z.object({
@@ -30,8 +30,8 @@ const formSchema = z.object({
   comment: z.string().min(6, { message: "Enter a valid comment" }),
 });
 
-const ReviewForm = ({ productId }: { productId: string }) => {
-  const [createOrder, { isLoading }] = useCreateOrderMutation();
+const ReviewForm = ({ ProductId }: { ProductId: string }) => {
+  const [createReview, { isLoading }] = useCreateReviewMutation();
   const cart = useAppSelector((state) => state.cart);
   const router = useRouter();
   const [rating, setRating] = useState<number>(0); // Local state for the rating
@@ -46,19 +46,57 @@ const ReviewForm = ({ productId }: { productId: string }) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log({ ...values, rating });
-    
-    try {
-      const res = await createOrder({ ...values, rating }).unwrap();
-      toast.success("Order placed successfully", { position: "bottom-left" });
-      // router.push("/cart/order-success");
-    } catch (error) {
-      toast.error((error as any)?.data?.message || "An error occurred", {
-        position: "bottom-left",
-      });
-    }
+// const onSubmit = async (values: z.infer<typeof formSchema>) => {
+//  const reviewData = {
+//    productId: ProductId, // Ensure `ProductId` is not undefined
+//    body: {
+//      ...values,
+//      rating,
+//    },
+//  };
+
+
+//   console.log(reviewData);
+
+//   try {
+//     const res = await createReview(reviewData).unwrap();
+//     console.log(res);
+
+//     toast.success("Review placed successfully", { position: "bottom-left" });
+//   } catch (error) {
+//     toast.error((error as any)?.data?.message || "An error occurred", {
+//       position: "bottom-left",
+//     });
+//   }
+// };
+
+
+const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  // Structure the review data correctly
+  const reviewData = {
+   
+
+
+    name: values.name,
+    email: values.email,
+    comment: values.comment,
+    rating, // Include the rating
+
   };
+
+  console.log(reviewData); // Log to verify data
+
+  try {
+    const res = await createReview({ body: reviewData, id: ProductId }).unwrap();
+    console.log(res);
+
+    toast.success("Review placed successfully", { position: "bottom-left" });
+  } catch (error) {
+    toast.error((error as any)?.data?.message || "An error occurred", {
+      position: "bottom-left",
+    });
+  }
+};
 
   return (
     <Form {...form}>

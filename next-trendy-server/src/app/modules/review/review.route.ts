@@ -20,11 +20,7 @@ router.get(
   auth(USER_ROLE.superAdmin),
   reviewControllers.getAllReviews,
 );
-router.delete(
-  '/:id',
-  auth(USER_ROLE.superAdmin),
-  reviewControllers.deleteReview,
-);
+
 
 
 export const reviewRoutes = router;

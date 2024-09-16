@@ -49,6 +49,6 @@ router.get(
   ProductControllers.getAllProductsByCategory,
 );
 
-router.post('/:title/review', reviewControllers.createReview)
+router.post('/:productId/review', reviewControllers.createReview)
 
 export const ProductsRoutes = router;
