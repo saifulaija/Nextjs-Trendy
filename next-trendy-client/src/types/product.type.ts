@@ -22,7 +22,9 @@ export type TProduct = {
   _id: string;
   name: string;
   price: number;
-  description:string;
+  description: string;
+  totalReviews:number,
+  averageRating:number
   discount?: number;
   variant?: Array<{
     _id: string;

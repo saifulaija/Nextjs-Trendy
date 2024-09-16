@@ -2,7 +2,7 @@ import assets from "@/app/assets";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ReviewForm from "@/form/ReviewForm";
+
 import { TProduct } from "@/types/product.type";
 import Image from "next/image";
 import Review from "./Review";
@@ -15,7 +15,9 @@ const ProductTabs = ({ product }:{product:TProduct}) => {
         <TabsList className="flex w-full space-x-2">
           <TabsTrigger value="description">Description</TabsTrigger>
           <TabsTrigger value="information">Additional Information</TabsTrigger>
-          <TabsTrigger value="review">Reviews (0)</TabsTrigger>
+          <TabsTrigger value="review">
+            Reviews ({product.totalReviews})
+          </TabsTrigger>
           <TabsTrigger value="size chart">Size Chart</TabsTrigger>
         </TabsList>
         {/* Description Tab Content */}
@@ -32,9 +34,7 @@ const ProductTabs = ({ product }:{product:TProduct}) => {
         </TabsContent>
         {/* Reviews Tab Content */}
         <TabsContent value="review">
-        
-          <Review ProductId={product._id}/>
-     
+          <Review ProductId={product._id} />
         </TabsContent>
         {/* Size Chart Tab Content */}
         <TabsContent value="size chart">
