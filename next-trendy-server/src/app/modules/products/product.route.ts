@@ -50,5 +50,6 @@ router.get(
 );
 
 router.post('/:productId/review', reviewControllers.createReview)
+router.get('/:productId/review', reviewControllers.getAllReviews)
 
 export const ProductsRoutes = router;
