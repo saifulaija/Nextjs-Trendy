@@ -3,6 +3,7 @@ import AppError from '../../errors/AppError';
 import { Product } from '../products/product.model';
 import { TReview } from './review.interface';
 import { Review } from './review.model';
+import { startSession } from 'mongoose';
 
 const createReview = async (
   productId: string,
@@ -97,11 +98,90 @@ const reviewUpdate = async (id: string, reviewData: Partial<TReview>) => {
   return result;
 };
 
+const deleteReview = async (id: string) => {
+  const isExistingReview = await Review.findById(id);
+  if (!isExistingReview) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'This review not found');
+  }
+
+  const session = await startSession();
+
+  try {
+    session.startTransaction();
+
+    // Delete the review
+    const result = await Review.findByIdAndDelete(id).session(session);
+
+    // Fetch the associated product
+    const product = await Product.findById(isExistingReview.productId).session(
+      session,
+    );
+    if (!product) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Product not found');
+    }
+
+    // Decrement totalReviews if more than 0
+    if (product.totalReviews > 0) {
+      // Calculate new totalReviews
+      const totalReviews = product.totalReviews - 1;
+
+      // Calculate new averageRating if there are remaining reviews
+      let averageRating = 0;
+      if (totalReviews > 0) {
+        const remainingReviews = await Review.find({ productId: product._id });
+        const totalRating = remainingReviews.reduce(
+          (sum, review) => sum + review.rating,
+          0,
+        );
+        averageRating = totalRating / totalReviews;
+      }
+
+      // Update the product's totalReviews and averageRating
+      await Product.findByIdAndUpdate(
+        product._id,
+        {
+          $set: {
+            totalReviews,
+            averageRating, // Update averageRating
+          },
+        },
+        { session },
+      );
+    } else {
+      // If no reviews are left, set averageRating to 0
+      await Product.findByIdAndUpdate(
+        product._id,
+        {
+          $set: {
+            totalReviews: 0,
+            averageRating: 0, 
+          },
+        },
+        { session },
+      );
+    }
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return result;
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Failed to delete review',
+    );
+  }
+};
+
 
 export const reviewServices = {
   createReview,
   getAllReviews,
   getAllPendingReviews,
   reviewUpdate,
-  getAllApprovedReviews
+  getAllApprovedReviews,
+  deleteReview
+
 };

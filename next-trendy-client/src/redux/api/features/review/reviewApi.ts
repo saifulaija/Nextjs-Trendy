@@ -45,6 +45,14 @@ const ReviewApi = baseApi.injectEndpoints({
 
       providesTags: [tagTypes.review],
     }),
+    getAllApprovedReviews: build.query({
+      query: () => ({
+        url: `/product/approved-reviews`,
+        method: "GET",
+      }),
+
+      providesTags: [tagTypes.review],
+    }),
     getSingleProductForModerator: build.query({
       query: (id) => ({
         url: `/product/get-single-product/${id}`,
@@ -89,5 +97,6 @@ export const {
   useUpdateProductMutation,
   useGetSingleProductForModeratorQuery,
 useUpdateReviewStatusMutation,
-  useGetAllPendingReviewsQuery
+  useGetAllPendingReviewsQuery,
+  useGetAllApprovedReviewsQuery
 } = ReviewApi;

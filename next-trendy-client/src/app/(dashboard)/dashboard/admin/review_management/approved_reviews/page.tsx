@@ -10,18 +10,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  useGetAllPendingReviewsQuery,
+  useGetAllApprovedReviewsQuery,
+ 
   useUpdateReviewStatusMutation,
 } from "@/redux/api/features/review/reviewApi";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, X} from "lucide-react";
 import { cn } from "@/lib/utils";
+import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 
 const STATUS_OPTIONS = [
   { name: "Pending", value: "pending" },
@@ -29,30 +26,19 @@ const STATUS_OPTIONS = [
 ];
 
 const ApprovedReviewPage = () => {
-  const { data, isLoading } = useGetAllPendingReviewsQuery({});
+  const { data, isLoading } = useGetAllApprovedReviewsQuery({});
   const [updateReviewStatus, { isLoading: updateLoading }] =
     useUpdateReviewStatusMutation();
 
-  // Handle status change
-  const handleStatusChange = async (reviewId: string, newStatus: string) => {
-    console.log(reviewId, newStatus);
-
-    try {
-      await updateReviewStatus({ id: reviewId, status: newStatus }).unwrap();
-      // Optionally, show a success notification or reload data
-    } catch (error) {
-      // Handle error (e.g., show a notification)
-      console.error("Failed to update review status:", error);
-    }
-  };
+ const handleDelete=()=>{
+  
+ }
 
   return (
     <div className="w-full py-10 px-4 md:p-10">
       <Card className="max-w-7xl mx-auto flex flex-col">
         {isLoading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="animate-spin" size={40} />
-          </div>
+          <CustomLoader />
         ) : data?.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-500">No Approved reviews at the moment.</p>
@@ -90,41 +76,18 @@ const ApprovedReviewPage = () => {
                       </TableCell>
                       <TableCell>{item.status}</TableCell>
                       <TableCell className="text-center">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            asChild
-                            className={cn(
-                              "group cursor-pointer inline-flex text-sm font-medium text-gray-700 hover:text-primary"
-                            )}
-                          >
-                            <span>
-                              Change Status
-                              <ChevronDown className="-mr-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-primary" />
-                            </span>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            {STATUS_OPTIONS.map((status) => (
-                              <DropdownMenuItem
-                                key={status.value}
-                                onClick={() =>
-                                  handleStatusChange(item._id, status.value)
-                                }
-                                disabled={updateLoading}
-                                className={cn(
-                                  item.status === status.value
-                                    ? "font-semibold"
-                                    : "",
-                                  "cursor-pointer"
-                                )}
-                              >
-                                {updateLoading && item._id === item._id ? (
-                                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                                ) : null}
-                                {status.name}
-                              </DropdownMenuItem>
-                            ))}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button
+                          asChild
+                          variant="link"
+                          className={cn(
+                            "group cursor-pointer text-sm font-medium text-gray-700 hover:text-primary hover:no-underline" 
+                          )}
+                        >
+                          <span className="inline-flex items-center">
+                            Delete
+                            <X className="-mr-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-primary" />
+                          </span>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}

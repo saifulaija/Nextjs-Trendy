@@ -52,5 +52,6 @@ router.get(
 router.post('/:productId/review', reviewControllers.createReview)
 router.get('/:productId/review', reviewControllers.getAllReviews)
 router.get('/pending-reviews', reviewControllers.getAllPendingReviews)
+router.get('/approved-reviews', reviewControllers.getAllApprovedReviews)
 
 export const ProductsRoutes = router;

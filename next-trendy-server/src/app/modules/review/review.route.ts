@@ -20,10 +20,6 @@ router.put(
   // auth(USER_ROLE.superAdmin),
   reviewControllers.updateReview,
 );
-
-
-router.get('/approved-review', reviewControllers.getAllApprovedReviews)
-
-
+router.delete('/delete-review/:id',reviewControllers.deleteReview)
 
 export const reviewRoutes = router;

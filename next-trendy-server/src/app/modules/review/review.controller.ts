@@ -62,10 +62,25 @@ const {id}=req.params
   });
 });
 
+const deleteReview = catchAsync(async (req, res) => {
+const {id}=req.params
+
+
+  const result = await reviewServices.deleteReview(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'review updated successfully',
+    data: result,
+  });
+});
+
 export const reviewControllers = {
   createReview,
   getAllReviews,
   getAllPendingReviews,
   updateReview,
-  getAllApprovedReviews
+  getAllApprovedReviews,
+  deleteReview
 };
