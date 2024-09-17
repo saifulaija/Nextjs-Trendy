@@ -37,9 +37,21 @@ const getAllPendingReviews = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateReview = catchAsync(async (req, res) => {
+const {id}=req.params
+  const result = await reviewServices.reviewUpdate(id,req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'review updated successfully',
+    data: result,
+  });
+});
 
 export const reviewControllers = {
   createReview,
   getAllReviews,
-  getAllPendingReviews
+  getAllPendingReviews,
+  updateReview
 };

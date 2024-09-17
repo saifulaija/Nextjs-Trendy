@@ -64,7 +64,7 @@ const createReview = async (
   session.endSession();
 };
 
-const getAllReviews = async (productId:string) => {
+const getAllReviews = async (productId: string) => {
   const result = await Review.find({ productId: productId, isDeleted: false });
   return result;
 };
@@ -73,8 +73,29 @@ const getAllPendingReviews = async () => {
   return result;
 };
 
+const reviewUpdate = async (
+  id: string,
+  reviewData: Partial<TReview>,
+) => {
+ const isExistingReview=await Review.findById(id);
+ if(!isExistingReview){
+  throw new AppError(httpStatus.BAD_REQUEST,'review not found')
+ }
+ const result= await Review.findByIdAndUpdate(id,
+  {
+    status:reviewData.status
+  },
+  {
+    new:true
+  }
+ )
+
+ return result
+};
+
 export const reviewServices = {
   createReview,
   getAllReviews,
-  getAllPendingReviews
+  getAllPendingReviews,
+  reviewUpdate
 };

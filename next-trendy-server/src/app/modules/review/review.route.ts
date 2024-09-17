@@ -15,10 +15,10 @@ router.post(
   reviewControllers.createReview,
 );
 
-router.get(
-  '/',
-  auth(USER_ROLE.superAdmin),
-  reviewControllers.getAllReviews,
+router.put(
+  '/:id',
+  // auth(USER_ROLE.superAdmin),
+  reviewControllers.updateReview,
 );
 
 

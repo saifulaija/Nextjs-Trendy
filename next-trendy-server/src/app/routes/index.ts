@@ -31,7 +31,7 @@ const moduleRoutes = [
     route: orderRoute,
   },
   {
-    path: '/reviews',
+    path: '/review',
     route: reviewRoutes,
   },
   {
