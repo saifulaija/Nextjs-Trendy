@@ -22,5 +22,8 @@ router.put(
 );
 
 
+router.get('/approved-review', reviewControllers.getAllApprovedReviews)
+
+
 
 export const reviewRoutes = router;

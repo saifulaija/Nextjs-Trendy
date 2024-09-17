@@ -68,6 +68,10 @@ const getAllReviews = async (productId: string) => {
   const result = await Review.find({ productId: productId, isDeleted: false });
   return result;
 };
+const getAllApprovedReviews = async () => {
+  const result = await Review.find({ status:"approved", isDeleted: false });
+  return result;
+};
 const getAllPendingReviews = async () => {
   const result = await Review.find({ isDeleted: false });
   return result;
@@ -98,5 +102,6 @@ export const reviewServices = {
   createReview,
   getAllReviews,
   getAllPendingReviews,
-  reviewUpdate
+  reviewUpdate,
+  getAllApprovedReviews
 };

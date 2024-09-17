@@ -37,9 +37,20 @@ const getAllPendingReviews = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getAllApprovedReviews = catchAsync(async (req, res) => {
+
+  const result = await reviewServices.getAllApprovedReviews();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Approved reviews are fetched successfully',
+    data: result,
+  });
+});
 const updateReview = catchAsync(async (req, res) => {
 const {id}=req.params
-console.log(req.body,'data body==================');
+
 
   const result = await reviewServices.reviewUpdate(id,req.body);
 
@@ -55,5 +66,6 @@ export const reviewControllers = {
   createReview,
   getAllReviews,
   getAllPendingReviews,
-  updateReview
+  updateReview,
+  getAllApprovedReviews
 };
