@@ -1,5 +1,4 @@
 import assets from "@/app/assets";
-import { Value } from "@radix-ui/react-select";
 import { Bird, History, Rabbit, Settings2, Star, Turtle } from "lucide-react";
 
 export const adminSidebarData = {
@@ -84,7 +83,7 @@ export const adminSidebarData = {
         },
         {
           title: "Approved Reviews",
-          url: "/dashboard/admin/order_management/approved_reviews",
+          url: "/dashboard/admin/review_management/approved_reviews",
         },
       ],
     },

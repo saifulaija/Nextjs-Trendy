@@ -7,6 +7,7 @@ export type TReview={
     comment:string;
     status: "pending" | "approved"
     productId:Types.ObjectId;
+    productName:string;
     isDeleted?:boolean
 }
 

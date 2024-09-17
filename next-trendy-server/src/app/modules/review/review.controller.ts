@@ -26,8 +26,20 @@ const getAllReviews = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getAllPendingReviews = catchAsync(async (req, res) => {
+
+  const result = await reviewServices.getAllPendingReviews();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'pending reviews are fetched successfully',
+    data: result,
+  });
+});
 
 export const reviewControllers = {
   createReview,
   getAllReviews,
+  getAllPendingReviews
 };

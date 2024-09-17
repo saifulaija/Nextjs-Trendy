@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import LoadingButton from "@/components/shared/LoadingButton/LoadingButton";
 import { useCreateReviewMutation } from "@/redux/api/features/review/reviewApi";
+import { TProduct } from "@/types/product.type";
 
 // Zod schema for form validation
 const formSchema = z.object({
@@ -30,7 +31,7 @@ const formSchema = z.object({
   comment: z.string().min(6, { message: "Enter a valid comment" }),
 });
 
-const ReviewForm = ({ ProductId }: { ProductId: string }) => {
+const ReviewForm = ({ product }:{product:TProduct}) => {
   const [createReview, { isLoading }] = useCreateReviewMutation();
   const cart = useAppSelector((state) => state.cart);
   const router = useRouter();
@@ -51,13 +52,14 @@ const ReviewForm = ({ ProductId }: { ProductId: string }) => {
       name: values.name,
       email: values.email,
       comment: values.comment,
-      rating, // Include the rating
+      rating, 
+      productName:product.name
     };
 
     try {
       const res = await createReview({
         body: reviewData,
-        id: ProductId,
+        id: product._id,
       }).unwrap();
       console.log(res);
 

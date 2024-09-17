@@ -8,9 +8,10 @@ import { useGetAllReviewsQuery } from "@/redux/api/features/review/reviewApi";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa"; // Display stars for ratings
 import { format } from "date-fns"; // For formatting dates
+import { TProduct } from "@/types/product.type";
 
-const Review = ({ ProductId }: { ProductId: string }) => {
-  const { data, isLoading, error } = useGetAllReviewsQuery(ProductId);
+const Review = ( {product}:{product:TProduct}) => {
+  const { data, isLoading, error } = useGetAllReviewsQuery(product._id);
 
   if (isLoading) {
     return <p className="text-center text-gray-600">Loading reviews...</p>;
@@ -36,7 +37,7 @@ const Review = ({ ProductId }: { ProductId: string }) => {
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Leave a Review
             </h2>
-            <ReviewForm ProductId={ProductId} />
+            <ReviewForm product={product} />
           </Card>
         </div>
       ) : (
@@ -109,7 +110,7 @@ const Review = ({ ProductId }: { ProductId: string }) => {
             <h2 className="text-lg font-bold text-gray-800 mb-2">
               Add a Review
             </h2>
-            <ReviewForm ProductId={ProductId} />
+            <ReviewForm product={product} />
           </Card>
         </div>
       )}

@@ -34,7 +34,7 @@ const ProductTabs = ({ product }:{product:TProduct}) => {
         </TabsContent>
         {/* Reviews Tab Content */}
         <TabsContent value="review">
-          <Review ProductId={product._id} />
+          <Review  product={product} />
         </TabsContent>
         {/* Size Chart Tab Content */}
         <TabsContent value="size chart">

@@ -17,6 +17,11 @@ const reviewSchema = new Schema<TReview>(
       ref: 'Product',
       required:[true,"product id is required"]
     },
+    productName:{
+      type:String,
+      required:[true,"product name is required"]
+      
+    },
     comment: {
       type: String,
       required: true,
