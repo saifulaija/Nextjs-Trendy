@@ -39,6 +39,8 @@ const getAllPendingReviews = catchAsync(async (req, res) => {
 });
 const updateReview = catchAsync(async (req, res) => {
 const {id}=req.params
+console.log(req.body,'data body==================');
+
   const result = await reviewServices.reviewUpdate(id,req.body);
 
   sendResponse(res, {

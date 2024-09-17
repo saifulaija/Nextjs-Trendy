@@ -70,13 +70,13 @@ const ReviewApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.product],
     }),
-    updateStatusApprove: build.mutation({
+    updateReviewStatus: build.mutation({
       query: (data) => ({
-        url: `/product/change-approval-status/${data.id}`,
-        method: "PATCH",
-        data: data.body,
+        url: `/review/${data.id}`,
+        method: "PUT",
+        data: { status: data.status },
       }),
-      invalidatesTags: [tagTypes.product],
+      invalidatesTags: [tagTypes.review],
     }),
   }),
 });
@@ -88,6 +88,6 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetSingleProductForModeratorQuery,
-  useUpdateStatusApproveMutation,
+useUpdateReviewStatusMutation,
   useGetAllPendingReviewsQuery
 } = ReviewApi;

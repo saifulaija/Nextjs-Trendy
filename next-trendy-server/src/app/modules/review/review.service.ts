@@ -73,25 +73,26 @@ const getAllPendingReviews = async () => {
   return result;
 };
 
-const reviewUpdate = async (
-  id: string,
-  reviewData: Partial<TReview>,
-) => {
- const isExistingReview=await Review.findById(id);
- if(!isExistingReview){
-  throw new AppError(httpStatus.BAD_REQUEST,'review not found')
- }
- const result= await Review.findByIdAndUpdate(id,
-  {
-    status:reviewData.status
-  },
-  {
-    new:true
-  }
- )
+const reviewUpdate = async (id: string, reviewData: Partial<TReview>) => {
+  // Log incoming review data
+  console.log(reviewData, 'Review Data to update');
 
- return result
+  // Check if the review exists
+  const isExistingReview = await Review.findById(id);
+  if (!isExistingReview) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Review not found');
+  }
+
+  // Update the review status
+  const result = await Review.findByIdAndUpdate(
+    id,
+    { status: reviewData.status }, // Only update the provided fields
+    { new: true }, // Return the updated review
+  );
+
+  return result;
 };
+
 
 export const reviewServices = {
   createReview,
