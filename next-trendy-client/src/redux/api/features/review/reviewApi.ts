@@ -20,34 +20,6 @@ const ReviewApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.review, tagTypes.product], // Invalidate related tags
     }),
 
-    getAllReview: build.query({
-      query: (arg: Record<string, any>) => ({
-        url: "/product",
-        method: "GET",
-        params: arg,
-      }),
-      transformResponse: (response: TProduct[], meta: IMeta) => {
-        return {
-          Review: response,
-          meta,
-        };
-      },
-      providesTags: [tagTypes.product],
-    }),
-    getAllReviewVariant: build.query({
-      query: (arg: Record<string, any>) => ({
-        url: "/product/variant",
-        method: "GET",
-        params: arg,
-      }),
-      transformResponse: (response: TProduct[], meta: IMeta) => {
-        return {
-          Review: response,
-          meta,
-        };
-      },
-      providesTags: [tagTypes.product],
-    }),
     getMyReview: build.query({
       query: (arg: Record<string, any>) => ({
         url: `/product/get-my-Review`,
@@ -56,13 +28,13 @@ const ReviewApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.product],
     }),
-    getSingleProduct: build.query({
+    getAllReviews: build.query({
       query: (id) => ({
-        url: `/product/get-single-product/${id}`,
+        url: `/product//${id}/review`,
         method: "GET",
       }),
 
-      providesTags: [tagTypes.product],
+      providesTags: [tagTypes.review],
     }),
     getSingleProductForModerator: build.query({
       query: (id) => ({
@@ -80,13 +52,7 @@ const ReviewApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.product],
     }),
-    // getSingleDoctor: build.query({
-    //   query: (id: string | string[] | undefined) => ({
-    //     url: `/doctor/${id}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.doctor],
-    // }),
+
     updateProduct: build.mutation({
       query: (data) => ({
         url: `/product/${data.id}`,
@@ -108,12 +74,11 @@ const ReviewApi = baseApi.injectEndpoints({
 
 export const {
   useCreateReviewMutation,
-  useGetAllReviewQuery,
   useGetMyReviewQuery,
-  useGetSingleProductQuery,
+useGetAllReviewsQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetSingleProductForModeratorQuery,
   useUpdateStatusApproveMutation,
-  useGetAllReviewVariantQuery,
+ 
 } = ReviewApi;

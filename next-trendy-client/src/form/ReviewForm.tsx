@@ -46,57 +46,28 @@ const ReviewForm = ({ ProductId }: { ProductId: string }) => {
     },
   });
 
-// const onSubmit = async (values: z.infer<typeof formSchema>) => {
-//  const reviewData = {
-//    productId: ProductId, // Ensure `ProductId` is not undefined
-//    body: {
-//      ...values,
-//      rating,
-//    },
-//  };
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const reviewData = {
+      name: values.name,
+      email: values.email,
+      comment: values.comment,
+      rating, // Include the rating
+    };
 
+    try {
+      const res = await createReview({
+        body: reviewData,
+        id: ProductId,
+      }).unwrap();
+      console.log(res);
 
-//   console.log(reviewData);
-
-//   try {
-//     const res = await createReview(reviewData).unwrap();
-//     console.log(res);
-
-//     toast.success("Review placed successfully", { position: "bottom-left" });
-//   } catch (error) {
-//     toast.error((error as any)?.data?.message || "An error occurred", {
-//       position: "bottom-left",
-//     });
-//   }
-// };
-
-
-const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  // Structure the review data correctly
-  const reviewData = {
-   
-
-
-    name: values.name,
-    email: values.email,
-    comment: values.comment,
-    rating, // Include the rating
-
+      toast.success("Review placed successfully", { position: "bottom-left" });
+    } catch (error) {
+      toast.error((error as any)?.data?.message || "An error occurred", {
+        position: "bottom-left",
+      });
+    }
   };
-
-  console.log(reviewData); // Log to verify data
-
-  try {
-    const res = await createReview({ body: reviewData, id: ProductId }).unwrap();
-    console.log(res);
-
-    toast.success("Review placed successfully", { position: "bottom-left" });
-  } catch (error) {
-    toast.error((error as any)?.data?.message || "An error occurred", {
-      position: "bottom-left",
-    });
-  }
-};
 
   return (
     <Form {...form}>
@@ -106,7 +77,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
             {/* Rating field */}
             <div className="w-full leading-4">
               <FormLabel
-                className={cn("font-semibold text-[16px] text-gray-500")}
+                className={cn("font-semibold text-[16px] text-gray-800")}
               >
                 Your Rating
               </FormLabel>
@@ -145,7 +116,7 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
               render={({ field }) => (
                 <FormItem className={cn("w-full leading-3")}>
                   <FormLabel
-                    className={cn("font-semibold text-[16px] text-gray-800")}
+                    className={cn("font-semibold text-[16px] text-gray-900")}
                   >
                     Your Review
                   </FormLabel>

@@ -65,7 +65,7 @@ const createReview = async (
 };
 
 const getAllReviews = async (productId:string) => {
-  const result = await Review.find({productId});
+  const result = await Review.find({ productId: productId, isDeleted: false });
   return result;
 };
 

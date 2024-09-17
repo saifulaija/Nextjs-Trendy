@@ -34,6 +34,8 @@ const assets = {
     order_management: require("./images/ordermanagement.png"),
     profile_management: require("./images/profilemanagement.png"),
     variant_management: require("./images/variantmanagement.png"),
+    review_user: require("./images/reviewuser.png"),
+    rating: require("./images/satisfaction.png"),
    
   },
 };

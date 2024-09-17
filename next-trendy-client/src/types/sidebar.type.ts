@@ -60,7 +60,7 @@ export const adminSidebarData = {
     },
     {
       title: "Order Management",
-      url: "/product/category/kids",
+      url: "/product/category/order",
       icon: assets.images.order_management,
       items: [
         {
@@ -70,6 +70,21 @@ export const adminSidebarData = {
         {
           title: "Track Orders",
           url: "/dashboard/admin/order_management/track_orders",
+        },
+      ],
+    },
+    {
+      title: "Review Management",
+      url: "/product/category/kids",
+      icon: assets.images.rating,
+      items: [
+        {
+          title: "Pending Reviews",
+          url: "/dashboard/admin/review_management/pending_reviews",
+        },
+        {
+          title: "Approved Reviews",
+          url: "/dashboard/admin/order_management/approved_reviews",
         },
       ],
     },
