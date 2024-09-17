@@ -1,5 +1,4 @@
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import LoginForm from "@/form/LoginForm";
 import { cn } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-separator";

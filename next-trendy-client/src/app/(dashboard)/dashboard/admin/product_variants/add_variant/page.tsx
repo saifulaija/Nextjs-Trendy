@@ -72,12 +72,13 @@ const add_variant = () => {
                         <TableCell className="">
                           <MyDialog
                             triggerButton={
-                              <Button
-                                // onClick={() => handleDetails(item._id)}
-                                variant="ghost"
-                              >
-                                <Plus size={18} />
-                              </Button>
+                              <span className="flex items-center gap-1 transition-colors text-gray-700 group hover:text-primary">
+                                Add Variant
+                                <Plus
+                                  size={18}
+                                  className="text-gray-600 group-hover:text-primary transition-colors"
+                                />
+                              </span>
                             }
                           >
                             <AddVariantForm productId={item._id} />

@@ -19,10 +19,10 @@ router.post(
 );
 
 router.patch(
-  '/delete-product/:id',
-  auth(USER_ROLE.superAdmin),
+  '/update-product/:id',
+  // auth(USER_ROLE.superAdmin),
   
-  ProductControllers.deleteProduct,
+  ProductControllers.updateProduct,
 );
 
 

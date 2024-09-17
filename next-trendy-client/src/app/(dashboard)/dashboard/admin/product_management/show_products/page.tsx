@@ -1,9 +1,8 @@
-
 "use client";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -21,6 +20,7 @@ import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 import MyDialog from "@/components/shadcn/MyDialog";
 import AddVariantForm from "@/form/AddVariantForm";
+import ProductUpdateForm from "@/form/ProductUpdatForm";
 
 const ShowProducts = () => {
   const router = useRouter();
@@ -54,7 +54,7 @@ const ShowProducts = () => {
                     <TableHead>Category</TableHead>
                     <TableHead>SubCategory</TableHead>
                     <TableHead>Price</TableHead>
-                    <TableHead className="text-center">Discount</TableHead>
+                    <TableHead>Discount</TableHead>
                     <TableHead className="text-center">Action</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -66,25 +66,42 @@ const ShowProducts = () => {
                         <TableCell>{shortName}</TableCell>
                         <TableCell>{item.category}</TableCell>
                         <TableCell>{item.subCategory}</TableCell>
-                        <TableCell className="text-right">
-                          {formateMoney(item.price)}
-                        </TableCell>
-                        <TableCell className="text-right text-red-500">
+                        <TableCell>{formateMoney(item.price)}</TableCell>
+                        <TableCell className=" text-red-500">
                           {item.discount}
                         </TableCell>
-                        <TableCell className="text-right">
-                          <MyDialog
-                            triggerButton={
-                              <Button
-                                // onClick={() => handleDetails(item._id)}
-                                variant="ghost"
-                              >
-                                <Edit size={18} />
-                              </Button>
-                            }
-                          >
-                            <AddVariantForm productId={item._id} />
-                          </MyDialog>
+
+                        <TableCell className="text-right flex-1">
+                          <div className="flex justify-end items-center gap-4 py-2">
+                            <MyDialog
+                              triggerButton={
+                                <span className="inline-flex items-center gap-2 transition-colors text-gray-700 group hover:text-primary whitespace-nowrap">
+                                  Add Variant
+                                  <Plus
+                                    size={18}
+                                    className="text-gray-600 group-hover:text-primary transition-colors"
+                                  />
+                                </span>
+                              }
+                            >
+                              <AddVariantForm productId={item._id} />
+                            </MyDialog>
+
+                            {/* Edit Button */}
+                            <MyDialog
+                              triggerButton={
+                                <span className="inline-flex items-center gap-2 transition-colors text-gray-700 group hover:text-primary whitespace-nowrap">
+                                  Edit
+                                  <Edit
+                                    size={18}
+                                    className="text-gray-600 group-hover:text-primary transition-colors"
+                                  />
+                                </span>
+                              }
+                            >
+                              <ProductUpdateForm data={item} />
+                            </MyDialog>
+                          </div>
                         </TableCell>
                       </TableRow>
                     );
@@ -100,5 +117,3 @@ const ShowProducts = () => {
 };
 
 export default ShowProducts;
-
-

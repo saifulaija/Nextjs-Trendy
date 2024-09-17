@@ -74,17 +74,17 @@ const AuthButton = () => {
     <>
       {user && user.userId ? (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className={cn("border-none")}>
-            <Button variant="secondary" size="icon" className="rounded-full">
-              {/* <MyAvatar url={assets.images.login_user} alt="User Avatar" /> */}
+          <DropdownMenuTrigger asChild className={cn("border-none cursor-pointer")}>
+           
+            
               <Image
                 src={assets.images.login_user}
                 width={50}
                 height={50}
                 alt="login image"
               />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
+            
+            
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <Link href={`/dashboard/${user.role}`}>

@@ -5,13 +5,14 @@ import { TProduct } from './product.interface';
 import { Product } from './product.model';
 import { TVariant } from '../varient/variant.interface';
 import { Variant } from '../varient/variant.model';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 const createProductIntoDB = async (productPayload: TProduct) => {
   // Create the product in the database
   const result = await Product.create(productPayload);
 
   return result;
 };
-
 
 // const getAllProductsFromDB = async (query: Record<string, unknown>) => {
 //   const productQuery = new QueryBuilder(
@@ -60,8 +61,6 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
     result,
   };
 };
-
-
 
 const getAllProductsFromDBForVariant = async (
   query: Record<string, unknown>,
@@ -183,10 +182,29 @@ const deleteProductIntoDB = async (id: string) => {
   return result;
 };
 
+const updateProduct = async (id: string, payload: Partial<TProduct>) => {
+  const isExistProduct = await Product.findById(id);
+  if (!isExistProduct) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'This product was not found');
+  }
+
+  console.log(payload);
+  
+
+  // Update the product with the provided payload
+  const result = await Product.findByIdAndUpdate(
+    id,
+    { $set: payload },
+    { new: true, runValidators: true },
+  );
+
+  return result;
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getAllProductsFromDB,
-
+  updateProduct,
   getSingleProductFromDB,
   getAllProductsByCategoryFromDB,
   deleteProductIntoDB,
