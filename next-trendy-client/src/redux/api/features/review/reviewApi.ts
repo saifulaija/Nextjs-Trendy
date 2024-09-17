@@ -62,12 +62,12 @@ const ReviewApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.product],
     }),
 
-    deleteProduct: build.mutation({
+    deleteReview: build.mutation({
       query: (id) => ({
-        url: `/product/soft-delete/${id}`,
+        url: `/review/delete-review/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [tagTypes.product],
+      invalidatesTags: [tagTypes.product,tagTypes.review],
     }),
 
     updateProduct: build.mutation({
@@ -93,7 +93,7 @@ export const {
   useCreateReviewMutation,
   useGetMyReviewQuery,
   useGetAllReviewsQuery,
-  useDeleteProductMutation,
+ useDeleteReviewMutation,
   useUpdateProductMutation,
   useGetSingleProductForModeratorQuery,
 useUpdateReviewStatusMutation,

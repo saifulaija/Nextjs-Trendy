@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/table";
 
 import {
+  useDeleteReviewMutation,
   useGetAllApprovedReviewsQuery,
- 
-  useUpdateReviewStatusMutation,
 } from "@/redux/api/features/review/reviewApi";
-import { ChevronDown, X} from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CustomLoader from "@/components/shared/customLoader/CustomLoader";
+import { toast } from "react-toastify";
 
 const STATUS_OPTIONS = [
   { name: "Pending", value: "pending" },
@@ -27,12 +27,12 @@ const STATUS_OPTIONS = [
 
 const ApprovedReviewPage = () => {
   const { data, isLoading } = useGetAllApprovedReviewsQuery({});
-  const [updateReviewStatus, { isLoading: updateLoading }] =
-    useUpdateReviewStatusMutation();
+  const [deleteReview] = useDeleteReviewMutation();
 
- const handleDelete=()=>{
-  
- }
+  const handleDelete = async (id: string) => {
+    const res = await deleteReview(id);
+    toast.warning("review delete successfully", { position: "bottom-left" });
+  };
 
   return (
     <div className="w-full py-10 px-4 md:p-10">
@@ -77,10 +77,11 @@ const ApprovedReviewPage = () => {
                       <TableCell>{item.status}</TableCell>
                       <TableCell className="text-center">
                         <Button
+                          onClick={() => handleDelete(item._id)}
                           asChild
                           variant="link"
                           className={cn(
-                            "group cursor-pointer text-sm font-medium text-gray-700 hover:text-primary hover:no-underline" 
+                            "group cursor-pointer text-sm font-medium text-gray-700 hover:text-primary hover:no-underline"
                           )}
                         >
                           <span className="inline-flex items-center">
