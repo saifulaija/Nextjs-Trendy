@@ -19,10 +19,6 @@ router.post(
 router.get('/', 
   // auth(USER_ROLE.superAdmin),
  VariantControllers.getAllVariants);
-router.delete(
-  '/:id',
-  //   auth(USER_ROLE.superAdmin),
-  VariantControllers.deleteVariant,
-);
+
 
 export const variantRoutes = router;
