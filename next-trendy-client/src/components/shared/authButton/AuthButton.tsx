@@ -74,17 +74,16 @@ const AuthButton = () => {
     <>
       {user && user.userId ? (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className={cn("border-none cursor-pointer")}>
-           
-            
-              <Image
-                src={assets.images.login_user}
-                width={50}
-                height={50}
-                alt="login image"
-              />
-            
-            
+          <DropdownMenuTrigger
+            asChild
+            className={cn("border-none cursor-pointer")}
+          >
+            <Image
+              src={assets.images.login_user}
+              width={50}
+              height={50}
+              alt="login image"
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <Link href={`/dashboard/${user.role}`}>
@@ -97,14 +96,18 @@ const AuthButton = () => {
       ) : (
         <Link href="/account/login" passHref>
           <Button variant="link" asChild className={cn()}>
-            <div className="flex items-center gap-1">
+            <div
+              className="flex items-center group cursor-pointer hover:text-primary transition-all duration-200"
+              aria-label="User options"
+              role="button"
+            >
               <User
                 strokeWidth={2.5}
-                className="w-5 h-5  text-gray-700 transition-all duration-200 group-hover:text-white"
+                className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors duration-200"
               />
               <ChevronDown
                 strokeWidth={2.5}
-                className="w-5 h-5 text-gray-700 transition-all duration-200 group-hover:text-white"
+                className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors duration-200"
               />
             </div>
           </Button>
