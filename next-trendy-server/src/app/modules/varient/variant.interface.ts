@@ -7,7 +7,7 @@ export type TStock = {
 };
 export type TVariant = {
   size:string;
-  productId: Types.ObjectId;
+  product: Types.ObjectId;
   variant: TStock[];
   isDeleted:boolean
 };

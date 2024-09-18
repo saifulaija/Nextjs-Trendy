@@ -63,13 +63,13 @@ const add_variant = () => {
                         <TableCell>{shortName}</TableCell>
                         <TableCell>{item.category}</TableCell>
                         <TableCell>{item.subCategory}</TableCell>
-                        <TableCell className="text-right">
+                        <TableCell >
                           {formateMoney(item.price)}
                         </TableCell>
-                        <TableCell className="text-right text-red-500">
+                        <TableCell className=" text-center text-red-500">
                           {item.discount}
                         </TableCell>
-                        <TableCell className="">
+                        <TableCell className="flex items-center justify-end ml-14">
                           <MyDialog
                             triggerButton={
                               <span className="flex items-center gap-1 transition-colors text-gray-700 group hover:text-primary">

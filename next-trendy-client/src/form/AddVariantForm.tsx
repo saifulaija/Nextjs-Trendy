@@ -76,7 +76,7 @@ const AddVariantForm = ({ productId }: { productId: string }) => {
     );
 
     try {
-      const updatedValues = { ...values, variant: updatedVariants, productId };
+      const updatedValues = { ...values, variant: updatedVariants, product:productId };
       console.log("Submitting updated values:", updatedValues); // Debugging the payload
 
       // Create variant API call

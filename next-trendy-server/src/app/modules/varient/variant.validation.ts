@@ -26,8 +26,8 @@ const createVariantValidationSchema = z.object({
     size: z.string({
       required_error: 'size is required',
     }),
-    productId: z.string({
-      required_error: 'productId is required',
+    product: z.string({
+      required_error: 'product is required',
     }),
 
     variant: z.array(TStockSchema),

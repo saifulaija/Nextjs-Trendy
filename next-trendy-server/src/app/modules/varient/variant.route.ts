@@ -16,10 +16,12 @@ router.post(
   VariantControllers.createVariant,
 );
 
-router.get('/', auth(USER_ROLE.superAdmin), VariantControllers.getAllVariants);
+router.get('/', 
+  // auth(USER_ROLE.superAdmin),
+ VariantControllers.getAllVariants);
 router.delete(
   '/:id',
-//   auth(USER_ROLE.superAdmin),
+  //   auth(USER_ROLE.superAdmin),
   VariantControllers.deleteVariant,
 );
 

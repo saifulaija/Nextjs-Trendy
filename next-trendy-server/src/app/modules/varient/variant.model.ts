@@ -3,7 +3,7 @@ import { TVariant } from './variant.interface';
 
 const variantSchema = new Schema<TVariant>({
   size: { type: String, required: true },
-  productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+  product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
   variant: [
     {
       color: { type: String, required: true },

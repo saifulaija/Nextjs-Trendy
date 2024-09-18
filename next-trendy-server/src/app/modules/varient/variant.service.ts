@@ -5,72 +5,6 @@ import { TVariant } from './variant.interface';
 import { Variant } from './variant.model';
 import mongoose from 'mongoose';
 
-
-
-
-
-// const createVariant = async (
-//   payload: Partial<TVariant>,
-// ): Promise<TVariant | any> => {
-//   const session = await mongoose.startSession(); // Start the session
-//   try {
-//     session.startTransaction();
-
-//     const createdVariant = await Variant.create([{ payload }], { session });
-
-//     if (!createdVariant) {
-//       throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create variant');
-//     }
-
-//     // Extract the _id of the created Variant
-//     const variantId = createdVariant._id;
-
-//     // Update the product by pushing the variantId directly
-//     await Product.findOneAndUpdate(
-//       { _id: payload.productId }, // Filter the product by its ID
-//       { $push: { variant: variantId } }, // Push variantId directly
-//       { new: true, session }, // Use the session
-//     );
-
-  
-//     await session.commitTransaction();
-//     session.endSession();
-
-//     return createdVariant[0];
-//   } catch (error) {
-//     // If error, abort the transaction
-//     await session.abortTransaction();
-    
-//     console.error('Error creating Variant:', error);
-//   }
-//   session.endSession();
-    
-// };
-
-// const createVariant = async (payload: TVariant) => {
-//   try {
-//     // Create the Variant
-//     const createdVariant = await Variant.create(payload);
-
-//     // Extract the _id of the created Variant
-//     const variantId = createdVariant._id;
-
-//     // Update the product by pushing the variantId directly
-//     await Product.findOneAndUpdate(
-//       { _id: payload.productId }, // Filter the product by its ID
-//       {
-//         $push: { variant: variantId }, // Push variantId directly, not an object
-//       },
-//       { new: true }, // Optionally return the updated document
-//     );
-
-//     return createdVariant;
-//   } catch (error) {
-//     console.error('Error creating Variant:', error);
-//     throw error;
-//   }
-// };
-
 const createVariant = async (
   payload: Partial<TVariant>,
 ): Promise<TVariant | any> => {
@@ -90,7 +24,7 @@ const createVariant = async (
 
     // Update the product by pushing the variantId directly
     await Product.findOneAndUpdate(
-      { _id: payload.productId }, // Filter the product by its ID
+      { _id: payload.product }, // Filter the product by its ID
       { $push: { variant: variantId } }, // Push variantId directly
       { new: true, session }, // Use the session
     );
@@ -107,10 +41,8 @@ const createVariant = async (
   session.endSession();
 };
 
-
-
 const getAllVariants = async () => {
-  const result = await Variant.find();
+  const result = await Variant.find().populate('productId');
   return result;
 };
 

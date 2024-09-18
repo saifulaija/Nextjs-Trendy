@@ -8,33 +8,29 @@ import Image from "next/image";
 import Review from "./Review";
 import { ProductAccordion } from "./ProductAccordion";
 
-
-const ProductTabs = ({ product }:{product:TProduct}) => {
+const ProductTabs = ({ product }: { product: TProduct }) => {
   return (
     <div>
       <Tabs defaultValue="description" className="w-full max-w-7xl">
-        {/* Adjusting the grid to ensure all tabs are in one line */}
         <TabsList className="flex w-full space-x-2">
           <TabsTrigger value="description">Description</TabsTrigger>
           <TabsTrigger value="review">
             Reviews ({product.totalReviews})
           </TabsTrigger>
           <TabsTrigger value="size chart">Size Chart</TabsTrigger>
-          <TabsTrigger value="information">FAQ</TabsTrigger>
+          <TabsTrigger value="accordion">FAQ</TabsTrigger>
         </TabsList>
-        {/* Description Tab Content */}
+
         <TabsContent value="description">
           <Card className="p-4">
             <p>{product.description}</p>
           </Card>
         </TabsContent>
-        {/* Additional Information Tab Content */}
 
-        {/* Reviews Tab Content */}
         <TabsContent value="review">
           <Review product={product} />
         </TabsContent>
-        {/* Size Chart Tab Content */}
+
         <TabsContent value="size chart">
           <Card className="p-4">
             <Image
@@ -46,9 +42,9 @@ const ProductTabs = ({ product }:{product:TProduct}) => {
             />
           </Card>
         </TabsContent>
-        <TabsContent value="information">
+        <TabsContent value="accordion">
           <Card className="p-4 md:px-10">
-          <ProductAccordion/>
+            <ProductAccordion />
           </Card>
         </TabsContent>
       </Tabs>

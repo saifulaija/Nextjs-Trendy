@@ -53,7 +53,7 @@ export const adminSidebarData = {
         },
         {
           title: "Show Variants",
-          url: "/dashboard/admin/product_variants/show_variant",
+          url: "/dashboard/admin/product_variants/show_variants",
         },
       ],
     },
