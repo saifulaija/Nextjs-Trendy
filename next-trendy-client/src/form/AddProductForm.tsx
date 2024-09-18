@@ -78,7 +78,7 @@ const AddProductForm = () => {
       const res = await createProduct({ ...values, tags });
 
       if (res?.data) {
-        toast.success("Product added successfully");
+        toast.success("Product added successfully",{position:"bottom-left"});
         router.push("/dashboard/admin/product_management/show_products");
       } else {
         throw new Error("Failed to add product, please try again.");
