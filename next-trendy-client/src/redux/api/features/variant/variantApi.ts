@@ -13,7 +13,7 @@ const variantsApi = baseApi.injectEndpoints({
 
         data,
       }),
-      invalidatesTags: [tagTypes.variant],
+      invalidatesTags: [tagTypes.variant,tagTypes.product],
     }),
 
     getAllVariants: build.query({

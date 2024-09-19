@@ -53,12 +53,6 @@ const ProductsApi = baseApi.injectEndpoints({
         method: "GET",
         params: arg,
       }),
-      // transformResponse: (response: IProduct[], meta: IMeta) => {
-      //   return {
-      //     Products: response,
-      //     meta,
-      //   };
-      // },
       providesTags: [tagTypes.product],
     }),
     getSingleProduct: build.query({
@@ -83,7 +77,7 @@ const ProductsApi = baseApi.injectEndpoints({
         url: `/product/delete-product/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [tagTypes.product,tagTypes.variant],
+      invalidatesTags: [tagTypes.product, tagTypes.variant],
     }),
 
     updateProduct: build.mutation({
@@ -114,5 +108,5 @@ export const {
   useUpdateProductMutation,
   useGetSingleProductForModeratorQuery,
   useUpdateStatusApproveMutation,
-  useGetAllProductsVariantQuery
+  useGetAllProductsVariantQuery,
 } = ProductsApi;
