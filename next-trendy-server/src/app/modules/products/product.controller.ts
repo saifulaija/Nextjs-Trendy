@@ -66,6 +66,8 @@ const getAllProductsByCategory = catchAsync(async (req, res) => {
 const deleteProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await ProductServices.deleteProductIntoDB(id);
+  console.log(id,'deleted======================');
+  
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -174,12 +174,44 @@ const getAllProductsByCategoryFromDB = async (category: string) => {
 };
 
 const deleteProductIntoDB = async (id: string) => {
-  const result = await Product.findOneAndUpdate(
-    { _id: id },
-    { isDeleted: true },
-    { new: true },
-  );
-  return result;
+  // Start a session for the transaction
+  const session = await Product.startSession();
+
+  try {
+    session.startTransaction();
+
+    // Fetch the product by its ID
+    const productData = await Product.findById(id).session(session);
+    if (!productData) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Product not found');
+    }
+
+    // Extract variant IDs from the product
+    const variantIds = productData.variant;
+
+    // Delete associated variants if they exist
+    if (variantIds && variantIds.length > 0) {
+      await Variant.deleteMany({ _id: { $in: variantIds } }).session(session);
+      console.log('Variants deleted successfully');
+    }
+
+    // Delete the product itself
+    const deletedProduct = await Product.findByIdAndDelete(id).session(session);
+
+    // Commit the transaction
+    await session.commitTransaction();
+    console.log('Product and its variants deleted successfully');
+
+    return deletedProduct;
+  } catch (error) {
+    // Abort the transaction in case of any error
+    await session.abortTransaction();
+    console.error('Transaction aborted due to an error:', error);
+    throw error; // Re-throw the error for further handling
+  } finally {
+    // End the session in the 'finally' block to ensure it always executes
+    session.endSession();
+  }
 };
 
 const updateProduct = async (id: string, payload: Partial<TProduct>) => {
@@ -189,7 +221,6 @@ const updateProduct = async (id: string, payload: Partial<TProduct>) => {
   }
 
   console.log(payload);
-  
 
   // Update the product with the provided payload
   const result = await Product.findByIdAndUpdate(

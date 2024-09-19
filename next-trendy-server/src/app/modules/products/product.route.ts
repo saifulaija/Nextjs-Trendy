@@ -53,5 +53,6 @@ router.post('/:productId/review', reviewControllers.createReview)
 router.get('/:productId/review', reviewControllers.getAllReviews)
 router.get('/pending-reviews', reviewControllers.getAllPendingReviews)
 router.get('/approved-reviews', reviewControllers.getAllApprovedReviews)
+router.delete('/delete-product/:id',ProductControllers.deleteProduct)
 
 export const ProductsRoutes = router;
