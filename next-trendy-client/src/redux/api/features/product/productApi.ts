@@ -85,13 +85,7 @@ const ProductsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.product,tagTypes.variant],
     }),
-    // getSingleDoctor: build.query({
-    //   query: (id: string | string[] | undefined) => ({
-    //     url: `/doctor/${id}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.doctor],
-    // }),
+
     updateProduct: build.mutation({
       query: (data) => ({
         url: `/product/update-product/${data.id}`,

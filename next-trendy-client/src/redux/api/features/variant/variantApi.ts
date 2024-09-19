@@ -25,22 +25,17 @@ const variantsApi = baseApi.injectEndpoints({
         method: "GET",
         params: arg,
       }),
-   
+
       providesTags: [tagTypes.variant],
     }),
-   
+
     getMyVariants: build.query({
       query: (arg: Record<string, any>) => ({
         url: `/variant/get-my-Variants`,
         method: "GET",
         params: arg,
       }),
-      // transformResponse: (response: IVariant[], meta: IMeta) => {
-      //   return {
-      //     Variants: response,
-      //     meta,
-      //   };
-      // },
+
       providesTags: [tagTypes.variant],
     }),
     getSingleVariant: build.query({
@@ -67,17 +62,11 @@ const variantsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.variant],
     }),
-    // getSingleDoctor: build.query({
-    //   query: (id: string | string[] | undefined) => ({
-    //     url: `/doctor/${id}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.doctor],
-    // }),
+
     updateVariant: build.mutation({
       query: (data) => ({
-        url: `/variant/${data.id}`,
-        method: "PATCH",
+        url: `/variant/update-variant/${data.id}`,
+        method: "PUT",
         data: data.body,
       }),
       invalidatesTags: [tagTypes.variant],

@@ -21,9 +21,12 @@ import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 import MyDialog from "@/components/shadcn/MyDialog";
 import AddVariantForm from "@/form/AddVariantForm";
 import React from "react";
+import VariantUpdateForm from "@/form/VariantUpdateForm";
 
 const VariantShow = () => {
   const { data, isLoading } = useGetAllVariantsQuery({});
+  console.log(data);
+  
   const router = useRouter();
 
   if (isLoading) return <CustomLoader />;
@@ -108,7 +111,7 @@ const VariantShow = () => {
                                   </span>
                                 }
                               >
-                                <AddVariantForm productId={item.product._id} />
+                                <VariantUpdateForm data={data} />
                               </MyDialog>
                             </TableCell>
                           </TableRow>
