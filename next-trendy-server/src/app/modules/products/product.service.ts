@@ -200,8 +200,6 @@ const deleteProductIntoDB = async (id: string) => {
 
     // Commit the transaction
     await session.commitTransaction();
-    console.log('Product and its variants deleted successfully');
-
     return deletedProduct;
   } catch (error) {
     // Abort the transaction in case of any error

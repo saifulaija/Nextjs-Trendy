@@ -47,30 +47,6 @@ const getAllVariants = async () => {
   return result;
 };
 
-// const updateVariant = async (id: string, payload: Partial<TVariant>) => {
-//   const { variant, ...remainingVariantData } = payload;
-//   const modifiedUpdatedData: Record<string, unknown> = {
-//     ...remainingVariantData,
-//   };
-//   if (variant && Object.keys(color).length) {
-//     for (const [key, value] of Object.entries(color)) {
-//       modifiedUpdatedData[`color.${key}`] = value;
-//     }
-//   }
-//   if (variant && Object.keys(quantity).length) {
-//     for (const [key, value] of Object.entries(quantity)) {
-//       modifiedUpdatedData[`quantity.${key}`] = value;
-//     }
-//   }
-//   const result = await Review.findByIdAndUpdate(id, modifiedUpdatedData, {
-//     new: true,
-//     runValidators: true,
-//   });
-//   return result;
-// };
-
-
-
 const updateVariant = async (id: string, payload: Partial<TVariant>) => {
   const { variant, ...remainingVariantData } = payload;
   const modifiedUpdatedData: Record<string, unknown> = {
@@ -101,8 +77,52 @@ const updateVariant = async (id: string, payload: Partial<TVariant>) => {
   return result;
 };
 
+const deleteVariant = async (id: string) => {
+  const session = await mongoose.startSession();
+
+  try {
+    // Start the transaction
+    session.startTransaction();
+
+    // Check if the variant exists
+    const isExistVariant = await Variant.findById(id).session(session);
+    if (!isExistVariant) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Variant not found');
+    }
+
+    // Remove the variant ID from the product's variant array
+    const updatedProduct = await Product.findByIdAndUpdate(
+      isExistVariant.product,
+      {
+        $pull: { variant: id },
+      },
+      { new: true, session },
+    );
+
+    if (!updatedProduct) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Product not found');
+    }
+
+    // Delete the variant itself
+    const result = await Variant.findByIdAndDelete(id, { session });
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    return result;
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+};
+
+export default deleteVariant;
+
 export const VariantServices = {
   createVariant,
   getAllVariants,
   updateVariant,
+  deleteVariant,
 };

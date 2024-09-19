@@ -22,5 +22,6 @@ router.get(
   VariantControllers.getAllVariants,
 );
 router.put('/update-variant/:id', VariantControllers.updateVariant);
+router.delete('/delete-variant/:id', VariantControllers.deleteVariant);
 
 export const variantRoutes = router;

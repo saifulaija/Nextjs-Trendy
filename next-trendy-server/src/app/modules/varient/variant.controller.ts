@@ -38,10 +38,25 @@ const updateVariant = catchAsync(async (req, res) => {
 });
 
 
+const deleteVariant = catchAsync(async (req, res) => {
+  const{id}=req.params
+  
+  const result = await VariantServices.deleteVariant(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'delete variant successfully',
+    data: result,
+  });
+});
+
+
 export const VariantControllers = {
   createVariant,
   getAllVariants,
-  updateVariant
+  updateVariant,
+  deleteVariant
 
 
 };
