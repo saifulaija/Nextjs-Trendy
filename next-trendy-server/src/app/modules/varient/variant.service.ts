@@ -4,6 +4,7 @@ import { Product } from '../products/product.model';
 import { TVariant } from './variant.interface';
 import { Variant } from './variant.model';
 import mongoose from 'mongoose';
+import { Review } from '../review/review.model';
 
 const createVariant = async (
   payload: Partial<TVariant>,
@@ -46,10 +47,62 @@ const getAllVariants = async () => {
   return result;
 };
 
+// const updateVariant = async (id: string, payload: Partial<TVariant>) => {
+//   const { variant, ...remainingVariantData } = payload;
+//   const modifiedUpdatedData: Record<string, unknown> = {
+//     ...remainingVariantData,
+//   };
+//   if (variant && Object.keys(color).length) {
+//     for (const [key, value] of Object.entries(color)) {
+//       modifiedUpdatedData[`color.${key}`] = value;
+//     }
+//   }
+//   if (variant && Object.keys(quantity).length) {
+//     for (const [key, value] of Object.entries(quantity)) {
+//       modifiedUpdatedData[`quantity.${key}`] = value;
+//     }
+//   }
+//   const result = await Review.findByIdAndUpdate(id, modifiedUpdatedData, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   return result;
+// };
 
+
+
+const updateVariant = async (id: string, payload: Partial<TVariant>) => {
+  const { variant, ...remainingVariantData } = payload;
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingVariantData,
+  };
+
+  // If 'variant' exists and is an array, process its entries
+  if (variant && Array.isArray(variant)) {
+    variant.forEach((item, index) => {
+      if (item.color) {
+        modifiedUpdatedData[`variant.${index}.color`] = item.color;
+      }
+      if (item.quantity) {
+        modifiedUpdatedData[`variant.${index}.quantity`] = item.quantity;
+      }
+      if (item.image) {
+        modifiedUpdatedData[`variant.${index}.image`] = item.image;
+      }
+    });
+  }
+
+  // Update the variant in the database
+  const result = await Variant.findByIdAndUpdate(id, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
 
 export const VariantServices = {
   createVariant,
   getAllVariants,
- 
+  updateVariant,
 };

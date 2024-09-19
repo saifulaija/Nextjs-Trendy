@@ -20,7 +20,19 @@ const getAllVariants = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Variants are fatched successfully',
+    message: 'Variants are fetched successfully',
+    data: result,
+  });
+});
+const updateVariant = catchAsync(async (req, res) => {
+  const{id}=req.params
+  
+  const result = await VariantServices.updateVariant(id,req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Variants updated successfully',
     data: result,
   });
 });
@@ -29,5 +41,7 @@ const getAllVariants = catchAsync(async (req, res) => {
 export const VariantControllers = {
   createVariant,
   getAllVariants,
+  updateVariant
+
 
 };

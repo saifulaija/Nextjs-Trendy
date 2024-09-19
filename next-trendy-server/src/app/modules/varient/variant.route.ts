@@ -16,9 +16,11 @@ router.post(
   VariantControllers.createVariant,
 );
 
-router.get('/', 
+router.get(
+  '/',
   // auth(USER_ROLE.superAdmin),
- VariantControllers.getAllVariants);
-
+  VariantControllers.getAllVariants,
+);
+router.put('/update-variant/:id', VariantControllers.updateVariant);
 
 export const variantRoutes = router;
