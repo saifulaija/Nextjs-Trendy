@@ -145,7 +145,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -158,17 +158,26 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { formateMoney } from "@/utils/formateMoney";
 import { truncateTitle } from "@/utils/truncateTitle";
-import { useGetAllVariantsQuery } from "@/redux/api/features/variant/variantApi";
+import { useDeleteVariantMutation, useGetAllVariantsQuery } from "@/redux/api/features/variant/variantApi";
 import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 import MyDialog from "@/components/shadcn/MyDialog";
 import VariantUpdateForm from "@/form/VariantUpdateForm";
 import React from "react";
 import { Tooltip } from "@/components/ui/tooltip";
+import { toast } from "react-toastify";
+import { cn } from "@/lib/utils";
 
 const VariantShow = () => {
   const { data, isLoading } = useGetAllVariantsQuery({});
+  const[deleteVariant]=useDeleteVariantMutation()
   const router = useRouter();
+     const handleDelete = async (id: string) => {
+       const res = await deleteVariant(id);
+       toast.warning("variant delete successfully", {
+         position: "bottom-left",
+       });
+     };
 
   if (isLoading) return <CustomLoader />;
 
@@ -203,9 +212,7 @@ const VariantShow = () => {
                     <React.Fragment key={item._id}>
                       <TableRow>
                         <TableCell>
-                     
-                            <span>{shortName}</span>
-                         
+                          <span>{shortName}</span>
                         </TableCell>
                         <TableCell>{item.product.category}</TableCell>
                         <TableCell>{item.product.subCategory}</TableCell>
@@ -244,19 +251,35 @@ const VariantShow = () => {
                               </div>
                             </TableCell>
                             <TableCell className="text-center">
-                              <MyDialog
-                                triggerButton={
-                                  <span className="flex items-center justify-center gap-1 text-gray-700 group hover:text-primary transition-colors">
-                                    Edit
-                                    <Edit
-                                      size={18}
-                                      className="group-hover:text-primary"
-                                    />
+                              <div className="flex items-center gap-2">
+                                <MyDialog
+                                  triggerButton={
+                                    <span className="flex items-center justify-center gap-1 text-gray-700 group hover:text-primary transition-colors">
+                                      Edit
+                                      <Edit
+                                        size={18}
+                                        className="group-hover:text-primary"
+                                      />
+                                    </span>
+                                  }
+                                >
+                                  <VariantUpdateForm data={data} />
+                                </MyDialog>
+
+                                <Button
+                                  onClick={() => handleDelete(item._id)}
+                                  asChild
+                                  variant="link"
+                                  className={cn(
+                                    "group cursor-pointer text-sm font-medium text-gray-700 hover:text-primary hover:no-underline"
+                                  )}
+                                >
+                                  <span className="inline-flex items-center">
+                                    Delete
+                                    <X className="-mr-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-primary" />
                                   </span>
-                                }
-                              >
-                                <VariantUpdateForm data={data} />
-                              </MyDialog>
+                                </Button>
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))

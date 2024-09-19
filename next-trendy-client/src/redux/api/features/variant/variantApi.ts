@@ -1,8 +1,5 @@
-import { IMeta } from "@/types";
-
 import { baseApi } from "@/redux/api/baseApi";
 import { tagTypes } from "@/redux/tag-types";
-
 
 const variantsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -29,24 +26,7 @@ const variantsApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.variant],
     }),
 
-    getMyVariants: build.query({
-      query: (arg: Record<string, any>) => ({
-        url: `/variant/get-my-Variants`,
-        method: "GET",
-        params: arg,
-      }),
-
-      providesTags: [tagTypes.variant],
-    }),
     getSingleVariant: build.query({
-      query: (id) => ({
-        url: `/variant/get-single-variant/${id}`,
-        method: "GET",
-      }),
-
-      providesTags: [tagTypes.variant],
-    }),
-    getSingleVariantForModerator: build.query({
       query: (id) => ({
         url: `/variant/get-single-variant/${id}`,
         method: "GET",
@@ -57,10 +37,10 @@ const variantsApi = baseApi.injectEndpoints({
 
     deleteVariant: build.mutation({
       query: (id) => ({
-        url: `/variant/soft-delete/${id}`,
+        url: `/variant/delete-variant/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [tagTypes.variant],
+      invalidatesTags: [tagTypes.variant, tagTypes.product],
     }),
 
     updateVariant: build.mutation({
@@ -85,11 +65,8 @@ const variantsApi = baseApi.injectEndpoints({
 export const {
   useCreateVariantMutation,
   useGetAllVariantsQuery,
-  useGetMyVariantsQuery,
   useGetSingleVariantQuery,
   useDeleteVariantMutation,
   useUpdateVariantMutation,
-  useGetSingleVariantForModeratorQuery,
   useUpdateStatusApproveMutation,
-  
 } = variantsApi;
