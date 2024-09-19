@@ -80,10 +80,10 @@ const ProductsApi = baseApi.injectEndpoints({
 
     deleteProduct: build.mutation({
       query: (id) => ({
-        url: `/product/soft-delete/${id}`,
+        url: `/product/delete-product/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [tagTypes.product],
+      invalidatesTags: [tagTypes.product,tagTypes.variant],
     }),
     // getSingleDoctor: build.query({
     //   query: (id: string | string[] | undefined) => ({

@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Plus } from "lucide-react";
+import { Edit, Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -15,22 +15,30 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { formateMoney } from "@/utils/formateMoney";
 import { truncateTitle } from "@/utils/truncateTitle";
-import { useGetAllProductsVariantQuery } from "@/redux/api/features/product/productApi";
+import { useDeleteProductMutation, useGetAllProductsVariantQuery } from "@/redux/api/features/product/productApi";
 import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import CustomLoader from "@/components/shared/customLoader/CustomLoader";
 import MyDialog from "@/components/shadcn/MyDialog";
 import AddVariantForm from "@/form/AddVariantForm";
 import ProductUpdateForm from "@/form/ProductUpdatForm";
+import { toast } from "react-toastify";
+import { cn } from "@/lib/utils";
 
 const ShowProducts = () => {
   const router = useRouter();
   const { data, isLoading } = useGetAllProductsVariantQuery({});
+  const[deleteProduct]=useDeleteProductMutation()
 
   if (isLoading) return <CustomLoader />;
 
   const handleDetails = (id: string) => {
     router.push(`/product/details/${id}`);
   };
+
+    const handleDelete = async (id: string) => {
+      const res = await deleteProduct(id);
+      toast.warning("product delete successfully", { position: "bottom-left" });
+    };
 
   return (
     <div className="w-full py-10 px-4 md:p-10">
@@ -101,6 +109,19 @@ const ShowProducts = () => {
                             >
                               <ProductUpdateForm data={item} />
                             </MyDialog>
+                            <Button
+                              onClick={() => handleDelete(item._id)}
+                              asChild
+                              variant="link"
+                              className={cn(
+                                "group cursor-pointer text-sm font-medium text-gray-700 hover:text-primary hover:no-underline"
+                              )}
+                            >
+                              <span className="inline-flex items-center">
+                                Delete
+                                <X className="-mr-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-primary" />
+                              </span>
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>
