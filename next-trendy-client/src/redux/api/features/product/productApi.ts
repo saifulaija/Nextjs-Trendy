@@ -33,6 +33,8 @@ const ProductsApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.product],
     }),
+
+
     getNewArrivalProducts: build.query({
       query: (arg: Record<string, any>) => ({
         url: "/product/new-arrival-products",

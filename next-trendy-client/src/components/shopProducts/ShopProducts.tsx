@@ -1,4 +1,7 @@
+
+
 "use client";
+import { useEffect, useState } from "react";
 import { useGetAllProductsQuery } from "@/redux/api/features/product/productApi";
 import { useDebounced } from "@/redux/hooks";
 import {
@@ -10,27 +13,51 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
-
 import { TProduct } from "@/types/product.type";
-import ProductCard from "../shared/productCard/ProductCard";
-import { NoData } from "../shared/noData/NoData";
 import ProductCategoryCard from "../shared/productCard/CategoryProductCard";
+import { NoData } from "../shared/noData/NoData";
 import CustomLoader from "../shared/customLoader/CustomLoader";
 
-const ShopProducts = ({
-  searchTerm,
-}: {
- 
-  searchTerm: string;
-}) => {
-  const query: Record<string, any> = {};
-  const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
-  if (debounceTerm) {
-    query["searchTerm"] = debounceTerm;
-  }
+const ShopProducts = ({ searchTerm }: { searchTerm: string }) => {
+  const [page, setPage] = useState(1);
+  const [products, setProducts] = useState<TProduct[]>([]);
 
-  const { data, isLoading } = useGetAllProductsQuery({ ...query });
-  console.log(data, "category");
+  const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
+  const query: Record<string, any> = {
+    searchTerm: debounceTerm,
+    page,
+  };
+
+  const { data, isLoading, isFetching } = useGetAllProductsQuery({ ...query });
+
+  useEffect(() => {
+    if (data?.Products) {
+      setProducts((prev) => [...prev, ...data.Products]); // Append new products
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setProducts([]); // Reset products when search term changes
+    setPage(1); // Reset page to 1
+  }, [debounceTerm]);
+
+  useEffect(() => {
+    const loadMoreProducts = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 100 &&
+        !isFetching && // Prevent loading if already fetching
+        data?.Products?.length
+      ) {
+        setPage((prevPage) => prevPage + 1); // Load next page
+      }
+    };
+
+    window.addEventListener("scroll", loadMoreProducts);
+    return () => {
+      window.removeEventListener("scroll", loadMoreProducts);
+    };
+  }, [data, isFetching]);
 
   return (
     <div className="w-full">
@@ -43,29 +70,23 @@ const ShopProducts = ({
             <Slash />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbPage>shop</BreadcrumbPage>
+            <BreadcrumbPage>Shop</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div className="wrapper">
         <div>
           <div className="flex justify-center items-center italic font-semibold p-2">
-            {searchTerm && (
-              <>
-                <p>
-                  {data?.Products?.length
-                    ? `Search result ${data?.Products.length}`
-                    : ""}
-                </p>
-              </>
+            {debounceTerm && products.length > 0 && (
+              <p>{`Search result: ${products.length}`}</p>
             )}
           </div>
           <div className="w-full">
             {isLoading ? (
               <CustomLoader />
-            ) : (data?.Products?.length ?? 0) > 0 ? (
+            ) : products.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                {data?.Products?.map((product: TProduct) => (
+                {products.map((product: TProduct) => (
                   <ProductCategoryCard product={product} key={product._id} />
                 ))}
               </div>
