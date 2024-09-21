@@ -20,10 +20,13 @@ const NewArrivalProducts = () => {
 
   return (
     <div className="container mx-auto">
-      <CustomHeader title="New Arrivals" />
+      <CustomHeader
+        title="New Arrivals"
+        subtitle="Best Selling Shoes Nominated By You"
+      />
 
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 my-10">
-        {data.map((product:any) => (
+        {data.map((product: any) => (
           <ProductCard key={product.id} product={product} /> // Ensure to pass the correct product
         ))}
       </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { BestSellingCarousel } from "./BestSellingCarousel";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Link2OffIcon } from "lucide-react";
 import Link from "next/link"; // Import the Next.js Link component
@@ -8,13 +7,14 @@ import Link from "next/link"; // Import the Next.js Link component
 import { cn } from "@/lib/utils";
 import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import CommonButton from "@/components/shared/commonButton/CommonButton";
+import { ProductCarousel } from "@/components/shared/productCarousel/ProductCarousel";
 
-const BestSellingProducts = () => {
+const LadiesCollections = () => {
   return (
-    <div className="container mx-auto">
-      <CustomHeader title="Best Selling" />
+    <div className="container mx-auto my-5">
+      <CustomHeader title="Ladies Collection" />
       <div className="flex justify-center items-center mt-5">
-        <BestSellingCarousel />
+        <ProductCarousel category="women" />
       </div>
 
       <div className="flex justify-center items-center mt-5">
@@ -24,4 +24,4 @@ const BestSellingProducts = () => {
   );
 };
 
-export default BestSellingProducts;
+export default LadiesCollections;
