@@ -16,8 +16,9 @@ export type TProduct = {
   sellsQuantity?: number;
   subCategory: string;
   discount?: number;
-  averageRating:number;
+  averageRating: number;
   totalReviews: number;
+  arrivalDate?: Date;
   published?: boolean;
   isDeleted?: boolean;
 };

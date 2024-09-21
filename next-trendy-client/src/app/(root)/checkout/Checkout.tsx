@@ -30,6 +30,8 @@ import { cn } from "@/lib/utils";
 const Checkout = () => {
   const router = useRouter();
   const cart = useAppSelector((state) => state.cart);
+  console.log(cart);
+  
   const dispatch = useAppDispatch();
 
   const [paymentMethod, setPaymentMethod] = useState("");

@@ -22,7 +22,7 @@ const productSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
-   
+
     variant: [
       {
         type: Schema.Types.ObjectId,
@@ -60,15 +60,19 @@ const productSchema = new Schema<TProduct>(
       type: String,
       required: true,
     },
-    totalReviews:{
-      type:Number,
-      default:0
+    totalReviews: {
+      type: Number,
+      default: 0,
     },
-    averageRating:{
-      type:Number,
-      required:[true,'average rating is required'],
-      default:0
-    }
+    averageRating: {
+      type: Number,
+      required: [true, 'average rating is required'],
+      default: 0,
+    },
+    arrivalDate: {
+      type: Date,
+      default: Date.now, 
+    },
   },
   {
     timestamps: true,

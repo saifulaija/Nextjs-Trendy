@@ -1,16 +1,6 @@
-
-
-
 "use client";
-
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ChevronRight, ShoppingBagIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -30,7 +20,11 @@ import { TextAlignCenterIcon } from "@radix-ui/react-icons";
 import { getTotals } from "@/redux/api/features/product/cartSlice";
 import { CommandMenu } from "../NewHeader/command-menu";
 import { AppSidebar } from "@/components/shadcn/AppSidebar";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -178,13 +172,11 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Centered Navigation */}
           <nav className="hidden lg:flex flex-1 justify-center">
             <HeaderItems />
           </nav>
           <div className="flex items-center gap-4">
             <div className="hidden md:block flex-1 max-w-lg">
-              {/* <GlobalSearch placeholder="Search products......." /> */}
               <CommandMenu />
             </div>
             <Button
@@ -226,4 +218,3 @@ const Header = () => {
 };
 
 export default Header;
-

@@ -31,9 +31,9 @@ export type IGenericErrorMessage = {
 
 export const Category = ["men", "women", "kids", "accessories"];
 export const SubCategory = [
-  "men-casual",
   "men-formal",
   "men-sandal",
+  "men-casual",
   "men-sport",
   "men-boot",
   "men-loafer",

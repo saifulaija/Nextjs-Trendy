@@ -2,7 +2,7 @@ const assets = {
   images: {
     logo: require("./images/tendy-logo.png"),
     casual: require("./images/casual.png"),
-    banner: require("./images/Trendy Banner.png"),
+    banner: require("./images/banner.webp"),
     addShoppingBag: require("./images/add-shopping-bag.png"),
     noData: require("./images/nodata.png"),
     country: require("./images/country.png"),
