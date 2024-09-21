@@ -15,10 +15,12 @@ import {
 
 } from "@/components/ui/navigation-menu";
 import { accessories, kids,  men,  women } from "@/utils/items";
+import { usePathname } from "next/navigation";
 
 
 
 export function HeaderItems() {
+  const pathname = usePathname();
   return (
     <NavigationMenu>
       <NavigationMenuList>
