@@ -14,14 +14,12 @@ const createProductIntoDB = async (productPayload: TProduct) => {
   return result;
 };
 
-
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   // Start with the base query
-let productQuery = Product.find({
-  isDeleted: false,
-  variant: { $exists: true, $not: { $size: 0 } },
-}).populate('variant');
-
+  let productQuery = Product.find({
+    isDeleted: false,
+    variant: { $exists: true, $not: { $size: 0 } },
+  }).populate('variant');
 
   // Check if there's a filter for variant fields
   if (query.variant) {
@@ -71,20 +69,23 @@ const getAllProductsFromDBForVariant = async (
 };
 
 const getSingleProductFromDB = async (id: string) => {
-const result=await Product.findById(id).populate('variant')
-return result
+  const result = await Product.findById(id).populate('variant');
+  return result;
 };
 
-const getNewArrivalProduct=async()=>{
-  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+const getNewArrivalProduct = async () => {
+  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000; 
   const now = new Date();
-const result=await Product.find({
-  arrivalDate: {
-    $gte: new Date(now.getTime() - THIRTY_DAYS), 
-  },
-}).populate("variant");
-return result
-}
+  const result = await Product.find({
+    arrivalDate: {
+      $gte: new Date(now.getTime() - THIRTY_DAYS),
+    },
+  })
+    .populate('variant')
+    .sort({ createdAt: -1 })
+    .limit(8);
+  return result;
+};
 
 const getAllProductsByCategoryFromDB = async (category: string) => {
   let result;
@@ -199,5 +200,5 @@ export const ProductServices = {
   getAllProductsByCategoryFromDB,
   deleteProductIntoDB,
   getAllProductsFromDBForVariant,
-  getNewArrivalProduct
+  getNewArrivalProduct,
 };

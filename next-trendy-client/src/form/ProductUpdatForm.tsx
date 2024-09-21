@@ -218,28 +218,6 @@ const ProductUpdateForm = ({ data }: { data: any }) => {
             )}
           />
 
-          {/* Material Field */}
-          {/* <FormField
-            control={form.control}
-            name="material"
-            render={({ field }) => (
-              <FormItem className="w-full leading-3">
-                <FormLabel
-                  className={cn("font-semibold text-[16px] text-gray-500")}
-                >
-                  Material
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter product material"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
           <FormField
             control={form.control}
             name="material"
