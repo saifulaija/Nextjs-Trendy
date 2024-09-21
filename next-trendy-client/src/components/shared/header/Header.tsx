@@ -19,7 +19,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TextAlignCenterIcon } from "@radix-ui/react-icons";
 import { getTotals } from "@/redux/api/features/product/cartSlice";
 import { CommandMenu } from "../NewHeader/command-menu";
-import { AppSidebar } from "@/components/shadcn/AppSidebar";
 import {
   Collapsible,
   CollapsibleContent,

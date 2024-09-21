@@ -12,7 +12,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
+
 } from "@/components/ui/navigation-menu";
 import { accessories, kids,  men,  women } from "@/utils/items";
 
@@ -24,7 +24,9 @@ export function HeaderItems() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn("font-semibold text-gray-500 hover:text-gray-600")}
+            className={cn(
+              "font-semibold hover:bg-white text-gray-500 bg-none hover:text-primary"
+            )}
           >
             MAN'S
           </NavigationMenuTrigger>
@@ -50,7 +52,9 @@ export function HeaderItems() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn("font-semibold text-gray-500 hover:text-gray-600")}
+            className={cn(
+              "font-semibold hover:bg-white text-gray-500 bg-none hover:text-primary"
+            )}
           >
             WOMEN'S
           </NavigationMenuTrigger>
@@ -66,7 +70,6 @@ export function HeaderItems() {
                   )}
                 >
                   <span className="group-hover:text-white transition-colors duration-300">
-                  
                     {item.description}
                   </span>
                 </ListItem>
@@ -76,7 +79,9 @@ export function HeaderItems() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn("font-semibold text-gray-500 hover:text-gray-600")}
+            className={cn(
+              "font-semibold hover:bg-white text-gray-500 bg-none hover:text-primary"
+            )}
           >
             KId'S
           </NavigationMenuTrigger>
@@ -100,11 +105,12 @@ export function HeaderItems() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-        </NavigationMenuItem>
+        <NavigationMenuItem></NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={cn("font-semibold text-gray-500 hover:text-gray-600")}
+            className={cn(
+              "font-semibold hover:bg-white text-gray-500 bg-none hover:text-primary"
+            )}
           >
             ACCESSORIES
           </NavigationMenuTrigger>

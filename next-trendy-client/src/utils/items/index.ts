@@ -165,20 +165,35 @@ export const kids = [
 
 export const accessories = [
   {
-    label: "men'S ACCESSORIES",
-    href: "/product/category/accessories/men-accessories",
+    label: "MONEY BAGS",
+    href: "/product/category/accessories/money-bag",
     image: assets.images.casual,
     description:
-      "Discover timeless accessories for men that elevate any look, from classic watches to stylish belts.",
+      "Explore our sophisticated collection of money bags designed for the modern man, featuring styles that combine functionality with elegance.",
   },
   {
-    label: "WOMEN'S ACCESSORIES",
-    href: "/product/category/accessories/women-accessories",
+    label: "MEN'S BELTS",
+    href: "/product/category/accessories/man-belt",
     image: assets.images.casual,
     description:
-      "Explore elegant accessories for women, including chic jewelry and stylish handbags to complete your outfit.",
+      "Elevate your style with our range of men's belts, crafted from premium materials to complement any outfit, whether casual or formal.",
+  },
+  {
+    label: "LADIES' BAGS",
+    href: "/product/category/accessories/ladies-bag",
+    image: assets.images.casual,
+    description:
+      "Discover a selection of elegant ladies' bags, from chic handbags to versatile totes, designed to enhance your wardrobe and showcase your style.",
+  },
+  {
+    label: "LADIES' PURSES",
+    href: "/product/category/accessories/ladies-purse",
+    image: assets.images.casual,
+    description:
+      "Find the perfect ladies' purse to complete your look, featuring stylish designs and functional layouts that fit your essentials effortlessly.",
   },
 ];
+
 
 
 
