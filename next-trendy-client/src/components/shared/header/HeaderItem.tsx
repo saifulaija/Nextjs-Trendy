@@ -253,7 +253,7 @@ export function HeaderItems() {
               pathname.startsWith("/product/category/men") && "text-primary"
             )}
           >
-            MAN'S
+            MEN
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -282,7 +282,7 @@ export function HeaderItems() {
               pathname.startsWith("/product/category/women") && "text-primary"
             )}
           >
-            WOMEN'S
+            WOMEN
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -311,7 +311,7 @@ export function HeaderItems() {
               pathname.startsWith("/product/category/kids") && "text-primary"
             )}
           >
-            KID'S
+            KIDS
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">

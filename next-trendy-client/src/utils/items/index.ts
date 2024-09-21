@@ -179,11 +179,11 @@ export const accessories = [
       "Elevate your style with our range of men's belts, crafted from premium materials to complement any outfit, whether casual or formal.",
   },
   {
-    label: "LADIES' BAGS",
-    href: "/product/category/accessories/ladies-bag",
-    image: assets.images.casual,
+    label: "BAGS",
+    href: "/product/category/accessories/bags",
+    image: assets.images.casual, // Use a representative image
     description:
-      "Discover a selection of elegant ladies' bags, from chic handbags to versatile totes, designed to enhance your wardrobe and showcase your style.",
+      "Discover our stylish collection of bags suitable for everyone. Whether you need a chic handbag, a versatile tote, or a durable backpack, our range caters to all your needs, combining fashion with functionality.",
   },
   {
     label: "LADIES' PURSES",
@@ -193,6 +193,7 @@ export const accessories = [
       "Find the perfect ladies' purse to complete your look, featuring stylish designs and functional layouts that fit your essentials effortlessly.",
   },
 ];
+
 
 
 
