@@ -7,6 +7,7 @@ import { TProduct } from "@/types/product.type";
 import Image from "next/image";
 import Review from "./Review";
 import { ProductAccordion } from "./ProductAccordion";
+import ReactHtmlParser from "html-react-parser";
 
 const ProductTabs = ({ product }: { product: TProduct }) => {
   return (
@@ -23,7 +24,9 @@ const ProductTabs = ({ product }: { product: TProduct }) => {
 
         <TabsContent value="description">
           <Card className="p-4">
-            <p>{product.description}</p>
+            {product?.description
+              ? ReactHtmlParser(product.description)
+              : "No description available"}
           </Card>
         </TabsContent>
 
