@@ -81,7 +81,9 @@ const AddProductForm = () => {
       const res = await createProduct({ ...values, tags });
 
       if (res?.data) {
-        toast.success("Product added successfully",{position:"bottom-left"});
+        toast.success("Product added successfully", {
+          position: "bottom-left",
+        });
         router.push("/dashboard/admin/product_management/show_products");
       } else {
         throw new Error("Failed to add product, please try again.");
@@ -221,8 +223,6 @@ const AddProductForm = () => {
             )}
           />
 
-     
-
           <FormField
             control={form.control}
             name="description"
@@ -245,23 +245,22 @@ const AddProductForm = () => {
               </FormItem>
             )}
           />
-
-          {/* Material Field */}
           <FormField
             control={form.control}
             name="material"
             render={({ field }) => (
-              <FormItem className="w-full leading-3">
+              <FormItem>
                 <FormLabel
                   className={cn("font-semibold text-[16px] text-gray-500")}
                 >
                   Material
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter product material"
-                    {...field}
+                  <ReactQuill
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="product material..."
+                    theme="snow"
                   />
                 </FormControl>
                 <FormMessage />
@@ -269,7 +268,6 @@ const AddProductForm = () => {
             )}
           />
 
-          {/* Price Field */}
           <FormField
             control={form.control}
             name="price"

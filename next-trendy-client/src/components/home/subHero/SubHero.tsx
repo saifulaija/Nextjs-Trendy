@@ -33,7 +33,7 @@ const collectionData = [
 
 const SubHero = () => {
   return (
-    <div className="w-full mt-5">
+    <div className="w-full mt-5 md:px-20">
       <CustomHeader title="Product Categories"/>
       <div className="mt-8  mb-4 px-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {collectionData?.map((collection, index) => (
@@ -42,7 +42,7 @@ const SubHero = () => {
             href={collection.link}
             className={cn(" rounded shadow-md  group overflow-hidden")}
           >
-            <div className="relative group-hover:scale-105 cursor-pointer transform transition-transform">
+            <div className="relative group-hover:scale-105 cursor-pointer transform transition-transform duration-300 ease-in-out">
               <div className="relative">
                 <img
                   src={collection.imageUrl}

@@ -26,6 +26,7 @@ export type TProduct = {
   totalReviews:number,
   averageRating:number
   discount?: number;
+  material:string;
   variant?: Array<{
     _id: string;
     size: string;

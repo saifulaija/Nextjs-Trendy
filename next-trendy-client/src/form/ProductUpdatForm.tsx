@@ -219,7 +219,7 @@ const ProductUpdateForm = ({ data }: { data: any }) => {
           />
 
           {/* Material Field */}
-          <FormField
+          {/* <FormField
             control={form.control}
             name="material"
             render={({ field }) => (
@@ -234,6 +234,28 @@ const ProductUpdateForm = ({ data }: { data: any }) => {
                     type="text"
                     placeholder="Enter product material"
                     {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
+          <FormField
+            control={form.control}
+            name="material"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel
+                  className={cn("font-semibold text-[16px] text-gray-500")}
+                >
+                  Material
+                </FormLabel>
+                <FormControl>
+                  <ReactQuill
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="product material..."
+                    theme="snow"
                   />
                 </FormControl>
                 <FormMessage />

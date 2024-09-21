@@ -15,6 +15,7 @@ const ProductTabs = ({ product }: { product: TProduct }) => {
       <Tabs defaultValue="description" className="w-full max-w-7xl">
         <TabsList className="flex w-full space-x-2">
           <TabsTrigger value="description">Description</TabsTrigger>
+          <TabsTrigger value="material">Materials</TabsTrigger>
           <TabsTrigger value="review">
             Reviews ({product.totalReviews})
           </TabsTrigger>
@@ -27,6 +28,13 @@ const ProductTabs = ({ product }: { product: TProduct }) => {
             {product?.description
               ? ReactHtmlParser(product.description)
               : "No description available"}
+          </Card>
+        </TabsContent>
+        <TabsContent value="material">
+          <Card className="p-4">
+            {product?.material
+              ? ReactHtmlParser(product.material)
+              : "No material available"}
           </Card>
         </TabsContent>
 

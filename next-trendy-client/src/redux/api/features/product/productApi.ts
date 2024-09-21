@@ -33,6 +33,14 @@ const ProductsApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.product],
     }),
+    getNewArrivalProducts: build.query({
+      query: (arg: Record<string, any>) => ({
+        url: "/product/new-arrival-products",
+        method: "GET",
+        params: arg,
+      }),
+      providesTags: [tagTypes.product],
+    }),
     getAllProductsVariant: build.query({
       query: (arg: Record<string, any>) => ({
         url: "/product/variant",
@@ -109,4 +117,5 @@ export const {
   useGetSingleProductForModeratorQuery,
   useUpdateStatusApproveMutation,
   useGetAllProductsVariantQuery,
+  useGetNewArrivalProductsQuery
 } = ProductsApi;

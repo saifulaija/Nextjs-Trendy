@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+
 import { BestSellingCarousel } from "./BestSellingCarousel";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
@@ -10,10 +10,6 @@ import { cn } from "@/lib/utils";
 import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 
 const BestSellingProducts = () => {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
-
   return (
     <div className="container mx-auto">
       <CustomHeader title="Best Selling Product" />
@@ -37,6 +33,14 @@ const BestSellingProducts = () => {
             </span>
           </Link>
         </Button>
+
+        <div className="w-1/6 h-full flex items-center">
+          <button className="relative px-6 py-2 border border-gray-500 text-white uppercase font-bold flex items-center justify-between group transition-all duration-500 overflow-hidden">
+            <span className="relative z-10">Read More</span>
+            <ChevronRight className="relative z-10 ml-2 transition-transform duration-500 group-hover:translate-x-3" />
+            <div className="absolute inset-0 bg-primary w-[10%] group-hover:w-full transition-all duration-500 z-0"></div>
+          </button>
+        </div>
       </div>
     </div>
   );
