@@ -74,46 +74,17 @@ const getSingleProductFromDB = async (id: string) => {
 const result=await Product.findById(id).populate('variant')
 return result
 };
-// const getSingleProductFromDB = async (id: string) => {
-//   try {
-//     const result = await Product.aggregate([
-//       // Match the product by ID
-//       { $match: { _id: new mongoose.Types.ObjectId(id) } },
 
-//       // Lookup to join with the 'reviews' collection
-//       {
-//         $lookup: {
-//           from: 'reviews', // Collection name to join
-//           localField: 'reviews.reviewId', // Local field for joining
-//           foreignField: '_id', // Foreign field in the 'reviews' collection
-//           as: 'reviews', // The output array field
-//         },
-//       },
-
-//       // Lookup to join with the 'variants' collection
-//       {
-//         $lookup: {
-//           from: 'variants', // Assuming 'variants' is the name of the collection for variants
-//           localField: 'variant', // The field in 'Product' that references the variants
-//           foreignField: '_id', // The field in 'variants' that corresponds to the local field
-//           as: 'variant', // The output array field
-//         },
-//       },
-
-//       // Calculate the average rating from the reviews
-//       {
-//         $addFields: {
-//           averageRating: { $avg: '$reviews.rating' }, // Calculate average rating from reviews
-//         },
-//       },
-//     ]);
-
-//     return result;
-//   } catch (error) {
-//     console.error('Error fetching products and reviews:', error);
-//     throw error;
-//   }
-// };
+const getNewArrivalProduct=async()=>{
+  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+  const now = new Date();
+const result=await Product.find({
+  arrivalDate: {
+    $gte: new Date(now.getTime() - THIRTY_DAYS), 
+  },
+}).populate("variant");
+return result
+}
 
 const getAllProductsByCategoryFromDB = async (category: string) => {
   let result;
@@ -228,4 +199,5 @@ export const ProductServices = {
   getAllProductsByCategoryFromDB,
   deleteProductIntoDB,
   getAllProductsFromDBForVariant,
+  getNewArrivalProduct
 };
