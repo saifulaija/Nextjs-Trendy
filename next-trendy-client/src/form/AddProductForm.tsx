@@ -221,28 +221,7 @@ const AddProductForm = () => {
             )}
           />
 
-          {/* Description Field */}
-          {/* <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem className="w-full leading-3">
-                <FormLabel
-                  className={cn("font-semibold text-[16px] text-gray-500")}
-                >
-                  Description
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter product description"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
+     
 
           <FormField
             control={form.control}

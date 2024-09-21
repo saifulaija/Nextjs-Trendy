@@ -1,6 +1,4 @@
-
-
-"use client"
+"use client";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import LoadingButton from "@/components/shared/LoadingButton/LoadingButton";
@@ -13,6 +11,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -31,9 +32,8 @@ import { useUpdateProductMutation } from "@/redux/api/features/product/productAp
 import { useRouter } from "next/navigation";
 
 const ProductUpdateForm = ({ data }: { data: any }) => {
-  const router=useRouter()
+  const router = useRouter();
   const [error, setError] = useState("");
-
 
   const [updateProduct, { isLoading }] = useUpdateProductMutation();
 
@@ -71,11 +71,11 @@ const ProductUpdateForm = ({ data }: { data: any }) => {
         body: values,
         id: data?._id,
       }).unwrap();
-console.log(res);
-
       if (res?._id) {
-        toast.success("Product updated successfully",{position:"bottom-right"});
-        router.push("/dashboard/admin/product_management/show_products");
+        toast.success("Product updated successfully", {
+          position: "bottom-left",
+        });
+        router.refresh();
       }
     } catch (err: any) {
       setSubmitError("Something went wrong. Please try again.");
@@ -199,17 +199,18 @@ console.log(res);
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormItem className="w-full leading-3">
+              <FormItem>
                 <FormLabel
                   className={cn("font-semibold text-[16px] text-gray-500")}
                 >
                   Description
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter product description"
-                    {...field}
+                  <ReactQuill
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="product description..."
+                    theme="snow"
                   />
                 </FormControl>
                 <FormMessage />
