@@ -12,7 +12,7 @@ const MensCollections = () => {
       </div>
 
       <div className="flex justify-center items-center mt-5">
-        <CommonButton title="Shop All" href="/shop" />
+        <CommonButton title="Shop All" href="/product/men" />
       </div>
     </div>
   );

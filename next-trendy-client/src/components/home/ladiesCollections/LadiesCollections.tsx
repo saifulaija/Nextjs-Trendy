@@ -1,10 +1,4 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
-import { ChevronRight, Link2OffIcon } from "lucide-react";
-import Link from "next/link"; // Import the Next.js Link component
-
-import { cn } from "@/lib/utils";
 import CustomHeader from "@/components/shared/customHeader/CustomHeader";
 import CommonButton from "@/components/shared/commonButton/CommonButton";
 import { ProductCarousel } from "@/components/shared/productCarousel/ProductCarousel";
@@ -18,7 +12,7 @@ const LadiesCollections = () => {
       </div>
 
       <div className="flex justify-center items-center mt-5">
-        <CommonButton title="Shop All" href="/shop" />
+        <CommonButton title="Shop All" href="/product/women" />
       </div>
     </div>
   );

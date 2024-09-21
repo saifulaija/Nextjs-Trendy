@@ -12,7 +12,10 @@ import CommonButton from "@/components/shared/commonButton/CommonButton";
 const BestSellingProducts = () => {
   return (
     <div className="container mx-auto">
-      <CustomHeader title="Best Selling" />
+      <CustomHeader
+        title="Best Selling"
+        subtitle="Best Selling Shoes Nominated By You"
+      />
       <div className="flex justify-center items-center mt-5">
         <BestSellingCarousel />
       </div>
