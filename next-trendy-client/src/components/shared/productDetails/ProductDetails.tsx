@@ -224,7 +224,7 @@ const ProductDetails = () => {
                 <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
                   {product?.tags?.map((item: any, index: number) => (
                     <Link
-                      href={`/product/tag/${item}`}
+                      href={`/product-tag/${item}`}
                       className={cn("hover:text-primary hover:underline")}
                       key={index}
                     >
