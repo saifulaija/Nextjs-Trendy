@@ -36,7 +36,8 @@ const assets = {
     variant_management: require("./images/variantmanagement.png"),
     review_user: require("./images/reviewuser.png"),
     rating: require("./images/satisfaction.png"),
-   
+    banner_happiness: require("./images/banner-happiness.webp"),
+    banner_happiness_02: require("./images/banner-2.webp"),
   },
 };
 

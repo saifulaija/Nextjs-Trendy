@@ -30,8 +30,6 @@ import { cn } from "@/lib/utils";
 const Checkout = () => {
   const router = useRouter();
   const cart = useAppSelector((state) => state.cart);
-  console.log(cart);
-  
   const dispatch = useAppDispatch();
 
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -67,8 +65,12 @@ const Checkout = () => {
     return sum + finalPrice;
   }, 0);
 
-  const handleDetails = (id: string) => {
-    router.push(`/product/details/${id}`);
+  const handleDetails = (name: string) => {
+    if (name) {
+      const formattedProductName = name.replace(/\s+/g, "-");
+
+      router.push(`/product/details/${formattedProductName}`);
+    }
   };
 
   return (
@@ -121,8 +123,6 @@ const Checkout = () => {
                                 height={50}
                                 className="rounded-md"
                               />
-
-                              {/* Remove Button */}
                               <Button
                                 onClick={() => handleRemoveItem(item)}
                                 variant="link"
@@ -130,20 +130,22 @@ const Checkout = () => {
                               >
                                 <X
                                   size={18}
-                                  className="text-white hover:text-primary"
+                                  className="text-white hover:text-primary transition-colors duration-300"
                                 />
                               </Button>
                             </div>
-
-                            {/* Item Name */}
-                            <span className="text-sm font-medium text-gray-700 text-center md:text-left">
+                            <span className="text-sm font-medium text-gray-600 text-center md:text-left">
                               {truncateTitle(item.name, 10)}
                             </span>
                           </div>
                         </TableCell>
 
-                        <TableCell>{item.size}</TableCell>
-                        <TableCell>{item.color}</TableCell>
+                        <TableCell className={cn("text-gray-600")}>
+                          {item.size}
+                        </TableCell>
+                        <TableCell className={cn("text-gray-600")}>
+                          {item.color}
+                        </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-1">
                             <Button
@@ -161,7 +163,7 @@ const Checkout = () => {
                             </Button>
                           </div>
                         </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className={cn("text-gray-600 text-right")}>
                           {formateMoney(Number(finalPrice.toFixed(0)))}
                         </TableCell>
                         <TableCell className="text-right text-red-500">
@@ -170,9 +172,12 @@ const Checkout = () => {
                         <TableCell className="text-right">
                           <Button
                             onClick={() => {
-                              handleDetails(item._id);
+                              handleDetails(item.name);
                             }}
-                            variant="ghost"
+                            variant="link"
+                            className={cn(
+                              "hover:border-none text-gray-500 hover:text-primary"
+                            )}
                           >
                             <Edit size={18} />
                           </Button>
@@ -182,11 +187,28 @@ const Checkout = () => {
                   })}
                 </TableBody>
               </Table>
-              <div className="flex justify-end -mt-6 mb-3">
+              {/* <div className="flex group  justify-end -mt-6 mb-3">
                 <Button
                   onClick={handleClearCart}
                   variant="link"
-                  className={cn("text-red-500")}
+                  className={cn("text-red-500 group-hover:cursor-pointer")}
+                >
+                  Clear Cart
+                </Button>
+              </div> */}
+
+              <div className="flex justify-end -mt-6 mb-3 group">
+                <Button
+                  onClick={() => {
+                    if (confirm("Are you sure you want to clear the cart?")) {
+                      handleClearCart();
+                    }
+                  }}
+                  variant="link"
+                  className={cn(
+                    "text-red-500 font-medium transition-colors duration-300 group",
+                    "hover:text-red-700 group-hover:cursor-pointer"
+                  )}
                 >
                   Clear Cart
                 </Button>
