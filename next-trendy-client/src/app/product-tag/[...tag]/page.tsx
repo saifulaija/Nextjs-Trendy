@@ -14,10 +14,13 @@ type TParams = {
 };
 
 const TagCatchAllRoutePage: React.FC<TParams> = ({ params, searchParams }) => {
-  // Safely access the tag value, checking if the second element exists
-  const tag = decodeURIComponent(
+  let tag = decodeURIComponent(
     params.tag.length > 1 ? params.tag[1] : params.tag[0]
   );
+
+  // Replace hyphens with spaces to convert 'ladies-shoes' to 'ladies shoes'
+  tag = tag.replace(/-/g, " ");
+
   console.log("Decoded tag:", tag);
 
   const searchTerm = searchParams?.searchTerm || "";

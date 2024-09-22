@@ -221,11 +221,22 @@ const ProductDetails = () => {
               <Separator />
               <div className="flex justify-between items-center px-10 py-1">
                 <p className="text-gray-600 font-semibold text-md">Tag:</p>
-                <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
+                {/* <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
                   {product?.tags?.map((item: any, index: number) => (
                     <Link
                       href={`/product-tag/${item}`}
                       className={cn("hover:text-primary hover:underline")}
+                      key={index}
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </div> */}
+                <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
+                  {product?.tags?.map((item: any, index: number) => (
+                    <Link
+                      href={`/product-tag/${item.replace(/\s+/g, "-")}`} // Replace spaces with hyphens
+                      className="hover:text-primary hover:underline"
                       key={index}
                     >
                       {item}
