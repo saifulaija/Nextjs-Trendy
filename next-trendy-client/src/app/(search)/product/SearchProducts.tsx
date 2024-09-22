@@ -25,7 +25,6 @@ const SearchProducts = ({ searchTerm }: { searchTerm: string }) => {
   }
 
   const { data, isLoading } = useGetAllProductsQuery({ ...query });
-  console.log(data, "category");
 
   return (
     <div className="w-full">
