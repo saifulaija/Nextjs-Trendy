@@ -279,6 +279,10 @@
 // };
 
 // export default ShoppingCart;
+
+
+
+
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -298,7 +302,6 @@ import {
   decreaseCart,
   removeFromCart,
   clearCart,
-  setShippingCharge,
 } from "@/redux/api/features/product/cartSlice";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -309,19 +312,28 @@ import { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import {
+  addShippingCost,
+  clearShippingCost,
+} from "@/redux/api/features/product/shippingSlice";
 
 const ShoppingCart = () => {
   const router = useRouter();
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
-  const [shippingCost, setShippingCost] = useState<number | null>(null); // Initially null
+  const [shippingCost, setShippingCost] = useState<number | null>(null);
+
   useEffect(() => {
-    dispatch(setShippingCharge(shippingCost || 0));
+    if (shippingCost !== null) {
+      dispatch(addShippingCost(shippingCost));
+    } else {
+      dispatch(clearShippingCost());
+    }
   }, [shippingCost, dispatch]);
 
-  const handleShippingChange = (value: number) => {
-    setShippingCost(value);
+  const handleShippingChange = (value: string) => {
+    setShippingCost(Number(value));
   };
 
   const handleDecreaseQuantity = (item: any) => {
@@ -338,6 +350,7 @@ const ShoppingCart = () => {
 
   const handleClearCart = () => {
     dispatch(clearCart());
+    dispatch(clearShippingCost());
   };
 
   const totalAmount = cart.cartItems.reduce((sum, item) => {
@@ -347,14 +360,11 @@ const ShoppingCart = () => {
   }, 0);
 
   const handleDetails = (name: string) => {
-    if (name) {
-      const formattedProductName = name.replace(/\s+/g, "-");
-
-      router.push(`/product/details/${formattedProductName}`);
-    }
+    const formattedProductName = name.replace(/\s+/g, "-");
+    router.push(`/product/details/${formattedProductName}`);
   };
 
-  const isCheckoutDisabled = shippingCost === null; // Checkout button disabled if no shipping option is selected
+  const isCheckoutDisabled = shippingCost === null;
 
   return (
     <div className="w-full py-10 px-4 md:p-10">
@@ -439,10 +449,10 @@ const ShoppingCart = () => {
                           </div>
                         </TableCell>
                         <TableCell className="text-right">
-                          {formateMoney(Number(finalPrice.toFixed(0)))}
+                          {formateMoney(finalPrice)}
                         </TableCell>
                         <TableCell className="text-right text-red-500">
-                          {formateMoney(Number(savedAmount.toFixed(0)))}
+                          {formateMoney(savedAmount)}
                         </TableCell>
                         <TableCell className="text-right">
                           <Button
@@ -474,15 +484,13 @@ const ShoppingCart = () => {
               <Separator className="mb-4" />
               <div className="flex justify-between items-center mb-2">
                 <p className="text-gray-500">Subtotal</p>
-                <p className="text-gray-500">
-                  {formateMoney(Number(totalAmount.toFixed(0)))}
-                </p>
+                <p className="text-gray-500">{formateMoney(totalAmount)}</p>
               </div>
               <div className="flex justify-between items-center mb-2">
                 <p className="text-gray-500">Shipping</p>
                 <p className="text-gray-500">
                   {shippingCost
-                    ? `${formateMoney(shippingCost)}`
+                    ? formateMoney(shippingCost)
                     : "Select Shipping"}
                 </p>
               </div>
@@ -493,6 +501,7 @@ const ShoppingCart = () => {
               <p>
                 Shipping to Dhaka, Bangladesh
                 <span className="text-blue-500 cursor-pointer">
+                  {" "}
                   Change address
                 </span>
               </p>
@@ -500,19 +509,19 @@ const ShoppingCart = () => {
               <div>
                 <RadioGroup
                   value={String(shippingCost)}
-                  onValueChange={(value) => handleShippingChange(Number(value))}
+                  onValueChange={handleShippingChange}
                 >
                   <div className="flex items-center space-x-2 p-2 rounded-sm">
                     <RadioGroupItem value="60" id="insideDhaka60" />
                     <Label htmlFor="insideDhaka60">
-                      Inside Dhaka City:
+                      Inside Dhaka City:{" "}
                       <span className="font-semibold">BDT 60.00</span>
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2 p-2 rounded-sm">
                     <RadioGroupItem value="100" id="insideDhaka100" />
                     <Label htmlFor="insideDhaka100">
-                      Outside Dhaka City:
+                      Outside Dhaka City:{" "}
                       <span className="font-semibold">BDT 100.00</span>
                     </Label>
                   </div>
@@ -523,9 +532,7 @@ const ShoppingCart = () => {
               <div className="flex justify-between items-center mb-2">
                 <p className="text-gray-600 font-semibold">Total</p>
                 <p className="text-lg font-semibold">
-                  {formateMoney(
-                    Number((totalAmount + (shippingCost || 0)).toFixed(0))
-                  )}
+                  {formateMoney(totalAmount + (shippingCost || 0))}
                 </p>
               </div>
               <div className="flex space-x-4 mt-4">

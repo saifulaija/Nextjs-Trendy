@@ -16,7 +16,8 @@ import { baseApi } from "./api/baseApi";
 
 import cartReducer from "./api/features/product/cartSlice";
 import shoeSizeReducer from "./api/features/product/shoeSizeSlice";
-import sortReducer from "./api/features/product/sortSlice";
+import shippingReducer from "./api/features/product/shippingSlice";
+
 
 // import approveReducer from "./features/blog/approveSlice";
 // import blogSReducer from "./features/blog/blogSlice";
@@ -28,12 +29,12 @@ const persistConfig = {
 };
 
 // const persistedApproveReducer = persistReducer(persistConfig, approveReducer);
-const persistedCartReducer = persistReducer(persistConfig,cartReducer );
+const persistedCartReducer = persistReducer(persistConfig, cartReducer);
 const persistedSizeReducer = persistReducer(persistConfig, shoeSizeReducer);
+const persistedShippingCost = persistReducer(persistConfig, shippingReducer);
 const persistedBookmarkedReducer = persistReducer(
   persistConfig,
   persistedCartReducer
-  
 );
 // const persistedOrderReducer = persistReducer(persistConfig, orderReducer);
 
@@ -42,10 +43,10 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     // approve: persistedApproveReducer,
     // blog: persistedBlogReducer,
-   
-    cart:persistedCartReducer,
-    shoeSize:persistedSizeReducer,
-    sort:sortReducer
+
+    cart: persistedCartReducer,
+    shoeSize: persistedSizeReducer,
+    shipping: persistedShippingCost,
   },
 
   middleware: (getDefaultMiddleware) =>

@@ -30,9 +30,11 @@ import { cn } from "@/lib/utils";
 const Checkout = () => {
   const router = useRouter();
   const cart = useAppSelector((state) => state.cart);
+  const shipping = useAppSelector((state) => state.shipping);
   const dispatch = useAppDispatch();
 
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("")
+   const [shippingCharge, setShippingCharge] = useState(shipping.shippingCost);
 
   const handleDecreaseQuantity = (item: any) => {
     dispatch(decreaseCart(item));
@@ -48,6 +50,7 @@ const Checkout = () => {
 
   const handleClearCart = () => {
     dispatch(clearCart());
+  
   };
 
   const handlePlaceOrder = () => {
@@ -232,7 +235,7 @@ const Checkout = () => {
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-gray-500">Shipping</p>
                   <p className="text-gray-500">
-                    {formateMoney(cart.shippingCharge)}
+                    {formateMoney(shipping.shippingCost)}
                   </p>
                 </div>
 

@@ -24,10 +24,18 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { formateMoney } from "@/utils/formateMoney";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const product = useAppSelector((state) => state.cart);
+  const product=useAppSelector(state=>state.cart)
+const cartTotalAmount = useAppSelector((state) => state.cart.cartTotalAmount);
+const shippingCost = useAppSelector((state) => state.shipping.shippingCost); // Make sure this is correct
+
+const totalAmount = cartTotalAmount + shippingCost;
+
+  
+  
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const [xOffset, setXOffset] = useState<number>(0);
@@ -187,7 +195,7 @@ const Header = () => {
               <Link href="/cart" className="flex items-center gap-1 relative">
                 {product?.cartTotalAmount > 0 ? (
                   <span className="font-semibold text-[16px]">
-                    {product.cartTotalAmount}
+                    {totalAmount}
                     <span className="font-serif font-semibold"> ৳</span>
                   </span>
                 ) : (
