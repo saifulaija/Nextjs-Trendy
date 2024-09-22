@@ -24,7 +24,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
 
   const handleDetails = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevents event propagation to avoid conflicts
-    router.push(`product/details/${product?._id}`);
+    router.push(`product/details/${product?.name}`);
   };
 
   const handleQuickView = (e: React.MouseEvent<HTMLDivElement>) => {

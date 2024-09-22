@@ -25,7 +25,7 @@ const CategoryProductCard = ({ product }: { product: TProduct }) => {
 
   const handleDetails = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevents event propagation to avoid conflicts
-    router.push(`product/details/${product?._id}`);
+    router.push(`product/details/${product?.name}`);
   };
 
   const handleQuickView = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -51,7 +51,7 @@ const CategoryProductCard = ({ product }: { product: TProduct }) => {
 
   return (
     <Link
-      href={`/product/details/${product?._id}`}
+      href={`/product/details/${product?.name}`}
       onClick={handleDetails}
       className={cn(
         "group mx-auto w-72 transform overflow-hidden hover:cursor-pointer rounded-lg shadow-md"

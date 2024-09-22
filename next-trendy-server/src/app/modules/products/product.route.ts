@@ -27,7 +27,7 @@ router.patch(
 
 
 router.get(
-  '/get-single-product/:id',
+  '/get-single-product/:title',
 
   ProductControllers.getSingleProduct,
 );

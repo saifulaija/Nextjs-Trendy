@@ -46,9 +46,11 @@ const renderStars = (rating: number) => {
 const ProductDetails = () => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
-  const id = params.productId;
+const productName = Array.isArray(params.productName)
+  ? params.productName[0].replace(/-/g, " ")
+  : params.productName.replace(/-/g, " ");
 
-  const { data: product, isLoading } = useGetSingleProductQuery(id);
+  const { data: product, isLoading } = useGetSingleProductQuery(productName);
   const dispatch = useAppDispatch();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -221,17 +223,7 @@ const ProductDetails = () => {
               <Separator />
               <div className="flex justify-between items-center px-10 py-1">
                 <p className="text-gray-600 font-semibold text-md">Tag:</p>
-                {/* <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
-                  {product?.tags?.map((item: any, index: number) => (
-                    <Link
-                      href={`/product-tag/${item}`}
-                      className={cn("hover:text-primary hover:underline")}
-                      key={index}
-                    >
-                      {item}
-                    </Link>
-                  ))}
-                </div> */}
+               
                 <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
                   {product?.tags?.map((item: any, index: number) => (
                     <Link

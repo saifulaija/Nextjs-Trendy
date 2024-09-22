@@ -23,10 +23,22 @@ const CategoryCard = ({ product }: { product: TProduct }) => {
   const router = useRouter();
   const shortTitle = truncateTitle(product?.name ?? "", 20);
 
+  // const handleDetails = (e: React.MouseEvent) => {
+  //   e.stopPropagation(); // Prevents event propagation to avoid conflicts
+  //   router.push(`product/details/${product?.name}`);
+  // };
   const handleDetails = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevents event propagation to avoid conflicts
-    router.push(`product/details/${product?._id}`);
+
+    if (product?.name) {
+      // Replace spaces with hyphens for the URL
+      const formattedProductName = product.name.replace(/\s+/g, "-");
+
+      // Navigate to the product details page
+      router.push(`/product/details/${formattedProductName}`);
+    }
   };
+
 
   const handleQuickView = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // Prevent click event propagation to avoid triggering the onClick for the card
@@ -51,7 +63,8 @@ const CategoryCard = ({ product }: { product: TProduct }) => {
 
   return (
     <Link
-      href={`/product/details/${product?._id}`}
+      // href={`/product/details/${product?.name}`}
+      href={`/product/details/${product?.name.replace(/\s+/g, "-")}`}
       onClick={handleDetails}
       className={cn(
         "group mx-auto w-72 transform overflow-hidden hover:cursor-pointer rounded-lg shadow-md"

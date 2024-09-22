@@ -68,8 +68,8 @@ const getAllProductsFromDBForVariant = async (
   };
 };
 
-const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findById(id).populate('variant');
+const getSingleProductFromDB = async (title: string) => {
+  const result = await Product.findOne({name:title}).populate('variant');
   return result;
 };
 

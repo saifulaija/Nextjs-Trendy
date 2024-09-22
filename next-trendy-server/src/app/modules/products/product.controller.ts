@@ -40,9 +40,9 @@ const getAllProductsForVariant = catchAsync(async (req, res) => {
 });
 
 const getSingleProduct = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const { title } = req.params;
 
-  const result = await ProductServices.getSingleProductFromDB(id);
+  const result = await ProductServices.getSingleProductFromDB(title);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,9 +52,6 @@ const getSingleProduct = catchAsync(async (req, res) => {
   });
 });
 const getNewArrivalProducts = catchAsync(async (req, res) => {
-
-
-
   const result = await ProductServices.getNewArrivalProduct();
 
   sendResponse(res, {
@@ -90,7 +87,6 @@ const deleteProduct = catchAsync(async (req, res) => {
   });
 });
 
-
 const updateProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await ProductServices.updateProduct(id, req.body);
@@ -111,5 +107,5 @@ export const ProductControllers = {
   deleteProduct,
   getAllProductsForVariant,
   updateProduct,
-  getNewArrivalProducts
+  getNewArrivalProducts,
 };
