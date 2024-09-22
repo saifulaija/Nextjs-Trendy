@@ -4,7 +4,7 @@ const assets = {
     casual: require("./images/casual.png"),
     banner: require("./images/banner.webp"),
     addShoppingBag: require("./images/add-shopping-bag.png"),
-    noData: require("./images/nodata.png"),
+    noData: require("./images/nadata.png"),
     country: require("./images/country.png"),
     socialIcon: require("./images/socialicon.png"),
     man_boot: require("./images/man-boot.png"),
