@@ -1,25 +1,39 @@
-import { Types } from 'mongoose';
-
-export type TProductOrder = {
-  productId: Types.ObjectId;
-  selectedQuantity: number;
-  image: string;
+export type TOrderItem = {
+  productId: string;
+  name: string;
   price: number;
-  name:string,
-  discount:number,
-  size:string
+  quantity: number;
+  discount?: number;
+  size?: string;
+  color?: string;
+  image?: string;
 };
+
+export type TShippingAddress = {
+  fullName: string;
+  address?: string;
+  country?: string;
+  description?:string;
+  phoneNumber: string;
+}
+
+export type TPaymentDetails = {
+  method: "cash on delivery" | "cash on payment";
+  paymentStatus: "Pending" | "Paid" 
+  transactionId?: string;
+}
 
 export type TOrder = {
-  buyerName: string;
-  buyerEmail: string;
-  address: string;
-  mobile: number;
-  additionalInfo: string;
-  totalPrice: number;
-  paymentSystem: string;
+  _id: string;
   orderNumber: string;
-  orderDate: string;
-  deliveryStatus?: string;
-  orderProduct: TProductOrder[];
-};
+  customerEmail?: string; 
+  customerPhone?: string; 
+  items: TOrderItem[];
+  shippingAddress: TShippingAddress;
+  paymentDetails: TPaymentDetails;
+  totalAmount: number;
+  orderStatus: "Pending" | "Shipped" | "Delivered" | "Cancel";
+  orderDate: Date;
+  deliveryDate?: Date;
+  trackingNumber?: string; 
+}

@@ -37,6 +37,9 @@ const ShoppingCart = () => {
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
+  console.log(cart);
+  
+
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   useEffect(() => {
     const savedShippingCost = localStorage.getItem("shippingCost");
