@@ -1,89 +1,58 @@
-import { Schema, model } from 'mongoose';
-import { TOrder, TProductOrder } from './order.interface';
-const ProductItemSchema = new Schema<TProductOrder>({
+import { model, Schema } from 'mongoose';
+import {
+  TOrder,
+  TOrderItem,
+  TPaymentDetails,
+  TShippingAddress,
+} from './order.interface';
+
+const OrderItemSchema = new Schema<TOrderItem>({
   productId: {
     type: Schema.Types.ObjectId,
-    
     required: true,
+    ref: 'Product',
   },
-  selectedQuantity: {
-    type: Number,
-    required: true,
-  },
-  image: {
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+  discount: { type: Number },
+  size: { type: String },
+  color: { type: String },
+  image: { type: String },
+});
+
+const ShippingAddressSchema = new Schema<TShippingAddress>({
+  fullName: { type: String, required: true },
+  address: { type: String },
+  country: { type: String },
+  description: { type: String },
+  phoneNumber: { type: String, required: true },
+});
+
+const PaymentDetailsSchema = new Schema<TPaymentDetails>({
+  method: {
     type: String,
+    enum: ['cash on delivery', 'cash on payment'],
     required: true,
   },
-  size:{
-    type:String,
-    required:true
-  },
-  discount:{
-  type:Number,
-  required:true
-  },
-  name:{
-  type:String,
-  required:true
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
+  paymentStatus: { type: String, enum: ['Pending', 'Paid'], required: true },
+  transactionId: { type: String },
 });
 
 const OrderSchema = new Schema<TOrder>({
-  buyerName: {
+  orderNumber: { type: String, required: true },
+  items: [OrderItemSchema],
+  shippingAddress: ShippingAddressSchema,
+  paymentDetails: PaymentDetailsSchema,
+  totalAmount: { type: Number, required: true },
+  orderStatus: {
     type: String,
+    enum: ['Pending', 'Shipped', 'Delivered', 'Cancel'],
     required: true,
   },
-  
-  buyerEmail: {
-    type: String,
-    required: true,
-  },
- orderDate: {
-    type: String,
-    required: true,
-  },
- paymentSystem: {
-    type: String,
-    required: true,
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-  },
- 
- additionalInfo:{
-    type:String,
-    required:true
- },
- address:{
-    type:String,
-    required:true
- },
- mobile:{
-    type:Number,
-    required:true
- },
- 
-  deliveryStatus: {
-    type: String,
-    default: 'processing',
-  },
-  orderProduct: {
-    type: [ProductItemSchema],
-    required: true,
-  },
-  orderNumber:{
-    type:String,
-    required:true
-  }
-},
-{
-  timestamps: true,
-},
-);
+  orderDate: { type: Date, default: Date.now },
+  deliveryDate: { type: Date },
+  trackingNumber: { type: String },
+});
 
-export const Order = model<TOrder>('order', OrderSchema);
+export const Order = model<TOrder>('Order', OrderSchema);

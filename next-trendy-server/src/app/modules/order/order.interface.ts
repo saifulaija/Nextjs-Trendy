@@ -1,5 +1,7 @@
+import { Types } from "mongoose";
+
 export type TOrderItem = {
-  productId: string;
+  productId: Types.ObjectId;
   name: string;
   price: number;
   quantity: number;
@@ -24,10 +26,10 @@ export type TPaymentDetails = {
 }
 
 export type TOrder = {
-  _id: string;
+
   orderNumber: string;
-  customerEmail?: string; 
-  customerPhone?: string; 
+
+
   items: TOrderItem[];
   shippingAddress: TShippingAddress;
   paymentDetails: TPaymentDetails;
