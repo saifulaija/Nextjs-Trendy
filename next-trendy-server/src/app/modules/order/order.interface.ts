@@ -17,6 +17,7 @@ export type TShippingAddress = {
   country?: string;
   description?:string;
   phoneNumber: string;
+  location:'Outside Dhaka' | "Inside Dhaka"
 }
 
 export type TPaymentDetails = {
@@ -26,14 +27,12 @@ export type TPaymentDetails = {
 }
 
 export type TOrder = {
-
   orderNumber: string;
-
-
   items: TOrderItem[];
   shippingAddress: TShippingAddress;
   paymentDetails: TPaymentDetails;
   totalAmount: number;
+  shippingCharge:number;
   orderStatus: "Pending" | "Shipped" | "Delivered" | "Cancel";
   orderDate: Date;
   deliveryDate?: Date;
