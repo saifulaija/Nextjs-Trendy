@@ -27,6 +27,7 @@ import { addToCart, getTotals } from "@/redux/api/features/product/cartSlice";
 import ProductTabs from "./ProductTabs";
 import Link from "next/link";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import RelatedProducts from "./RelatedProducts";
 
 // Helper function to render stars
 const renderStars = (rating: number) => {
@@ -378,6 +379,7 @@ const productName = Array.isArray(params.productName)
         </div>
         <ProductTabs product={product} />
       </div>
+      <RelatedProducts category={product?.category}/>
     </div>
   );
 };
