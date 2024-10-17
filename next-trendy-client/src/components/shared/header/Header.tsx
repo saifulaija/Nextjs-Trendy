@@ -30,7 +30,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const product=useAppSelector(state=>state.cart)
 const cartTotalAmount = useAppSelector((state) => state.cart.cartTotalAmount);
-const shippingCost = useAppSelector((state) => state.shipping.shippingCost); // Make sure this is correct
+const shippingCost = useAppSelector((state) => state.shipping.shippingCost);
 
 const totalAmount = cartTotalAmount + shippingCost;
 

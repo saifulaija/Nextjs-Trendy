@@ -32,10 +32,10 @@ const Checkout = () => {
   const cart = useAppSelector((state) => state.cart);
   const shipping = useAppSelector((state) => state.shipping);
   const dispatch = useAppDispatch();
+  const shippingCost = useAppSelector((state) => state.shipping.shippingCost);
 
-  const [paymentMethod, setPaymentMethod] = useState("")
-   const [shippingCharge, setShippingCharge] = useState(shipping.shippingCost);
-
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [shippingCharge, setShippingCharge] = useState(shipping.shippingCost);
   const handleDecreaseQuantity = (item: any) => {
     dispatch(decreaseCart(item));
   };
@@ -50,7 +50,6 @@ const Checkout = () => {
 
   const handleClearCart = () => {
     dispatch(clearCart());
-  
   };
 
   const handlePlaceOrder = () => {
@@ -67,6 +66,8 @@ const Checkout = () => {
     const finalPrice = (item.price - discountAmount) * item.cartQuantity;
     return sum + finalPrice;
   }, 0);
+
+  const sumMoney = totalAmount + shippingCharge;
 
   const handleDetails = (name: string) => {
     if (name) {
@@ -190,7 +191,6 @@ const Checkout = () => {
                   })}
                 </TableBody>
               </Table>
-        
 
               <div className="flex justify-end -mt-6 mb-3 group">
                 <Button
@@ -241,7 +241,7 @@ const Checkout = () => {
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-gray-700 font-semibold">Total</p>
                   <p className="text-lg font-semibold">
-                    {formateMoney(cart.cartTotalAmount)}
+                    {formateMoney(sumMoney)}
                   </p>
                 </div>
 
