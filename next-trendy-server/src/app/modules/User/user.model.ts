@@ -2,7 +2,6 @@
 
 import { Schema, model } from 'mongoose';
 
-
 import { TUser } from './user.interface';
 
 const userSchema = new Schema<TUser>(
@@ -16,14 +15,23 @@ const userSchema = new Schema<TUser>(
     },
     phone: {
       type: String,
-      required:true,
+      required: true,
       unique: true,
     },
-  
+    district: {
+      type: String,
+    },
+    thana: {
+      type: String,
+    },
+    village: { type: String },
+    postalCode: {
+      type: String,
+    },
 
     role: {
       type: String,
-      required:true,
+      required: true,
       default: 'user',
     },
 
@@ -37,14 +45,11 @@ const userSchema = new Schema<TUser>(
   },
 );
 
-
 userSchema.statics.isUserExistsByPhone = async function (phone: string) {
   return await User.findOne({ phone });
 };
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
   return await User.findOne({ email });
 };
-
-
 
 export const User = model<TUser>('User', userSchema);

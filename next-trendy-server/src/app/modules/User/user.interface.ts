@@ -6,6 +6,11 @@ import { USER_ROLE } from './user.constant';
 export interface TUser {
   name?: string;
   email?: string;
+  profilePhoto?:string;
+  district?:string;
+  thana?:string;
+  village?:string;
+  postalCode?:string;
   phone:string;
   role: string;
   isDeleted: boolean;
