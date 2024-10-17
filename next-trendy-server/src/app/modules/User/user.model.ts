@@ -1,8 +1,67 @@
+// /* eslint-disable @typescript-eslint/no-this-alias */
+
+// import { Schema, model } from 'mongoose';
+
+// import { TUser } from './user.interface';
+
+// const userSchema = new Schema<TUser>(
+//   {
+//     name: {
+//       type: String,
+//     },
+//     email: {
+//       type: String,
+//       unique: true,
+//     },
+//     phone: {
+//       type: String,
+//       required: true,
+//       unique: true,
+//     },
+//     district: {
+//       type: String,
+//     },
+//     thana: {
+//       type: String,
+//     },
+//     village: { type: String },
+//     postalCode: {
+//       type: String,
+//     },
+
+//     role: {
+//       type: String,
+//       required: true,
+//       default: 'user',
+//     },
+
+//     isDeleted: {
+//       type: Boolean,
+//       default: false,
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   },
+// );
+
+// userSchema.statics.isUserExistsByPhone = async function (phone: string) {
+//   return await User.findOne({ phone });
+// };
+
+
+// export const User = model<TUser>('User', userSchema);
+
+
 /* eslint-disable @typescript-eslint/no-this-alias */
 
-import { Schema, model } from 'mongoose';
-
+import { Schema, model, Model } from 'mongoose';
 import { TUser } from './user.interface';
+
+// Interface for the static method
+interface UserModel extends Model<TUser> {
+  isUserExistsByPhone(phone: string): Promise<TUser | null>;
+}
 
 const userSchema = new Schema<TUser>(
   {
@@ -28,13 +87,11 @@ const userSchema = new Schema<TUser>(
     postalCode: {
       type: String,
     },
-
     role: {
       type: String,
       required: true,
       default: 'user',
     },
-
     isDeleted: {
       type: Boolean,
       default: false,
@@ -42,14 +99,14 @@ const userSchema = new Schema<TUser>(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
+// Adding the static method to the schema
 userSchema.statics.isUserExistsByPhone = async function (phone: string) {
-  return await User.findOne({ phone });
-};
-userSchema.statics.isUserExistsByEmail = async function (email: string) {
-  return await User.findOne({ email });
+  return await this.findOne({ phone });
 };
 
-export const User = model<TUser>('User', userSchema);
+// Creating the User model with the static method interface
+export const User = model<TUser, UserModel>('User', userSchema);
+

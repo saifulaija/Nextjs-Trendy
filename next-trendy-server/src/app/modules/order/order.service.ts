@@ -5,6 +5,10 @@ import { sendEmail } from '../../utils/sendEmail';
 import { Product } from '../products/product.model';
 import { Variant } from '../varient/variant.model';
 import { TOrder } from './order.interface';
+import { User } from '../User/user.model';
+
+
+
 
 
 // const createOrderIntoDB = async (payload: TOrder): Promise<any> => {
@@ -41,15 +45,22 @@ import { TOrder } from './order.interface';
 
 //       // Save the updated variant
 //       await variant.save({ session });
+
+//       // Update the sellsQuantity in the Product model
+//       const product = await Product.findById(item.productId).session(session);
+//       if (product) {
+//         product.sellsQuantity = (product.sellsQuantity || 0) + item.quantity;
+//         await product.save({ session });
+//       }
 //     }
 
-//     // Commit the transaction
+//     const userData= User.create({phone:payload.shippingAddress.phoneNumber})
 //     await session.commitTransaction();
 
 //     return result;
 //   } catch (error) {
 //     console.error('Error creating order:', error);
-    
+
 //     // Abort the transaction on error
 //     await session.abortTransaction();
 //     throw error;
@@ -102,6 +113,16 @@ const createOrderIntoDB = async (payload: TOrder): Promise<any> => {
         product.sellsQuantity = (product.sellsQuantity || 0) + item.quantity;
         await product.save({ session });
       }
+    }
+
+    // Create a user if they do not already exist
+    const existingUser = await User.findOne({
+      phone: payload.shippingAddress.phoneNumber,
+    }).session(session);
+    if (!existingUser) {
+      await User.create([{ phone: payload.shippingAddress.phoneNumber }], {
+        session,
+      });
     }
 
     // Commit the transaction
