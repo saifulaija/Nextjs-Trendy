@@ -9,7 +9,7 @@ const CustomHeader = ({ title, subtitle }:{title:string,subtitle?:string}) => {
         {title}
       </h1>
       <div className="flex items-center justify-center mx-auto">
-        <Separator className={cn("w-20 bg-primary p-[2px] text-center rounded-[5px]")} />
+        <Separator className={cn("w-16 bg-primary p-[2px] text-center rounded-[5px]")} />
       </div>
       {subtitle && (
         <p className="text-sm md:text-base font-medium text-primary text-center uppercase">

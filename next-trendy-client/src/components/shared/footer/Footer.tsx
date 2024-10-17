@@ -37,6 +37,11 @@ const Footer = () => {
               height={100}
               alt="logo"
             />
+            <p>
+              Trendy is premium leather shoes and fashion accessories kingdom.
+              We provide the best quality shoes and accessories for ladies and
+              gents.
+            </p>
           </div>
 
           {/* Resources Section */}
