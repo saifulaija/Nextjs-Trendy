@@ -190,15 +190,7 @@ const Checkout = () => {
                   })}
                 </TableBody>
               </Table>
-              {/* <div className="flex group  justify-end -mt-6 mb-3">
-                <Button
-                  onClick={handleClearCart}
-                  variant="link"
-                  className={cn("text-red-500 group-hover:cursor-pointer")}
-                >
-                  Clear Cart
-                </Button>
-              </div> */}
+        
 
               <div className="flex justify-end -mt-6 mb-3 group">
                 <Button

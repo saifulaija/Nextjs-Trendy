@@ -10,7 +10,7 @@ router.get('/success-order/:id', orderController.getSingleOrderByOrderNumber);
 
 router.post(
   '/create-order',
-  auth(USER_ROLE.superAdmin, USER_ROLE.user),
+  // auth(USER_ROLE.superAdmin, USER_ROLE.user),
   orderController.createOrder,
 );
 router.get('/',
