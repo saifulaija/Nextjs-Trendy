@@ -17,7 +17,6 @@ export type TShippingAddress = {
   country?: string;
   description?:string;
   phoneNumber: string;
-  location:'Outside Dhaka' | "Inside Dhaka"
 }
 
 export type TPaymentDetails = {

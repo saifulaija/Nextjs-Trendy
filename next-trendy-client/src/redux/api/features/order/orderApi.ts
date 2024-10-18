@@ -1,14 +1,21 @@
+import { data } from './../../../../utils/items/index';
 import { baseApi } from "../../baseApi";
 
 
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
-      query: (orderInfo) => {
+      query: (data) => {
+        console.log(data,'redux');
+        
         return {
           url: "/order/create-order",
           method: "POST",
-          body: orderInfo,
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          data,
         };
       },
     }),

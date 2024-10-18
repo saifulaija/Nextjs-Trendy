@@ -4,9 +4,8 @@ import config from '../../config';
 import { TLoginUser } from './auth.interface';
 import { createToken, verifyToken } from './auth.utils';
 import AppError from '../../errors/AppError';
-import bcrypt from 'bcrypt';
 import { User } from '../User/user.model';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import  { JwtPayload } from 'jsonwebtoken';
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user exists
   const user = await User.isUserExistsByPhone(payload.phone);

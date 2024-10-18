@@ -68,13 +68,8 @@ const userSchema = new Schema<TUser>(
     name: {
       type: String,
     },
-    email: {
-      type: String,
-      unique: true,
-    },
     phone: {
       type: String,
-      required: true,
       unique: true,
     },
     district: {
@@ -99,7 +94,7 @@ const userSchema = new Schema<TUser>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Adding the static method to the schema

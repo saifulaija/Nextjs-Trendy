@@ -4,8 +4,7 @@ import { User } from '../modules/User/user.model';
 
 const superUser = {
   name:"Md.Mamun Hariz",
-  email: config.super_admin_email,
-  password: config.super_admin_password,
+  phone:"01875767969",
 
   role: USER_ROLE.superAdmin,
 
