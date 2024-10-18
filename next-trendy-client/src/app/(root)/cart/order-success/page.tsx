@@ -229,6 +229,12 @@ const downloadPDF = () => {
         >
           Continue Shopping
         </Button>
+        <Button
+          className="mt-6 w-full bg-primary hover:bg-primary/90  font-bold py-2 px-4 rounded"
+          onClick={() => router.push("/dashboard/user")}
+        >
+          Track Your Order
+        </Button>
 
         <Button
           className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded flex items-center justify-center"

@@ -1,47 +1,6 @@
-// 'use client'
-
-// import { Button } from "@/components/ui/button";
-// import { cn } from "@/lib/utils";
-// import { ChevronRight, LogOut, User } from "lucide-react";
-// import Link from "next/link";
-// import React from "react";
-
-// const AuthButton = () => {
-//     const user=null
-//      const handleLogout = () => {
-//        // Handle logout logic here
-//      };
-//   return (
-//     <div>
-//       {user ? (
-//         <Button onClick={handleLogout} asChild className="cursor-pointer group">
-//           <span className="flex items-center gap-2">
-//             Logout
-//             <LogOut className="transition-transform duration-300 ease-in-out transform group-hover:translate-x-1" />
-//           </span>
-//         </Button>
-//       ) : (
-//         <Button
-//           asChild
-//           variant="outline"
-//           className="hover:bg-primary text-gray-400 hover:text-white  bg-white hover:border-primary  duration-300 ease-in-out transition-all  hover:transition-all hover:duration-200"
-//         >
-//           <Link href="/account/login" className="flex items-center font-semibold">
-//             <User className="font-semibold" />
-//           </Link>
-//         </Button>
-
-//       )}
-//     </div>
-//   );
-// };
-
-// export default AuthButton;
-
 "use client";
 
 import assets from "@/app/assets";
-import { MyAvatar } from "@/components/shadcn/MyAvatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -62,12 +21,13 @@ import { toast } from "react-toastify";
 
 const AuthButton = () => {
   const user = getUserInfo();
-
+  console.log(user);
+  
 
   const router = useRouter();
   const handleLogout = () => {
     logoutUser(router);
-    toast.warning("user logout successfully",{position:"bottom-left"});
+    toast.warning("user logout successfully", { position: "bottom-left" });
   };
 
   return (
@@ -87,10 +47,17 @@ const AuthButton = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <Link href={`/dashboard/${user.role}`}>
-              <DropdownMenuItem>Dashboard</DropdownMenuItem>
+              <DropdownMenuItem className={cn("cursor-pointer")}>
+                Dashboard
+              </DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className={cn("cursor-pointer")}
+            >
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (

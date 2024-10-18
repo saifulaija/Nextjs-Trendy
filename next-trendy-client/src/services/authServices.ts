@@ -38,7 +38,7 @@ export const removeUser = () => {
 
 export const getNewAccessToken = async () => {
   return await axiosInstance({
-    url: "https://finalbogplex-server.vercel.app/api/v1/auth/refresh-token",
+    url: "http://localhost:5000/api/auth/refresh-token",
     method: "POST",
     headers: {
       "Content-Type": "application/json",

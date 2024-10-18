@@ -20,6 +20,8 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import LoadingButton from "@/components/shared/LoadingButton/LoadingButton";
 import { useState } from "react";
+import { userLogin } from "@/services/actions/userLogin";
+import { storeUserInfo } from "@/services/authServices";
 
 const formSchema = z.object({
   fullName: z.string().min(3, {
@@ -50,9 +52,9 @@ const CheckoutForm = ({paymentMethod}:{paymentMethod:string}) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
-      phoneNumber: "",
+      phoneNumber: "+88",
       address: "",
-      description:"",
+      description: "",
     },
   });
 
@@ -131,6 +133,15 @@ const onSubmit = async (values: z.infer<typeof formSchema>) => {
     
     const res = await createOrder(orderPayload);
    if(res?.data){
+      const loginUser=await userLogin({ phone: orderPayload.shippingAddress.phoneNumber });
+       if (loginUser?.data?.accessToken){
+         storeUserInfo({ accessToken: loginUser?.data?.accessToken });
+          router.refresh();
+console.log(loginUser, "login");
+       } 
+    
+  
+     
      toast.success("Order placed successfully", { position: "bottom-left" });
       localStorage.setItem("orderData", JSON.stringify(orderPayload));
      router.push("/cart/order-success");

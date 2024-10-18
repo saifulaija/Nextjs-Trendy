@@ -48,8 +48,11 @@ const LoginForm = () => {
     setIsLoading(true);
     setError("");
 
+    console.log(values);
     try {
       const res = await userLogin(values);
+
+      
 
       if (res?.data?.accessToken) {
         storeUserInfo({ accessToken: res?.data?.accessToken });
