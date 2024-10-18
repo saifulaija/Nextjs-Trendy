@@ -67,7 +67,7 @@ const Checkout = () => {
     return sum + finalPrice;
   }, 0);
 
-  const sumMoney = totalAmount + shippingCharge;
+  const sumMoney = Math.ceil(totalAmount + shippingCharge);
 
   const handleDetails = (name: string) => {
     if (name) {
