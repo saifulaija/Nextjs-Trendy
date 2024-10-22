@@ -99,13 +99,13 @@ export const userSidebarData = {
       items: [
         {
           title: "My Orders",
-          url: "/product/category/men/men-boot",
+          url: "/dashboard/user/my_orders",
           icon: History,
           description: "View your recent prompts",
         },
         {
           title: "Tracking Order",
-          url: "/product/category/men/men-sandal",
+          url: "/dashboard/user/tracking_orders",
           icon: Star,
           description: "Browse your starred prompts",
         },

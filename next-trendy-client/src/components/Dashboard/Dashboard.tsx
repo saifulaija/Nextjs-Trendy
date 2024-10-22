@@ -1,11 +1,14 @@
 "use client";
 import Link from "next/link";
 import {
-  ChevronRight,
+  
   BookMarkedIcon,
   Tag,
   ShoppingBagIcon,
   LucideIcon,
+  ChevronUp,
+ 
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -124,13 +127,13 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                     ? "text-white bg-primary border-primary hover:bg-primary/80"
                                     : ""
                                 )}
-                                // onClick={() => setIsOpen(!isOpen)}
+                            
                               >
                                 <motion.div
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
                                   transition={{ duration: 0.2 }}
                                 >
-                                  <ChevronRight
+                                  <ChevronUp
                                     className={cn(
                                       "h-4 w-4",
                                       isActive
@@ -224,7 +227,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
                                   transition={{ duration: 0.2 }}
                                 >
-                                  <ChevronRight
+                                  <ChevronUp
                                     className={cn(
                                       "h-4 w-4",
                                       isActive
@@ -349,7 +352,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
                                   transition={{ duration: 0.2 }}
                                 >
-                                  <ChevronRight
+                                  <ChevronUp
                                     className={cn(
                                       "h-4 w-4",
                                       isActive
@@ -443,7 +446,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                                   animate={{ rotate: isOpen ? 90 : 0 }} // Smooth rotate animation
                                   transition={{ duration: 0.2 }}
                                 >
-                                  <ChevronRight
+                                  <ChevronUp
                                     className={cn(
                                       "h-4 w-4",
                                       isActive

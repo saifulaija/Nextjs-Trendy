@@ -1,10 +1,10 @@
-import config from '../config';
+
 import { USER_ROLE } from '../modules/User/user.constant';
 import { User } from '../modules/User/user.model';
 
 const superUser = {
   name:"Md.Mamun Hariz",
-  phone:"01875767969",
+  phone:"+8801717722085",
 
   role: USER_ROLE.superAdmin,
 
