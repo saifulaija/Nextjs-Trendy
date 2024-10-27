@@ -198,7 +198,7 @@ export function Dashboard({ children }: { children: React.ReactNode }) {
                               <div
                                 onClick={() => setIsOpen(!isOpen)}
                                 className={cn(
-                                  "min-w-8 flex h-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
+                                  "min-w-8 flex h-8 flex-1 cursor-pointer items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm font-medium outline-none ring-ring transition-all",
                                   isActive
                                     ? "bg-primary text-white"
                                     : "hover:bg-accent hover:text-accent-foreground"

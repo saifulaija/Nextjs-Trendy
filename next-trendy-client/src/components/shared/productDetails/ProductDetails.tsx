@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import React, { useState } from "react";
@@ -47,9 +45,9 @@ const renderStars = (rating: number) => {
 const ProductDetails = () => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
-const productName = Array.isArray(params.productName)
-  ? params.productName[0].replace(/-/g, " ")
-  : params.productName.replace(/-/g, " ");
+  const productName = Array.isArray(params.productName)
+    ? params.productName[0].replace(/-/g, " ")
+    : params.productName.replace(/-/g, " ");
 
   const { data: product, isLoading } = useGetSingleProductQuery(productName);
   const dispatch = useAppDispatch();
@@ -209,22 +207,14 @@ const productName = Array.isArray(params.productName)
               <div className="flex justify-between items-center px-10 py-1">
                 <p className="text-gray-600 font-semibold text-md">Category</p>
                 <p className="text-end text-balance text-md font-semibold text-gray-500 capitalize">
-                  {product?.category}
+                  {product?.category}, {product?.subCategory}
                 </p>
               </div>
-              <Separator />
-              <div className="flex justify-between items-center px-10 py-1">
-                <p className="text-gray-600 font-semibold text-md">
-                  Sub Category
-                </p>
-                <p className="text-end text-balance text-md font-semibold text-gray-500 capitalize">
-                  {product?.subCategory}
-                </p>
-              </div>
+
               <Separator />
               <div className="flex justify-between items-center px-10 py-1">
                 <p className="text-gray-600 font-semibold text-md">Tag:</p>
-               
+
                 <div className="text-end text-balance text-sm text-gray-500 flex items-center gap-2">
                   {product?.tags?.map((item: any, index: number) => (
                     <Link
@@ -239,11 +229,11 @@ const productName = Array.isArray(params.productName)
               </div>
               <Separator />
 
-              <div className="p-4">
-                <p className="text-[20px] font-semibold text-primary text-center mb-4">
+              <div className="">
+                <p className="text-[20px] font-semibold text-primary text-center mb-1">
                   Select Size and Color
                 </p>
-
+                <Separator />
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-600 font-semibold mb-2">
@@ -379,7 +369,7 @@ const productName = Array.isArray(params.productName)
         </div>
         <ProductTabs product={product} />
       </div>
-      <RelatedProducts category={product?.category}/>
+      <RelatedProducts category={product?.category} />
     </div>
   );
 };
