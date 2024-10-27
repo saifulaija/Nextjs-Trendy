@@ -75,7 +75,7 @@ const ProductCard = ({ product }: { product: TProduct }) => {
           className="object-cover object-center transition-transform duration-500 ease-in-out transform group-hover:scale-110"
         />
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-primary h-12 w-12 flex justify-center items-center rounded-full text-white text-xs font-bold text-[17px]">
+          <div className="absolute top-2 -left-0 bg-[#2b2b2c] h-12 w-12 flex justify-center items-center rounded-full text-white text-xs font-bold text-[17px]">
             -{Math.round(discount)}%
           </div>
         )}
