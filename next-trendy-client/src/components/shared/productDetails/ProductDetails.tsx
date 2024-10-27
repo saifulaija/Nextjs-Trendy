@@ -145,7 +145,7 @@ const ProductDetails = () => {
                     renderStars(averageRating)
                   ) : (
                     <span className="text-gray-500 text-sm">
-                      No ratings yet
+                     
                     </span>
                   )}
                   <span className="ml-2 text-sm text-gray-600">
@@ -229,13 +229,13 @@ const ProductDetails = () => {
               </div>
               <Separator />
 
-              <div className="">
+              <div>
                 <p className="text-[20px] font-semibold text-primary text-center mb-1">
                   Select Size and Color
                 </p>
                 <Separator />
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
+                  <div className="px-2">
                     <p className="text-gray-600 font-semibold mb-2">
                       Available Sizes:
                     </p>
@@ -271,44 +271,46 @@ const ProductDetails = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <p className="text-gray-600 font-semibold mb-2">
-                      Available Colors:
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {(product?.variant as VariantItem[])
-                        .find((sizeItem) => sizeItem.size === selectedSize)
-                        ?.variant.map((colorItem) => (
-                          <Button
-                            key={colorItem.color}
-                            variant={
-                              selectedColor === colorItem.color
-                                ? "outline"
-                                : "outline"
-                            }
-                            onClick={() => {
-                              setSelectedColor(colorItem.color);
-                              setQuantity(1); // Reset quantity when color is changed
-                            }}
-                            disabled={colorItem.quantity === 0}
-                            className={cn(
-                              "px-3 py-3 rounded-full",
-                              selectedColor === colorItem.color
-                                ? "bg-primary text-white"
-                                : "bg-gray-200 text-gray-600"
-                            )}
-                          >
-                            <div
+                  {selectedSize && (
+                    <div>
+                      <p className="text-gray-600 font-semibold mb-2">
+                        Available Colors:
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {(product?.variant as VariantItem[])
+                          .find((sizeItem) => sizeItem.size === selectedSize)
+                          ?.variant.map((colorItem) => (
+                            <Button
+                              key={colorItem.color}
+                              variant={
+                                selectedColor === colorItem.color
+                                  ? "outline"
+                                  : "outline"
+                              }
+                              onClick={() => {
+                                setSelectedColor(colorItem.color);
+                                setQuantity(1); // Reset quantity when color is changed
+                              }}
+                              disabled={colorItem.quantity === 0}
                               className={cn(
-                                "w-4 h-4 rounded-full",
-                                colorItem.color
+                                "px-3 py-3 rounded-full",
+                                selectedColor === colorItem.color
+                                  ? "bg-primary text-white"
+                                  : "bg-gray-200 text-gray-600"
                               )}
-                              style={{ backgroundColor: colorItem.color }}
-                            />
-                          </Button>
-                        ))}
+                            >
+                              <div
+                                className={cn(
+                                  "w-4 h-4 rounded-full",
+                                  colorItem.color
+                                )}
+                                style={{ backgroundColor: colorItem.color }}
+                              />
+                            </Button>
+                          ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="mt-4">
